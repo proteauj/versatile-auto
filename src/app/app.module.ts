@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { JobNewComponent } from './job-new/job-new.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './/app-routing.module';
+import { MenuComponent } from './menu/menu.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AppRoutingModule } from './/app-routing.module';
         AppComponent,
         LoginComponent,
         JobNewComponent,
-        MessagesComponent
+        MessagesComponent,
+        MenuComponent
     ],
     imports: [
         BrowserModule,

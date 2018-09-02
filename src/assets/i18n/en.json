@@ -20,5 +20,8 @@
   "jobnew.model.placeholder": "Choose a model",
   "jobnew.vin.label": "VIN",
   "jobnew.vin.placeholder": "Enter a VIN",
-  "jobnew.submit": "Create"
+  "jobnew.submit": "Create",
+
+  "menu.login": "Log in",
+  "menu.job": "Job"
 }
