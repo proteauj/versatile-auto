@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 //import ngx-translate and http loader
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
@@ -28,6 +29,7 @@ import { MenuComponent } from './menu/menu.component';
     ],
     imports: [
         BrowserModule,
+        FontAwesomeModule,
         FormsModule,
         HttpClientModule,
         TranslateModule.forRoot({

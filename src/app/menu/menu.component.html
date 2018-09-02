@@ -1,19 +1,17 @@
-<ul class="nav flex-sm-column">
-  <li class="nav-item">
-    <a class="nav-link" routerLink="/login">{{ 'menu.login' | translate}}</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" routerLink="/job-new">{{ 'menu.job' | translate}}</a>
-    <!--<a class="nav-link" href="#">{{ 'menu.job' | translate}}</a>-->
-  </li>
-  <!--<li class="nav-item">-->
-    <!--<a class="nav-link" href="#">{{ 'menu.login' | translate}}</a>-->
-  <!--</li>-->
-  <!--<li class="nav-item">-->
-    <!--<a class="nav-link disabled" href="#">Disabled</a>-->
-  <!--</li>-->
-</ul>
-
-<!--<nav>-->
-<!--<a routerLink="/login">Login</a>-->
-<!--</nav>-->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span>
+          <fa-icon [icon]="faBars"></fa-icon>
+        </span>
+      </button>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a class="nav-link" routerLink="/login">{{ 'menu.login' | translate}}</a></li>
+        <li><a class="nav-link" routerLink="/job-new">{{ 'menu.job' | translate}}</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
