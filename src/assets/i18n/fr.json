@@ -1,0 +1,24 @@
+{
+  "title": "Versatile Auto",
+  "login.title": "Connexion",
+  "login.email.label": "Courriel",
+  "login.email.placeholder": "Entrez votre courriel",
+  "login.password.label": "Mot de passe",
+  "login.password.placeholder": "Entrez votre mot de passe",
+  "login.submit": "Connexion",
+  "login.fail": "La combinaison courriel/mot de passe est invalide",
+  "login.success": "Connexion réussie",
+
+  "jobnew.title": "Nouvelle job",
+  "jobnew.description.label": "Description",
+  "jobnew.description.placeholder": "Entrez une description",
+  "jobnew.year.label": "Année",
+  "jobnew.year.placeholder": "Choisissez une année",
+  "jobnew.make.label": "Marque",
+  "jobnew.make.placeholder": "Choisissez une marque",
+  "jobnew.model.label": "Modèle",
+  "jobnew.model.placeholder": "Choisissez un modèle",
+  "jobnew.vin.label": "VIN",
+  "jobnew.vin.placeholder": "Entrez un VIN",
+  "jobnew.submit": "Créer"
+}
