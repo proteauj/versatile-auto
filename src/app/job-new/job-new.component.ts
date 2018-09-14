@@ -13,7 +13,8 @@ export class JobNewComponent implements OnInit {
 
 	job: Job = {
 	    id: null,
-        description: ''
+      description: '',
+      car: null
 	};
 
 	car: Car = {
