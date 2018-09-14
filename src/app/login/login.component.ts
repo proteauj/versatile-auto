@@ -4,6 +4,7 @@ import { UserService } from '../user.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -11,13 +12,14 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-    validUser: User;
-	user: User = {
+  protected validUser: User;
+	protected user: User = {
 	    id: null,
-        email: '',
-        password: ''
+      email: '',
+      password: ''
 	};
-	logInTried: boolean = false;
+	protected logInTried: boolean = false;
+	protected isValid;
 
   constructor(private userService: UserService, private messageService: MessageService,
     private translate: TranslateService, private router: Router) { }
@@ -27,13 +29,16 @@ export class LoginComponent implements OnInit {
   onLogIn(user: User): void {
     this.logInTried = true;
 
-    if (this.userService.validateUserLogIn(user)) {
+    this.userService.validateUserLogIn(user).then(value => {
+      this.isValid = value;
+
+      if (this.isValid) {
         this.validUser = user;
         this.messageService.add(this.translate.instant('login.success'));//, user.email);
         this.router.navigate(['/job-new']);
-    } else {
+      } else {
         this.messageService.add(this.translate.instant('login.fail'));
-    }
+      }
+    });
   }
-
 }
