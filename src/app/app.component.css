@@ -3,4 +3,10 @@ h1 {
   font-family: Courier, monospace;
   font-size: 250%;
 }
+html,
+body {
+  background: #efefef;
+  padding: 10px;
+  font-family: 'Varela Round';
+}
 

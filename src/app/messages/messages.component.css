@@ -1,0 +1,10 @@
+.login-form-main-message {
+  background: #ffffff;
+  border-left: 3px solid transparent;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  height: 0;
+  padding: 0 20px 0 17px;
+  transition: all ease-in-out 200ms;
+}

@@ -1,12 +1,16 @@
-<h2>{{ 'login.title' | translate }}</h2>
-<form>
-  <div class="form-group">
-    <label for="loginEmail">{{ 'login.email.label' | translate  }}</label>
-    <input [(ngModel)]="user.email" name="email" type="email" class="form-control" id="loginEmail" placeholder="{{ 'login.email.placeholder' | translate  }}">
-  </div>
-  <div class="form-group">
-    <label for="loginPassword">{{ 'login.password.label' | translate  }}</label>
-    <input [(ngModel)]="user.password" name="password" type="password" class="form-control" id="loginPassword" placeholder="{{ 'login.password.placeholder' | translate}}">
-  </div>
-  <button (click)="onLogIn(user)" type="submit" class="btn btn-primary">{{ 'login.submit' | translate}}</button>
-</form>
+<div class="logo">{{ 'login.title' | translate }}</div>
+<div class="login-form-1 text-center">
+  <form class="main-login-form text-left">
+    <div class = "login-group">
+      <div class="form-group">
+        <label for="loginEmail" class="sr-only">{{ 'login.email.label' | translate  }}</label>
+        <input [(ngModel)]="user.email" name="email" type="email" class="form-control" id="loginEmail" placeholder="{{ 'login.email.placeholder' | translate  }}">
+      </div>
+      <div class="form-group">
+        <label for="loginPassword" class="sr-only">{{ 'login.password.label' | translate  }}</label>
+        <input [(ngModel)]="user.password" name="password" type="password" class="form-control" id="loginPassword" placeholder="{{ 'login.password.placeholder' | translate}}">
+      </div>
+    </div>
+    <button (click)="onLogIn(user)" type="submit" class="btn btn-primary login-button">{{ 'login.submit' | translate}}</button>
+  </form>
+</div>

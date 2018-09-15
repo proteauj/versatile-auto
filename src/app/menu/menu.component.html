@@ -1,7 +1,7 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top menu">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+      <button type="button" class="navbar-toggle collapsed btn-menu" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
         <span>
           <fa-icon [icon]="faBars"></fa-icon>
         </span>
@@ -9,7 +9,7 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a class="nav-link" routerLink="/login">{{ 'menu.login' | translate}}</a></li>
+        <li class="active"><a class="nav-link menu-lien" routerLink="/login">{{ 'menu.login' | translate}}</a></li>
         <li><a class="nav-link" routerLink="/job-new">{{ 'menu.job' | translate}}</a></li>
       </ul>
     </div>
