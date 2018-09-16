@@ -1,6 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { User } from './models/user';
 import { UserRessource, LogInRessource } from './ressources/userRessource';

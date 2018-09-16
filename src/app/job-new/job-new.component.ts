@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Car } from '../models/car';
+import { Car, Make, Model } from '../models/car';
 import { Job } from '../models/job';
+import { CarService } from '../car.service';
+import { MessageService } from '../message.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-new',
@@ -10,6 +14,7 @@ import { Job } from '../models/job';
 export class JobNewComponent implements OnInit {
     validJob: Job;
     validCar: Car;
+    makes: Promise<Make[]>;
 
 	job: Job = {
 	    id: null,
@@ -20,16 +25,18 @@ export class JobNewComponent implements OnInit {
 	car: Car = {
 	    id: null,
 	    year: null,
-	    make: '',
-	    model: '',
+	    model: null,
 	    vin: null
 	};
 
 	creationTried: boolean = false;
 
-  constructor() { }
+  constructor(private carService: CarService, private messageService: MessageService,
+                  private translate: TranslateService, private router: Router) { }
 
   ngOnInit() {
+    this.makes = this.carService.getMakes();
+    console.log(this.makes);
   }
 
 }
