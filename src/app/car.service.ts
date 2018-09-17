@@ -20,8 +20,8 @@ export class CarService implements OnInit {
     return this.http.get<MakeRessource[]>(`${this.BASE_URL}`, { observe: 'response' });
   }
 
-  getModels(make: Make): Observable<HttpResponse<ModelRessource>> {
-    return this.http.get<ModelRessource>(`${this.BASE_URL}/${make.id}${this.urlModels}`, { observe: 'response' });
+  getModelsRessource(makeId: number): Observable<HttpResponse<ModelRessource[]>> {
+    return this.http.get<ModelRessource[]>(`${this.BASE_URL}/${makeId}${this.urlModels}`, { observe: 'response' });
   }
 
   async getMakes(): Promise<Make[]> {
@@ -47,4 +47,30 @@ export class CarService implements OnInit {
 
     return makeArray;
   }
+
+
+  async getModels(make: Make): Promise<Model[]> {
+      var modelRessArray: ModelRessource[] = [];
+      var modelArray: Model[] = [];
+
+      await new Promise(resolve => {
+        this.getModelsRessource(make.id).subscribe(resp => {
+          modelRessArray = resp.body;
+
+          for (let modelRess of modelRessArray) {
+            var model: Model = {
+              id: modelRess.id,
+              code: modelRess.code,
+              title: modelRess.title,
+              make: make
+            };
+
+            modelArray.push(model);
+          }
+          resolve();
+        });
+      });
+
+      return modelArray;
+    }
 }

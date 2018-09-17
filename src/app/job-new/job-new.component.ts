@@ -15,6 +15,7 @@ export class JobNewComponent implements OnInit {
     validJob: Job;
     validCar: Car;
     makes: Promise<Make[]>;
+    models: Promise<Model[]>;
 
 	job: Job = {
 	    id: null,
@@ -38,5 +39,19 @@ export class JobNewComponent implements OnInit {
     this.makes = this.carService.getMakes();
     console.log(this.makes);
   }
+
+  onMakeSelect(make: Make) {
+    if (make != undefined) {
+      this.models = this.carService.getModels(make);
+      console.log(this.models);
+    }
+  }
+
+  onModelSelect(model: Model) {
+      if (model != undefined) {
+        this.car.model = model;
+        console.log(this.car.model);
+      }
+    }
 
 }

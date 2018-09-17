@@ -12,17 +12,33 @@
       </div>
       <div class="form-group">
         <label for="jobnewMake" class="sr-only">{{ 'jobnew.make.label' | translate  }}</label>
-        <!--<input [(ngModel)]="car.make" name="make" class="form-control" id="jobnewMake" placeholder="{{ 'jobnew.make.placeholder' | translate}}">-->
-        <div *ngIf="makes | async; let makes; else loading">
+        <div *ngIf="makes | async; let makes; else loadingMake">
           <div class="form-group">
-            <ng-select [(ngModel)]="select" name="make" [items]="makes" [placeholder]="'jobnew.make.placeholder' | translate" bindLabel="title" bindValue="id">
+            <ng-select [(ngModel)]="selectedMake" (change)="onMakeSelect(selectedMake)"
+                       name="make" [items]="makes"
+                       [placeholder]="'jobnew.make.placeholder' | translate"
+                       bindLabel="title" >
             </ng-select>
-
-            <div id="ngModel">{{select}}</div>
           </div>
         </div>
-        <ng-template #loading>Loading User Data...</ng-template>
+        <ng-template #loadingMake>Loading Makes...</ng-template>
       </div>
+
+      <div class="form-group">
+        <label for="jobnewModel" class="sr-only">{{ 'jobnew.model.label' | translate  }}</label>
+        <div *ngIf="models | async; let models; else loadingModel">
+          <div class="form-group">
+            <ng-select [(ngModel)]="selectedModel" (change)="onModelSelect(selectedModel)"
+                       name="model" [items]="models"
+                       [placeholder]="'jobnew.model.placeholder' | translate"
+                       bindLabel="title">
+            </ng-select>
+          </div>
+        </div>
+        <ng-template #loadingModel>Loading Models...</ng-template>
+      </div>
+
+
       <!--<div class="form-group">-->
         <!--<label for="jobnewModel" class="sr-only">{{ 'jobnew.model.label' | translate  }}</label>-->
         <!--<input [(ngModel)]="car.model" name="make" class="form-control" id="jobnewModel" placeholder="{{ 'jobnew.model.placeholder' | translate}}">-->
