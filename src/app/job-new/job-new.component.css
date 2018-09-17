@@ -46,9 +46,9 @@
   right: -25px;
   top: 50%;
   background: #ffffff;
-  color: #322F30;
-  margin-left: 11px;
-  border: 5px solid #efefef;
+  color: #6c757d;
+  border: 5px solid #B9B9B9;
+  font-weight: bold;
   transition: all ease-in-out 500ms;
 }
 .job-form-1 .job-button:hover {
@@ -67,23 +67,16 @@
   color: #e74c3c;
 }
 
-.select {
-  border: 1px solid #efefef !important;
-  color: #2B2728 !important;
-}
-/*
-  position: relative;
-  display: inline-block;
-  margin-bottom: 15px;
-  width: 100%;
-    cursor: pointer;
-    padding: 10px 15px;
-    outline: 0;
-    border: 0;
-    border-radius: 0;
-    background: #B9B9B9;
-    color: #322F30;
-    appearance: none;
+/*.select {
+    width: 100%;
+    //border: 3px solid #efefef !important;
+    //border-radius: 5px !important;
+    //background-color: #ffffff !important;
+    color: #6c757d !important;
+
     -webkit-appearance: none;
     -moz-appearance: none;
+    appearance: none;
+    border-color: #444 #333 #333 #444!important;
+    background: url(../assets/down-arrow.png) no-repeat 254px 12px;
 }*/

@@ -59,11 +59,12 @@ h2 {
   right: -25px;
   top: 50%;
   background: #ffffff;
-  color: #322F30;
-  margin-left: 11px;
-  border: 5px solid #efefef;
+  color: #6c757d;
+  font-weight: bold;
+  border: 5px solid #B9B9B9;
   transition: all ease-in-out 500ms;
 }
+
 .login-form-1 .login-button:hover {
   color: #555555;
 }
