@@ -13,7 +13,7 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 
 //ngModel
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { JobNewComponent } from './job-new/job-new.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './/app-routing.module';
@@ -33,6 +33,7 @@ import { MenuComponent } from './menu/menu.component';
         FontAwesomeModule,
         NgSelectModule,
         FormsModule,
+        ReactiveFormsModule,
         HttpClientModule,
         TranslateModule.forRoot({
             loader: {

@@ -1,16 +1,34 @@
 <div class="logo">{{ 'login.title' | translate }}</div>
 <div class="login-form-1 text-center">
-  <form class="main-login-form text-left">
+  <form class="main-login-form text-left" [formGroup]="loginForm" (ngSubmit)="onLogIn(user)">
     <div class = "login-group">
       <div class="form-group">
         <label for="loginEmail" class="sr-only">{{ 'login.email.label' | translate  }}</label>
-        <input [(ngModel)]="user.email" name="email" type="email" class="form-control" id="loginEmail" placeholder="{{ 'login.email.placeholder' | translate  }}">
+        <input type="text" formControlName="email" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && f.email.errors }" id="loginEmail"
+               placeholder="{{ 'login.email.placeholder' | translate  }}"/>
+
+        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+          <div *ngIf="f.email.errors.required">{{ 'login.email.error' | translate  }}</div>
+        </div>
       </div>
+
       <div class="form-group">
         <label for="loginPassword" class="sr-only">{{ 'login.password.label' | translate  }}</label>
-        <input [(ngModel)]="user.password" name="password" type="password" class="form-control" id="loginPassword" placeholder="{{ 'login.password.placeholder' | translate}}">
+        <input type="text" formControlName="password" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="loginPassword"
+               placeholder="{{ 'login.password.placeholder' | translate  }}"/>
+
+        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">{{ 'login.password.error' | translate  }}</div>
+          <div *ngIf="f.password.errors.minlength">{{ 'login.password.error.length' | translate  }}</div>
+        </div>
       </div>
     </div>
-    <button (click)="onLogIn(user)" type="submit" class="btn btn-primary login-button">{{ 'login.submit' | translate}}</button>
+    <div class="form-group">
+      <button [disabled]="loading" class="btn btn-primary login-button">{{ 'login.submit' | translate}}</button>
+    </div>
+
+    <!--<button (click)="onLogIn(user)" type="submit" class="btn btn-primary login-button">{{ 'login.submit' | translate}}</button>-->
   </form>
 </div>

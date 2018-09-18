@@ -5,6 +5,7 @@ import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Observable } from "rxjs";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -12,28 +13,41 @@ import { Observable } from "rxjs";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  protected validUser: User;
-	protected user: User = {
-	    id: null,
-      email: '',
-      password: ''
-	};
-	protected logInTried: boolean = false;
+	protected submitted: boolean = false;
 	protected isValid;
+  protected loginForm: FormGroup;
 
   constructor(private userService: UserService, private messageService: MessageService,
-    private translate: TranslateService, private router: Router) { }
+    private translate: TranslateService, private router: Router, private formBuilder: FormBuilder) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
-  onLogIn(user: User): void {
-    this.logInTried = true;
+  // convenience getter for easy access to form fields
+  get f() { return this.loginForm.controls; }
+
+  onLogIn(): void {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    var user: User = {
+    	    id: null,
+          email: this.loginForm.controls.email.value,
+          password: this.loginForm.controls.password.value
+    	};
 
     this.userService.validateUserLogIn(user).then(value => {
       this.isValid = value;
 
       if (this.isValid) {
-        this.validUser = user;
         this.messageService.add(this.translate.instant('login.success'));//, user.email);
         this.router.navigate(['/job-new']);
       } else {
