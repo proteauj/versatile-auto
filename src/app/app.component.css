@@ -1,12 +1,19 @@
 h1 {
   color: #2B2728;
   font-family: Courier, monospace;
-  font-size: 250%;
+  font-size: 200%;
 }
 html,
 body {
-  background: #efefef;
-  padding: 10px;
-  font-family: 'Varela Round';
+  padding: 30px;
+  background-color: rgba(0,0,0,1);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("../assets/audi.jpg");
+  background-position: center;
+  /*position: relative;*/
 }
-
+.header {
+  background: #B9B9B9;
+  width: 100%;
+}

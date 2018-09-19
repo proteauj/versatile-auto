@@ -1,34 +1,47 @@
-<div class="logo">{{ 'login.title' | translate }}</div>
-<div class="login-form-1 text-center">
-  <form class="main-login-form text-left" [formGroup]="loginForm" (ngSubmit)="onLogIn(user)">
-    <div class = "login-group">
-      <div class="form-group">
-        <label for="loginEmail" class="sr-only">{{ 'login.email.label' | translate  }}</label>
-        <input type="text" formControlName="email" class="form-control"
-               [ngClass]="{ 'is-invalid': submitted && f.email.errors }" id="loginEmail"
-               placeholder="{{ 'login.email.placeholder' | translate  }}"/>
-
-        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-          <div *ngIf="f.email.errors.required">{{ 'login.email.error' | translate  }}</div>
-        </div>
+<div class="jumbotron content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <div class="logo">{{ 'login.title' | translate }}</div>
       </div>
-
-      <div class="form-group">
-        <label for="loginPassword" class="sr-only">{{ 'login.password.label' | translate  }}</label>
-        <input type="text" formControlName="password" class="form-control"
-               [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="loginPassword"
-               placeholder="{{ 'login.password.placeholder' | translate  }}"/>
-
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">{{ 'login.password.error' | translate  }}</div>
-          <div *ngIf="f.password.errors.minlength">{{ 'login.password.error.length' | translate  }}</div>
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <button [disabled]="loading" class="btn btn-primary login-button">{{ 'login.submit' | translate}}</button>
+      <div class="col-md-4"></div>
     </div>
 
-    <!--<button (click)="onLogIn(user)" type="submit" class="btn btn-primary login-button">{{ 'login.submit' | translate}}</button>-->
-  </form>
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <div class="login-group login-form-1 form text-center">
+          <form class="main-login-form text-left" [formGroup]="loginForm" (ngSubmit)="onLogIn(user)">
+            <div class="form-group">
+              <label for="loginEmail" class="sr-only">{{ 'login.email.label' | translate  }}</label>
+              <input type="text" formControlName="email" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.email.errors }" id="loginEmail"
+                     placeholder="{{ 'login.email.placeholder' | translate  }}"/>
+
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">{{ 'login.email.error' | translate  }}</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="loginPassword" class="sr-only">{{ 'login.password.label' | translate  }}</label>
+              <input type="text" formControlName="password" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="loginPassword"
+                     placeholder="{{ 'login.password.placeholder' | translate  }}"/>
+
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">{{ 'login.password.error' | translate  }}</div>
+                <div *ngIf="f.password.errors.minlength">{{ 'login.password.error.length' | translate  }}</div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="login-form-1 text-left">
+          <button [disabled]="loading" class="btn btn-primary login-button">{{ 'login.submit' | translate}}</button>
+        </div>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+  </div>
 </div>

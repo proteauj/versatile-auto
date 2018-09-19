@@ -14,12 +14,8 @@ h2 {
   text-align: center;
 }
 .login-form-1 {
-  max-width: 300px;
+  max-width: 500px;
   border-radius: 5px;
-  display: inline-block;
-}
-.main-login-form {
-  position: relative;
 }
 .login-form-1 .form-control {
   border: 0;
@@ -30,14 +26,6 @@ h2 {
   padding: 7px 0;
   font-weight: bold;
   height:auto;
-}
-.login-form-1 .form-control::-webkit-input-placeholder {
-  color: #999999;
-}
-.login-form-1 .form-control:-moz-placeholder,
-.login-form-1 .form-control::-moz-placeholder,
-.login-form-1 .form-control:-ms-input-placeholder {
-  color: #999999;
 }
 .login-form-1 .form-group {
   margin-bottom: 0;
@@ -58,30 +46,29 @@ h2 {
 .login-form-1 .login-button {
   right: -25px;
   top: 50%;
-  background: #ffffff;
-  color: #6c757d;
+  /*background: #ffffff;
+  color: #6c757d;*/
   font-weight: bold;
-  border: 5px solid #B9B9B9;
+  /*border: 5px solid #B9B9B9;*/
   transition: all ease-in-out 500ms;
+  margin-top: 10px;
 }
 
-.login-form-1 .login-button:hover {
-  color: #555555;
+.content {
+  position: relative;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(230, 232, 235, 0.75);
 }
-.login-form-1 .login-button.clicked {
-  color: #555555;
+
+.form {
+  opacity: 1.0 !important;
 }
-.login-form-1 .login-button.clicked:hover {
-  transform: none;
-}
-.login-form-1 .login-button.clicked.success {
-  color: #2ecc71;
-}
-.login-form-1 .login-button.clicked.error {
-  color: #e74c3c;
-}
+
 /*=== 6. Form Invalid ===*/
-label.form-invalid {
+/*label.form-invalid {
   position: absolute;
   top: 0;
   right: 0;
@@ -107,9 +94,9 @@ label.form-invalid:after {
   border-color: transparent;
   border-top-color: #777777;
   border-width: 6px;
-}
+}*/
 /*=== 7. Form - Main Message ===*/
-.login-form-main-message {
+/*.login-form-main-message {
   background: #ffffff;
   color: #999999;
   border-left: 3px solid transparent;
@@ -131,4 +118,4 @@ label.form-invalid:after {
 }
 .login-form-main-message.error {
   border-left-color: #e74c3c;
-}
+}*/
