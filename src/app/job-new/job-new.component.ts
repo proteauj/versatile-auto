@@ -79,7 +79,7 @@ export class JobNewComponent implements OnInit {
     }
 
     var model: Model = {
-      id: null,
+      id: this.carForm.controls.model.value.id,
       make: this.carForm.controls.make.value,
       code: this.carForm.controls.model.value.code,
       title: this.carForm.controls.model.value.title
@@ -101,5 +101,12 @@ export class JobNewComponent implements OnInit {
     this.isValid = true;
     this.messageService.add(this.translate.instant('login.success'));
     console.log(job);
+
+    this.carService.createJob(job).subscribe(data => {
+        console.log("POST Request is successful ", data);
+      }, error => {
+        console.log("Error", error);
+      }
+    );
   }
 }

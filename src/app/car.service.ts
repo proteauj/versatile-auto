@@ -1,7 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Car, Make, Model } from './models/car';
-import { CarRessource, MakeRessource, ModelRessource } from './ressources/carRessource';
+import { Job } from './models/job';
+import { CarRessource, MakeRessource, ModelRessource, JobRessource } from './ressources/carRessource';
 import { Observable } from "rxjs";
 
 @Injectable({
@@ -10,6 +11,7 @@ import { Observable } from "rxjs";
 export class CarService implements OnInit {
 
   protected BASE_URL : string = 'http://localhost:8080/makes'
+  protected JOB_BASE_URL : string = 'http://localhost:8080/jobs'
   protected urlModels : string = '/models';
 
   constructor(private http: HttpClient) { }
@@ -72,5 +74,9 @@ export class CarService implements OnInit {
       });
 
       return modelArray;
+    }
+
+    createJob(job: Job): Observable<HttpResponse<JobRessource>> {
+      return this.http.post<JobRessource>(`${this.JOB_BASE_URL}`, JSON.stringify(job), { observe: 'response' });
     }
 }
