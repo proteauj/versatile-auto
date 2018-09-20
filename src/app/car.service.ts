@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Car, Make, Model } from './models/car';
 import { Job } from './models/job';
 import { CarRessource, MakeRessource, ModelRessource, JobRessource } from './ressources/carRessource';
@@ -76,7 +76,15 @@ export class CarService implements OnInit {
       return modelArray;
     }
 
+    
+
     createJob(job: Job): Observable<HttpResponse<JobRessource>> {
-      return this.http.post<JobRessource>(`${this.JOB_BASE_URL}`, JSON.stringify(job), { observe: 'response' });
+      const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
+      var body = JSON.stringify(job);
+      var url = this.JOB_BASE_URL;
+      return this.http.post<JobRessource>(url, body,{
+                                                        headers: headers,
+                                                        observe: 'response'
+                                                    });
     }
 }
