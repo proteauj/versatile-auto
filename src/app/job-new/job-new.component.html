@@ -1,53 +1,85 @@
-<div class="logo">{{ 'jobnew.title' | translate }}</div>
-<div class="job-form-1 text-center">
-  <form class="main-login-form text-left">
-    <div class="job-group">
-      <div class="form-group">
-        <label for="jobnewDescription" class="sr-only">{{ 'jobnew.description.label' | translate  }}</label>
-        <input [(ngModel)]="job.description" name="description" class="form-control" id="jobnewDescription" placeholder="{{ 'jobnew.description.placeholder' | translate  }}">
+<div class="jumbotron content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <div class="logo">{{ 'jobnew.title' | translate }}</div>
       </div>
-      <div class="form-group">
-        <label for="jobnewYear" class="sr-only">{{ 'jobnew.year.label' | translate  }}</label>
-        <input [(ngModel)]="car.year" name="year" class="form-control" id="jobnewYear" placeholder="{{ 'jobnew.year.placeholder' | translate}}">
-      </div>
-      <div class="form-group">
-        <label for="jobnewMake" class="sr-only">{{ 'jobnew.make.label' | translate  }}</label>
-        <div *ngIf="makes | async; let makes; else loadingMake">
-          <div class="form-group">
-            <ng-select [(ngModel)]="selectedMake" (change)="onMakeSelect(selectedMake)"
-                       name="make" [items]="makes"
-                       [placeholder]="'jobnew.make.placeholder' | translate"
-                       bindLabel="title" >
-            </ng-select>
-          </div>
-        </div>
-        <ng-template #loadingMake>{{ 'jobnew.make.loading' | translate  }}</ng-template>
-      </div>
-
-      <div class="form-group">
-        <label for="jobnewModel" class="sr-only">{{ 'jobnew.model.label' | translate  }}</label>
-        <div *ngIf="models | async; let models; else loadingModel">
-          <div class="form-group">
-            <ng-select [(ngModel)]="selectedModel" (change)="onModelSelect(selectedModel)"
-                       name="model" [items]="models"
-                       [placeholder]="'jobnew.model.placeholder' | translate"
-                       bindLabel="title">
-            </ng-select>
-          </div>
-        </div>
-        <ng-template #loadingModel>{{ 'jobnew.model.loading' | translate  }}</ng-template>
-      </div>
-
-
-      <!--<div class="form-group">-->
-        <!--<label for="jobnewModel" class="sr-only">{{ 'jobnew.model.label' | translate  }}</label>-->
-        <!--<input [(ngModel)]="car.model" name="make" class="form-control" id="jobnewModel" placeholder="{{ 'jobnew.model.placeholder' | translate}}">-->
-      <!--</div>-->
-      <div class="form-group">
-        <label for="jobnewVin" class="sr-only">{{ 'jobnew.vin.label' | translate  }}</label>
-        <input [(ngModel)]="car.vin" name="vin" class="form-control" id="jobnewVin" placeholder="{{ 'jobnew.vin.placeholder' | translate}}">
-      </div>
+      <div class="col-md-4"></div>
     </div>
-    <button (click)="onCreate(job)" type="submit" class="btn btn-primary job-button">{{ 'jobnew.submit' | translate}}</button>
-  </form>
+
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <div class="group form text-center">
+          <form class="car-form text-left" [formGroup]="carForm" (ngSubmit)="onCreate(job)">
+            <div class="form-group">
+              <label for="jobnewDescription" class="sr-only">{{ 'jobnew.description.label' | translate  }}</label>
+              <input type="text" formControlName="description" class="form-control" required
+                     [ngClass]="{ 'is-invalid': submitted && f.description.errors }" id="jobNewDescription"
+                     placeholder="{{ 'jobnew.description.placeholder' | translate  }}"/>
+
+              <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                <div *ngIf="f.description.errors.required">{{ 'jobnew.description.error' | translate  }}</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="jobnewYear" class="sr-only">{{ 'jobnew.year.label' | translate  }}</label>
+              <input type="number" formControlName="year" class="form-control" required
+                     [ngClass]="{ 'is-invalid': submitted && f.year.errors }" id="jobnewYear"
+                     placeholder="{{ 'jobnew.year.placeholder' | translate  }}"/>
+
+              <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
+                <div *ngIf="f.year.errors.required">{{ 'jobnew.year.error' | translate  }}</div>
+                <div *ngIf="f.year.errors.pattern">{{ 'jobnew.year.error.format' | translate  }}</div>
+              </div>
+
+            </div>
+            <div class="form-group">
+              <label for="jobnewMake" class="sr-only">{{ 'jobnew.make.label' | translate  }}</label>
+              <div *ngIf="makes | async; let makes; else loadingMake">
+                <div class="form-group">
+                  <ng-select formControlName="make" (change)="onMakeSelect(selectedMake)"
+                             name="make" [items]="makes" required
+                             [placeholder]="'jobnew.make.placeholder' | translate"
+                             bindLabel="title" [ngClass]="{ 'is-invalid': submitted && f.make.errors }">
+                  </ng-select>
+                </div>
+                <div *ngIf="submitted && f.make.errors" class="invalid-feedback">
+                  <div *ngIf="f.make.errors.required">{{ 'jobnew.make.error' | translate  }}</div>
+                </div>
+              </div>
+              <ng-template #loadingMake>{{ 'jobnew.make.loading' | translate  }}</ng-template>
+            </div>
+
+            <div class="form-group">
+              <label for="jobnewModel" class="sr-only">{{ 'jobnew.model.label' | translate  }}</label>
+              <div *ngIf="models | async; let models; else loadingModel">
+                <div class="form-group">
+                  <ng-select formControlName="model" (change)="onModelSelect(selectedModel)"
+                             name="model" [items]="models" required
+                             [placeholder]="'jobnew.model.placeholder' | translate"
+                             bindLabel="title" [ngClass]="{ 'is-invalid': submitted && f.model.errors }">
+                  </ng-select>
+                </div>
+                <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
+                  <div *ngIf="f.model.errors.required">{{ 'jobnew.model.error' | translate  }}</div>
+                </div>
+              </div>
+              <ng-template #loadingModel>{{ 'jobnew.model.loading' | translate  }}</ng-template>
+            </div>
+            <div class="form-group">
+              <label for="jobnewVin" class="sr-only">{{ 'jobnew.vin.label' | translate  }}</label>
+              <input type="text" formControlName="vin" class="form-control" id="jobnewVin"
+                     placeholder="{{ 'jobnew.vin.placeholder' | translate  }}"/>
+            </div>
+          </form>
+        </div>
+        <div class="form text-left">
+          <button (click)="onCreate(job)" type="submit" class="btn btn-primary submit-button">{{ 'jobnew.submit' | translate}}</button>
+        </div>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+  </div>
 </div>

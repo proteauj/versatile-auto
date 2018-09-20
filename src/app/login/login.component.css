@@ -1,71 +1,9 @@
-h2 {
-  color: #2B2728;
-  font-family: Arial;
-  font-size: 150%;
-}
-/*=== 9. Misc ===*/
-.logo {
-  padding: 15px 0;
-  font-size: 20px;
-  color: #2B2728;
-  font-family: Courier, monospace;
-  font-weight: bold;
-  margin-left: 11px;
-  text-align: center;
-}
-.login-form-1 {
+.login-form {
   max-width: 500px;
   border-radius: 5px;
 }
-.login-form-1 .form-control {
-  border: 0;
-  box-shadow: 0 0 0;
-  border-radius: 0;
-  background: transparent;
-  color: #555555;
-  padding: 7px 0;
-  font-weight: bold;
-  height:auto;
-}
-.login-form-1 .form-group {
-  margin-bottom: 0;
-  border-bottom: 2px solid #efefef;
-  padding-right: 20px;
-  position: relative;
-}
-.login-form-1 .form-group:last-child {
-  border-bottom: 0;
-}
-.login-group {
-  background: #ffffff;
-  color: #999999;
-  border-radius: 8px;
-  padding: 10px 20px;
-}
-/*=== 5. Login Button ===*/
-.login-form-1 .login-button {
-  right: -25px;
-  top: 50%;
-  /*background: #ffffff;
-  color: #6c757d;*/
-  font-weight: bold;
-  /*border: 5px solid #B9B9B9;*/
-  transition: all ease-in-out 500ms;
-  margin-top: 10px;
-}
 
-.content {
-  position: relative;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(230, 232, 235, 0.75);
-}
 
-.form {
-  opacity: 1.0 !important;
-}
 
 /*=== 6. Form Invalid ===*/
 /*label.form-invalid {

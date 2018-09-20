@@ -11,8 +11,8 @@
     <div class="row">
       <div class="col-md-4"></div>
       <div class="col-md-4">
-        <div class="login-group login-form-1 form text-center">
-          <form class="main-login-form text-left" [formGroup]="loginForm" (ngSubmit)="onLogIn(user)">
+        <div class="group form text-center">
+          <form class="login-form text-left" [formGroup]="loginForm" (ngSubmit)="onLogIn()">
             <div class="form-group">
               <label for="loginEmail" class="sr-only">{{ 'login.email.label' | translate  }}</label>
               <input type="text" formControlName="email" class="form-control"
@@ -21,6 +21,7 @@
 
               <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
                 <div *ngIf="f.email.errors.required">{{ 'login.email.error' | translate  }}</div>
+                <div *ngIf="f.email.errors.email">{{ 'login.email.error.format' | translate  }}</div>
               </div>
             </div>
 
@@ -37,8 +38,8 @@
             </div>
           </form>
         </div>
-        <div class="login-form-1 text-left">
-          <button [disabled]="loading" class="btn btn-primary login-button">{{ 'login.submit' | translate}}</button>
+        <div class="form text-left">
+          <button [disabled]="loading" class="btn btn-primary submit-button">{{ 'login.submit' | translate}}</button>
         </div>
       </div>
       <div class="col-md-4"></div>

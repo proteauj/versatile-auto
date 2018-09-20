@@ -5,6 +5,7 @@ import { CarService } from '../car.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-job-new',
@@ -16,6 +17,9 @@ export class JobNewComponent implements OnInit {
     validCar: Car;
     makes: Promise<Make[]>;
     models: Promise<Model[]>;
+    submitted: boolean = false;
+    protected carForm: FormGroup;
+    protected isValid: boolean = false;
 
 	job: Job = {
 	    id: null,
@@ -33,14 +37,26 @@ export class JobNewComponent implements OnInit {
 	creationTried: boolean = false;
 
   constructor(private carService: CarService, private messageService: MessageService,
-                  private translate: TranslateService, private router: Router) { }
+              private translate: TranslateService, private router: Router, private formBuilder: FormBuilder) { }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.carForm.controls; }
+
 
   ngOnInit() {
     this.makes = this.carService.getMakes();
-    console.log(this.makes);
+
+    this.carForm = this.formBuilder.group({
+          description: ['', [Validators.required]],
+          year: ['', [Validators.required, Validators.pattern("[0-9]{4}")]],
+          make: [null, [Validators.required]],
+          model: [null, [Validators.required]],
+          vin: ['', []]
+        });
   }
 
-  onMakeSelect(make: Make) {
+  onMakeSelect() {
+    var make: Make = this.carForm.controls.make.value;
     if (make != undefined) {
       this.models = this.carService.getModels(make);
       console.log(this.models);
@@ -54,4 +70,36 @@ export class JobNewComponent implements OnInit {
       }
     }
 
+  onCreate(): void {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.carForm.invalid) {
+      return;
+    }
+
+    var model: Model = {
+      id: null,
+      make: this.carForm.controls.make.value,
+      code: this.carForm.controls.model.value.code,
+      title: this.carForm.controls.model.value.title
+    }
+
+    var car: Car = {
+      id: null,
+      year: this.carForm.controls.year.value,
+      model: model,
+      vin: this.carForm.controls.vin.value
+    }
+
+    var job: Job = {
+      id: null,
+      description: this.carForm.controls.description.value,
+      car: car
+    }
+
+    this.isValid = true;
+    this.messageService.add(this.translate.instant('login.success'));
+    console.log(job);
+  }
 }
