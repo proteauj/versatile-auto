@@ -31,6 +31,10 @@
   "jobnew.model.error": "Model is required",
   "jobnew.vin.label": "VIN",
   "jobnew.vin.placeholder": "VIN",
+  "jobnew.status.label": "Status",
+  "jobnew.status.placeholder": "Select status",
+  "jobnew.status.loading": "Loading status...",
+  "jobnew.status.error": "Status is required",
   "jobnew.submit": "Create",
 
   "menu.login": "Log in",

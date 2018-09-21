@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Car, Make, Model } from '../models/car';
-import { Job } from '../models/job';
+import { Job, Status } from '../models/job';
 import { CarService } from '../car.service';
+import { JobService } from '../job.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -20,11 +21,13 @@ export class JobNewComponent implements OnInit {
     submitted: boolean = false;
     protected carForm: FormGroup;
     protected isValid: boolean = false;
+    status: Promise<Status[]>;
 
 	job: Job = {
 	    id: null,
       description: '',
-      car: null
+      car: null,
+      status: null
 	};
 
 	car: Car = {
@@ -37,21 +40,23 @@ export class JobNewComponent implements OnInit {
 	creationTried: boolean = false;
 
   constructor(private carService: CarService, private messageService: MessageService,
-              private translate: TranslateService, private router: Router, private formBuilder: FormBuilder) { }
+              private translate: TranslateService, private jobService: JobService,
+              private router: Router, private formBuilder: FormBuilder) { }
 
   // convenience getter for easy access to form fields
   get f() { return this.carForm.controls; }
 
-
   ngOnInit() {
     this.makes = this.carService.getMakes();
+    this.status = this.jobService.getStatus();
 
     this.carForm = this.formBuilder.group({
           description: ['', [Validators.required]],
           year: ['', [Validators.required, Validators.pattern("[0-9]{4}")]],
           make: [null, [Validators.required]],
           model: [null, [Validators.required]],
-          vin: ['', []]
+          vin: ['', []],
+          status: [null, [Validators.required]]
         });
   }
 
@@ -59,16 +64,8 @@ export class JobNewComponent implements OnInit {
     var make: Make = this.carForm.controls.make.value;
     if (make != undefined) {
       this.models = this.carService.getModels(make);
-      console.log(this.models);
     }
   }
-
-  onModelSelect(model: Model) {
-      if (model != undefined) {
-        this.car.model = model;
-        console.log(this.car.model);
-      }
-    }
 
   onCreate(): void {
     this.submitted = true;
@@ -92,21 +89,26 @@ export class JobNewComponent implements OnInit {
       vin: this.carForm.controls.vin.value
     }
 
+    var status: Status = {
+      id: this.carForm.controls.status.value.id,
+      status: this.carForm.controls.status.value.status
+    }
+
     var job: Job = {
       id: null,
       description: this.carForm.controls.description.value,
-      car: car
+      car: car,
+      status: status
     }
 
     this.isValid = true;
     this.messageService.add(this.translate.instant('login.success'));
     console.log(job);
 
-    this.carService.createJob(job).subscribe(data => {
-        console.log("POST Request is successful ", data);
-      }, error => {
-        console.log("Error", error);
-      }
-    );
+    this.jobService.createJob(job).subscribe(data => {
+      console.log("POST Request is successful ", data);
+    }, error => {
+      console.log("Error", error);
+    });
   }
 }

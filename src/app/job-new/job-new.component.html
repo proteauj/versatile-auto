@@ -56,7 +56,7 @@
               <label for="jobnewModel" class="sr-only">{{ 'jobnew.model.label' | translate  }}</label>
               <div *ngIf="models | async; let models; else loadingModel">
                 <div class="form-group">
-                  <ng-select formControlName="model" (change)="onModelSelect(selectedModel)"
+                  <ng-select formControlName="model"
                              name="model" [items]="models" required
                              [placeholder]="'jobnew.model.placeholder' | translate"
                              bindLabel="title" [ngClass]="{ 'is-invalid': submitted && f.model.errors }">
@@ -68,15 +68,34 @@
               </div>
               <ng-template #loadingModel>{{ 'jobnew.model.loading' | translate  }}</ng-template>
             </div>
+
             <div class="form-group">
               <label for="jobnewVin" class="sr-only">{{ 'jobnew.vin.label' | translate  }}</label>
               <input type="text" formControlName="vin" class="form-control" id="jobnewVin"
                      placeholder="{{ 'jobnew.vin.placeholder' | translate  }}"/>
             </div>
+
+            <div class="form-group">
+              <label for="jobnewStatus" class="sr-only">{{ 'jobnew.status.label' | translate  }}</label>
+              <div *ngIf="status | async; let status; else loadingStatus">
+                <div class="form-group">
+                  <ng-select formControlName="status" name="status" [items]="status" required
+                             [placeholder]="'jobnew.status.placeholder' | translate"
+                             bindLabel="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+                  </ng-select>
+                </div>
+                <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                  <div *ngIf="f.status.errors.required">{{ 'jobnew.status.error' | translate  }}</div>
+                </div>
+              </div>
+              <ng-template #loadingStatus>{{ 'jobnew.status.loading' | translate  }}</ng-template>
+            </div>
           </form>
         </div>
         <div class="form text-left">
-          <button (click)="onCreate(job)" type="submit" class="btn btn-primary submit-button">{{ 'jobnew.submit' | translate}}</button>
+          <button (click)="onCreate(job)" type="submit" class="btn btn-primary submit-button">
+            {{ 'jobnew.submit' | translate}}
+          </button>
         </div>
       </div>
       <div class="col-md-4"></div>

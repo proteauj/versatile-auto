@@ -17,9 +17,3 @@ export class ModelRessource {
   code: string;
   title: string;
 }
-
-export class JobRessource {
-  id: number;
-  description: string;
-  car: CarRessource;
-}
