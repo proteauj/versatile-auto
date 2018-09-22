@@ -18,6 +18,8 @@ import { JobNewComponent } from './job-new/job-new.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { MenuComponent } from './menu/menu.component';
+import { JobTaskComponent } from './job-task/job-task.component';
+import { JobAttachmentComponent } from './job-attachment/job-attachment.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { MenuComponent } from './menu/menu.component';
         LoginComponent,
         JobNewComponent,
         MessagesComponent,
-        MenuComponent
+        MenuComponent,
+        JobTaskComponent,
+        JobAttachmentComponent
     ],
     imports: [
         BrowserModule,

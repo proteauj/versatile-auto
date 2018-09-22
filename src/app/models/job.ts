@@ -11,3 +11,12 @@ export class Status {
   id: number;
   status: string;
 }
+
+export class Task {
+  id: number;
+  name: string;
+  priority: number;
+  category: string;
+  assignation: string;
+  status: string;
+}
