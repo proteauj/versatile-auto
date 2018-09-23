@@ -4,6 +4,7 @@ import { JobService } from '../job.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-job-task',
@@ -11,17 +12,81 @@ import { Router } from '@angular/router';
   styleUrls: ['./job-task.component.css']
 })
 export class JobTaskComponent implements OnInit {
-  tasks: Array<Task> = [
-    { id: -1, name: 'Estimé', priority: 1, category: 'Admin', assignation: null, time: 30, status: 'IN_PROGRESS' },
-    { id: -2, name: 'Débosser', priority: 2, category: 'Débosseur', assignation: null, time: 45, status: 'NEW' },
-    { id: -3, name: 'Peinturer', priority: 3, category: 'Peintre', assignation: null, time:180, status: 'NEW' },
-    { id: -4, name: 'Facture', priority: 4, category: 'Admin', assignation: null, time:15, status: 'NEW' }
-  ]
+
+  protected categories: Promise<Role[]>;
+  protected employees: Promise<User[]>;
+  protected status: Promise<Status[]>;
+  protected tasks: Task[];
+  protected submitted: boolean = false;
+  protected taskForm: FormGroup;
+  protected isValid: boolean = false;
 
   constructor(private messageService: MessageService, private translate: TranslateService,
-              private jobService: JobService, private router: Router) { }
+              private jobService: JobService, private router: Router,
+              private formBuilder: FormBuilder) { }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.taskForm.controls; }
 
   ngOnInit() {
+    this.categories = this.userService.getRoles();
+    this.status = this.jobService.getStatus();
+
+    this.taskForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      priority: ['', [Validators.required, Validators.min(1), Validators.max(tasks.size() + 1)]],
+      category: [null, [Validators.required]],
+      assignation: [null, []],
+      time: [null, [Validators.min(1)]],
+      status: [null, [Validators.required]]
+    });
+  }
+
+  onCategorySelect() {
+    var category: Role = this.taskForm.controls.category.value;
+    if (category != undefined) {
+      this.employees = this.userService.getEmployeesByRole(category);
+    }
+  }
+
+  onAdd(): void {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.taskForm.invalid) {
+      return;
+    }
+
+    var category: Role = {
+      id: this.taskForm.controls.category.value.id,
+      description: this.taskForm.controls.category.value.description
+    }
+
+    var assignation: Employee = {
+      id: this.taskForm.controls.assignation.value.id,
+      name: this.taskForm.controls.assignation.value.name,
+    }
+
+    var status: Status = {
+      id: this.taskForm.controls.status.value.id,
+      status: this.taskForm.controls.status.value.status
+    }
+
+    var task: Task = {
+      id: null,
+      name: this.taskForm.controls.name.value,
+      priority: this.taskForm.controls.priority.value,
+      category: category,
+      assignation: assignation,
+      time: this.taskForm.controls.time.value,
+      status: status
+    }
+
+    this.isValid = true;
+    this.messageService.add(this.translate.instant('job-task.success'));
+    console.log(task);
+
+    tasks.push(task);
   }
 }
 

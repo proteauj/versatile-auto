@@ -8,8 +8,6 @@
       <div class="col-md-4"></div>
     </div>
 
-    { id: -1, name: 'Estimé', priority: 1, category: 'Admin', assignation: null, time: 30, status: 'IN_PROGRESS' },
-
     <div class="row">
       <div class="col-md-4"></div>
       <div class="col-md-4">
@@ -25,6 +23,7 @@
                 <div *ngIf="f.name.errors.required">{{ 'jobtask.name.error' | translate  }}</div>
               </div>
             </div>
+
             <div class="form-group">
               <label for="jobtaskPriority" class="sr-only">{{ 'jobtask.priority.label' | translate  }}</label>
               <input type="number" formControlName="priority" class="form-control" required
@@ -34,12 +33,84 @@
               <div *ngIf="submitted && f.priority.errors" class="invalid-feedback">
                 <div *ngIf="f.priority.errors.required">{{ 'jobtask.priority.error' | translate  }}</div>
               </div>
-
             </div>
+
+            <div class="form-group">
+              <label for="jobtaskCategory" class="sr-only">{{ 'jobtask.category.label' | translate  }}</label>
+              <div *ngIf="categories | async; let categories; else loadingCategory">
+                <div class="form-group">
+                  <ng-select formControlName="category" (change)="onCategorySelect()"
+                             name="category" [items]="categories" required
+                             [placeholder]="'jobtask.category.placeholder' | translate"
+                             bindLabel="description" [ngClass]="{ 'is-invalid': submitted && f.category.errors }">
+                  </ng-select>
+                </div>
+                <div *ngIf="submitted && f.category.errors" class="invalid-feedback">
+                  <div *ngIf="f.category.errors.required">{{ 'jobtask.category.error' | translate  }}</div>
+                </div>
+              </div>
+              <ng-template #loadingCategory>{{ 'jobtask.category.loading' | translate  }}</ng-template>
+            </div>
+
+            <div class="form-group">
+              <label for="jobtaskAssignation" class="sr-only">{{ 'jobtask.assignation.label' | translate  }}</label>
+              <div *ngIf="employees | async; let employees; else loadingEmployee">
+                <div class="form-group">
+                  <ng-select formControlName="assignation"
+                             name="assignation" [items]="employees"
+                             [placeholder]="'jobtask.assignation.placeholder' | translate"
+                             bindLabel="name" [ngClass]="{ 'is-invalid': submitted && f.assignation.errors }">
+                  </ng-select>
+                </div>
+              </div>
+              <ng-template #loadingEmployee>{{ 'jobtask.assignation.loading' | translate  }}</ng-template>
+            </div>
+
+            <div class="form-group">
+              <label for="jobtaskTime" class="sr-only">{{ 'jobtask.time.label' | translate  }}</label>
+              <input type="number" formControlName="time" class="form-control"
+                     [ngClass]="{ 'is-invalid': submitted && f.time.errors }" id="jobtaskTime"
+                     placeholder="{{ 'jobtask.time.placeholder' | translate  }}"/>
+
+              <div *ngIf="submitted && f.time.errors" class="invalid-feedback">
+                <div *ngIf="f.priority.time.value">{{ 'jobtask.time.error' | translate  }}</div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="jobtaskStatus" class="sr-only">{{ 'jobtask.status.label' | translate  }}</label>
+              <div *ngIf="status | async; let status; else loadingStatus">
+                <div class="form-group">
+                  <ng-select formControlName="status" name="status" [items]="status" required
+                             [placeholder]="'jobtask.status.placeholder' | translate"
+                             bindLabel="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+                  </ng-select>
+                </div>
+                <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                  <div *ngIf="f.status.errors.required">{{ 'jobtask.status.error' | translate  }}</div>
+                </div>
+              </div>
+              <ng-template #loadingStatus>{{ 'jobtask.status.loading' | translate  }}</ng-template>
+            </div>
+
           </form>
+        </div>
+
+        <div class="form text-left">
+          <button (click)="onAdd()" type="submit" class="btn btn-primary submit-button">
+            {{ 'jobtask.submit' | translate}}
+          </button>
         </div>
       </div>
       <div class="col-md-4"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <table mat-table [dataSource]=”tasks”>
+          ...
+        </table>
+      </div>
     </div>
   </div>
 </div>
