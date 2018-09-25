@@ -14,11 +14,11 @@ export class LogInRessource {
 }
 
 export class RoleRessource {
-  id_role: number;
+  idRole: number;
   description: string;
 }
 
 export class TypeRessource {
-  id_type: number;
+  idType: number;
   description: string;
 }
