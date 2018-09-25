@@ -1,8 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { User } from './models/user';
-import { UserRessource, LogInRessource } from './ressources/userRessource';
+import { User, Role, Type, Employee } from './models/user';
+import { UserRessource, LogInRessource, RoleRessource } from './ressources/userRessource';
 import { Observable } from "rxjs"
 
 @Injectable({
@@ -13,6 +13,7 @@ export class UserService implements OnInit {
   protected BASE_URL : string = 'http://localhost:8080/users'
   protected emailParam : string = '?email=';
   protected urlLogIns : string = '/logIns';
+  protected urlRoles : string = '/roles';
   protected user;
   protected logIn;
 
@@ -43,5 +44,69 @@ export class UserService implements OnInit {
     // Rest Items Service: Read all REST Items
     getLogInUser(idUser: number): Observable<HttpResponse<LogInRessource>> {
       return this.http.get<LogInRessource>(`${this.BASE_URL}/${idUser}${this.urlLogIns}`, { observe: 'response' });
+    }
+
+    getRoleRessource(): Observable<HttpResponse<RoleRessource[]>> {
+      return this.http.get<RoleRessource[]>(`${this.BASE_URL}${this.urlRoles}`, { observe: 'response' });
+    }
+
+    async getRoles(): Promise<Role[]> {
+      var rolesRessArray: RoleRessource[] = [];
+      var rolesArray: Role[] = [];
+
+      await new Promise(resolve => {
+        this.getRoleRessource().subscribe(resp => {
+          rolesRessArray = resp.body;
+
+          for (let roleRess of rolesRessArray) {
+            var role: Role = {
+              id: roleRess.idRole,
+              description: roleRess.description
+            };
+
+            rolesArray.push(role);
+          }
+          resolve();
+        });
+      });
+      return rolesArray;
+    }
+
+    getUsersByRoleRessource(role: Role): Observable<HttpResponse<UserRessource[]>> {
+      return this.http.get<UserRessource[]>(`${this.BASE_URL}${this.urlRoles}/${role.id}`, { observe: 'response' });
+    }
+
+    async getEmployeesByRole(role: Role): Promise<Employee[]> {
+      var userRessArray: UserRessource[] = [];
+      var employeesArray: Employee[] = [];
+
+      await new Promise(resolve => {
+        this.getUsersByRoleRessource(role).subscribe(resp => {
+          userRessArray = resp.body;
+
+          for (let userRess of userRessArray) {
+            var role: Role = {
+              id: userRess.role.idRole,
+              description: userRess.role.description
+            }
+
+            var type: Type = {
+              id: userRess.type.idType,
+              description: userRess.type.description
+            }
+
+            var employee: Employee = {
+              id: userRess.id,
+              name: userRess.name,
+              role: role,
+              type: type
+            };
+
+            employeesArray.push(employee);
+          }
+          resolve();
+        });
+      });
+      return employeesArray;
     }
 }

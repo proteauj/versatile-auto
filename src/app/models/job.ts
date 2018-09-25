@@ -1,4 +1,5 @@
 import { Car } from './car';
+import { Role, Employee } from './user';
 
 export class Job {
   id: number;
@@ -15,8 +16,9 @@ export class Status {
 export class Task {
   id: number;
   name: string;
+  time: number;
   priority: number;
-  category: string;
-  assignation: string;
-  status: string;
+  category: Role;
+  assignation: Employee;
+  status: Status;
 }

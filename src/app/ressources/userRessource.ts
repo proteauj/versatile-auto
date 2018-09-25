@@ -2,8 +2,8 @@ export class UserRessource {
   id: number;
   email: string;
   name: string;
-  idRole: number;
-  idUserType: number;
+  role: RoleRessource;
+  type: TypeRessource;
 }
 
 export class LogInRessource {
@@ -11,4 +11,14 @@ export class LogInRessource {
   password: string;
   nbFailedLogin: number;
   user: UserRessource;
+}
+
+export class RoleRessource {
+  id_role: number;
+  description: string;
+}
+
+export class TypeRessource {
+  id_type: number;
+  description: string;
 }

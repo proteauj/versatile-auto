@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Task } from '../models/job';
+import { Task, Status } from '../models/job';
+import { Employee, Role } from '../models/user';
 import { JobService } from '../job.service';
+import { UserService } from '../user.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -14,7 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class JobTaskComponent implements OnInit {
 
   protected categories: Promise<Role[]>;
-  protected employees: Promise<User[]>;
+  protected employees: Promise<Employee[]>;
   protected status: Promise<Status[]>;
   protected tasks: Task[];
   protected submitted: boolean = false;
@@ -22,7 +24,7 @@ export class JobTaskComponent implements OnInit {
   protected isValid: boolean = false;
 
   constructor(private messageService: MessageService, private translate: TranslateService,
-              private jobService: JobService, private router: Router,
+              private jobService: JobService, private userService: UserService, private router: Router,
               private formBuilder: FormBuilder) { }
 
   // convenience getter for easy access to form fields
@@ -32,9 +34,11 @@ export class JobTaskComponent implements OnInit {
     this.categories = this.userService.getRoles();
     this.status = this.jobService.getStatus();
 
+//, Validators.max(this.tasks.length() + 1)
+
     this.taskForm = this.formBuilder.group({
       name: ['', [Validators.required]],
-      priority: ['', [Validators.required, Validators.min(1), Validators.max(tasks.size() + 1)]],
+      priority: ['', [Validators.required, Validators.min(1)]],
       category: [null, [Validators.required]],
       assignation: [null, []],
       time: [null, [Validators.min(1)]],
@@ -65,6 +69,8 @@ export class JobTaskComponent implements OnInit {
     var assignation: Employee = {
       id: this.taskForm.controls.assignation.value.id,
       name: this.taskForm.controls.assignation.value.name,
+      role: this.taskForm.controls.assignation.value.role,
+      type: this.taskForm.controls.assignation.value.type
     }
 
     var status: Status = {
@@ -86,7 +92,7 @@ export class JobTaskComponent implements OnInit {
     this.messageService.add(this.translate.instant('job-task.success'));
     console.log(task);
 
-    tasks.push(task);
+    this.tasks.push(task);
   }
 }
 

@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-4"></div>
       <div class="col-md-4">
-        <div class="logo">{{ 'jobnew.title' | translate }}</div>
+        <div class="logo">{{ 'jobtask.title' | translate }}</div>
       </div>
       <div class="col-md-4"></div>
     </div>
@@ -73,7 +73,7 @@
                      placeholder="{{ 'jobtask.time.placeholder' | translate  }}"/>
 
               <div *ngIf="submitted && f.time.errors" class="invalid-feedback">
-                <div *ngIf="f.priority.time.value">{{ 'jobtask.time.error' | translate  }}</div>
+                <div *ngIf="f.time.errors.min">{{ 'jobtask.time.error' | translate  }}</div>
               </div>
             </div>
 
@@ -105,12 +105,23 @@
       <div class="col-md-4"></div>
     </div>
 
-    <div class="row">
-      <div class="col-md-12">
-        <table mat-table [dataSource]=”tasks”>
-          ...
-        </table>
-      </div>
-    </div>
+    <!--<div class="row">-->
+      <!--<div class="col-md-12">-->
+        <!--<table mat-table [dataSource]=”tasks”>-->
+          <!--<ng-container matColumnDef="priority">-->
+            <!--<th mat-header-cell *matHeaderCellDef>{{ 'jobtask.table.priority' | translate }}</th>-->
+            <!--<td mat-cell *matCellDef="let task">{{task.priority}}</td>-->
+          <!--</ng-container>-->
+          <!--<ng-container matColumnDef="name">-->
+            <!--<th mat-header-cell *matHeaderCellDef>{{ 'jobtask.table.name' | translate }}</th>-->
+            <!--<td mat-cell *matCellDef="let task">{{task.name}}</td>-->
+          <!--</ng-container>-->
+          <!--<ng-container matColumnDef="status">-->
+            <!--<th mat-header-cell *matHeaderCellDef>{{ 'jobtask.table.status' | translate }}</th>-->
+            <!--<td mat-cell *matCellDef="let task">{{task.status}}</td>-->
+          <!--</ng-container>-->
+        <!--</table>-->
+      <!--</div>-->
+    <!--</div>-->
   </div>
 </div>
