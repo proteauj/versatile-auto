@@ -1,22 +1,22 @@
 export class User {
-  id: number;
+  idUser: number;
   email: string;
   password: string;
 }
 
 export class Employee {
-  id: number;
+  idUser: number;
   name: string;
   role: Role;
   type: Type;
 }
 
 export class Role {
-  id: number;
+  idRole: number;
   description: string;
 }
 
 export class Type {
-  id: number;
+  idType: number;
   description: string;
 }

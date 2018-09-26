@@ -25,7 +25,7 @@ export class UserService implements OnInit {
     await new Promise(resolve => {
       this.getUser(user.email).subscribe(resp => {
         this.user = resp.body[0];
-        this.getLogInUser(this.user.id).subscribe(resp => {
+        this.getLogInUser(this.user.idUser).subscribe(resp => {
           this.logIn = resp.body;
           resolve();
         });
@@ -60,7 +60,7 @@ export class UserService implements OnInit {
 
           for (let roleRess of rolesRessArray) {
             var role: Role = {
-              id: roleRess.idRole,
+              idRole: roleRess.idRole,
               description: roleRess.description
             };
 
@@ -73,7 +73,7 @@ export class UserService implements OnInit {
     }
 
     getUsersByRoleRessource(role: Role): Observable<HttpResponse<UserRessource[]>> {
-      return this.http.get<UserRessource[]>(`${this.BASE_URL}${this.urlRoles}/${role.id}`, { observe: 'response' });
+      return this.http.get<UserRessource[]>(`${this.BASE_URL}${this.urlRoles}/${role.idRole}`, { observe: 'response' });
     }
 
     async getEmployeesByRole(role: Role): Promise<Employee[]> {
@@ -86,17 +86,17 @@ export class UserService implements OnInit {
 
           for (let userRess of userRessArray) {
             var role: Role = {
-              id: userRess.role.idRole,
+              idRole: userRess.role.idRole,
               description: userRess.role.description
             }
 
             var type: Type = {
-              id: userRess.type.idType,
+              idType: userRess.type.idType,
               description: userRess.type.description
             }
 
             var employee: Employee = {
-              id: userRess.id,
+              idUser: userRess.idUser,
               name: userRess.name,
               role: role,
               type: type

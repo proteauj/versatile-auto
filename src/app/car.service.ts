@@ -24,6 +24,38 @@ export class CarService implements OnInit {
     return this.http.get<ModelRessource[]>(`${this.BASE_URL}/${makeId}${this.urlModels}`, { observe: 'response' });
   }
 
+  getCarFromRessource(carRess: CarRessource): Car {
+    var car: Car = {
+      id: carRess.id,
+      year: carRess.year,
+      vin: carRess.vin,
+      model: this.getModelFromRessource(carRess.model)
+    };
+
+    return car;
+  }
+
+  getModelFromRessource(modelRess: ModelRessource): Model {
+    var model: Model = {
+      id: modelRess.id,
+      code: modelRess.code,
+      title: modelRess.title,
+      make: this.getMakeFromRessource(modelRess.make)
+    };
+
+    return model;
+  }
+
+  getMakeFromRessource(makeRess: MakeRessource): Make {
+    var make: Make = {
+      id: makeRess.id,
+      code: makeRess.code,
+      title: makeRess.title
+    };
+
+    return make;
+  }
+
   async getMakes(): Promise<Make[]> {
     var makeRessArray: MakeRessource[] = [];
     var makeArray: Make[] = [];
@@ -33,12 +65,7 @@ export class CarService implements OnInit {
         makeRessArray = resp.body;
 
         for (let makeRess of makeRessArray) {
-          var make: Make = {
-            id: makeRess.id,
-            code: makeRess.code,
-            title: makeRess.title
-          };
-
+          var make = this.getMakeFromRessource(makeRess);
           makeArray.push(make);
         }
         resolve();
@@ -47,7 +74,6 @@ export class CarService implements OnInit {
 
     return makeArray;
   }
-
 
   async getModels(make: Make): Promise<Model[]> {
       var modelRessArray: ModelRessource[] = [];
@@ -58,13 +84,7 @@ export class CarService implements OnInit {
           modelRessArray = resp.body;
 
           for (let modelRess of modelRessArray) {
-            var model: Model = {
-              id: modelRess.id,
-              code: modelRess.code,
-              title: modelRess.title,
-              make: make
-            };
-
+            var model = this.getModelFromRessource(modelRess);
             modelArray.push(model);
           }
           resolve();

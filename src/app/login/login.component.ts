@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     }
 
     var user: User = {
-    	    id: null,
+    	    idUser: null,
           email: this.loginForm.controls.email.value,
           password: this.loginForm.controls.password.value
     	};

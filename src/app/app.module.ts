@@ -3,11 +3,12 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { DataTableModule } from "angular-6-datatable";
 
 //import ngx-translate and http loader
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 //Versatile auto components
 import { LoginComponent } from './login/login.component';
@@ -39,6 +40,7 @@ import { JobAttachmentComponent } from './job-attachment/job-attachment.componen
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
+        DataTableModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

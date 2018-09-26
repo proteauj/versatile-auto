@@ -59,6 +59,9 @@
   "jobtask.status.loading": "Chargement des statuts...",
   "jobtask.status.error": "Statut obligatoire",
   "jobtask.submit": "Créer",
+  "jobtask.table.priority": "Priorité",
+  "jobtask.table.name": "Nom",
+  "jobtask.table.status": "Statut",
 
   "menu.login": "Connexion",
   "menu.job": "Job"

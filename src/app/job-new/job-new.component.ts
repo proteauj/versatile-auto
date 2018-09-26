@@ -24,7 +24,7 @@ export class JobNewComponent implements OnInit {
     status: Promise<Status[]>;
 
 	job: Job = {
-	    id: null,
+	    idJob: null,
       description: '',
       car: null,
       status: null
@@ -90,25 +90,28 @@ export class JobNewComponent implements OnInit {
     }
 
     var status: Status = {
-      id: this.carForm.controls.status.value.id,
+      idStatus: this.carForm.controls.status.value.idStatus,
       status: this.carForm.controls.status.value.status
     }
 
     var job: Job = {
-      id: null,
+      idJob: null,
       description: this.carForm.controls.description.value,
       car: car,
       status: status
     }
 
     this.isValid = true;
-    this.messageService.add(this.translate.instant('login.success'));
     console.log(job);
 
-    this.jobService.createJob(job).subscribe(data => {
-      console.log("POST Request is successful ", data);
+this.router.navigate(['/job-task', 1]);
+
+    /*this.jobService.createJob(job).subscribe(data => {
+      console.log("POST Job is successful ", data);
+      this.messageService.add(this.translate.instant('job-new.success'));
+      this.router.navigate(['/job-task', data.response.idJob]);
     }, error => {
       console.log("Error", error);
-    });
+    });*/
   }
 }

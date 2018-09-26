@@ -59,6 +59,9 @@
   "jobtask.status.loading": "Status loading...",
   "jobtask.status.error": "Status required",
   "jobtask.submit": "Create",
+  "jobtask.table.priority": "Priority",
+  "jobtask.table.name": "Name",
+  "jobtask.table.status": "Status",
 
   "menu.login": "Log in",
   "menu.job": "Job"
