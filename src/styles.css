@@ -10,6 +10,12 @@
   padding-top: 0px !important;
 }
 
+table td {
+  padding: 0px !important;
+  vertical-align: initial !important;
+  border-top: 0px !important;
+}
+
 .content {
   position: relative;
   left: 0;
