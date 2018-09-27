@@ -20,14 +20,17 @@ export class JobTaskComponent implements OnInit {
   protected categories: Promise<Role[]>;
   protected employees: Promise<Employee[]>;
   protected status: Promise<Status[]>;
-  protected tasks: Task[] = [];
+  protected tasks: Map<number, Task> = new Map<number, Task>();
   protected submitted: boolean = false;
   protected taskForm: FormGroup;
   protected isValid: boolean = false;
   protected job: Job;
+  protected idTask: number = null;
+
   faPlusCircle = faPlusCircle;
   faEdit = faEdit;
   faMinusCircle = faMinusCircle;
+
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private userService: UserService, private router: Router,
@@ -41,7 +44,14 @@ export class JobTaskComponent implements OnInit {
     this.status = this.jobService.getStatus();
     this.route.params.subscribe(params => {
       var idJob: number = params['idJob'];
-      this.jobService.getJob(idJob).then(data => this.job = data);
+      this.jobService.getJob(idJob).then(data => {
+        this.job = data;
+
+        let jobTasks = this.jobService.getJobTasks(this.job.idJob);
+        for (let task of jobTasks) {
+          this.tasks.set(task.id, task);
+        }
+      });
     });
 
     console.log(this.job);
@@ -65,7 +75,7 @@ export class JobTaskComponent implements OnInit {
     }
   }
 
-  onAdd(): void {
+  onSubmit(): void {
     this.submitted = true;
 
     // stop here if form is invalid
@@ -94,7 +104,7 @@ export class JobTaskComponent implements OnInit {
     }
 
     var task: Task = {
-      id: null,
+      id: this.idTask,
       name: this.taskForm.controls.name.value,
       time: this.taskForm.controls.time.value,
       job: this.job,
@@ -107,14 +117,51 @@ export class JobTaskComponent implements OnInit {
     this.isValid = true;
     this.messageService.add(this.translate.instant('job-task.success'));
 
-    this.tasks.push(task);
     console.log(this.tasks);
 
-    /*this.jobService.createTask(task).subscribe(data => {
-      console.log("POST Task is successful ", data);
-    }, error => {
-      console.log("Error", error);
-    });*/
+    if (this.idTask != null) {
+      this.jobService.updateTask(task).subscribe(data => {
+        console.log("PUT Task is successful ", data);
+      }, error => {
+        console.log("Error", error);
+      });
+    } else {
+      this.jobService.createTask(task).subscribe(data => {
+        console.log("POST Task is successful ", data);
+      }, error => {
+        console.log("Error", error);
+      });
+    }
+
+    this.tasks.set(task.id, task);
+    this.idTask = null;
+  }
+
+  onDelete(id: number) {
+    this.jobService.deleteJobTask(id);
+    this.tasks.delete(task.id);
+  }
+
+  toUpdate(id: number) {
+    this.idTask = id;
+    var task: Task = this.tasks.get(id);
+
+    this.taskForm.controls.category.value.idRole = task.role.idRole;
+    this.taskForm.controls.category.value.description = task.role.description;
+
+    if (task.user != null) {
+      this.taskForm.controls.assignation.value.idUser = task.user.idUser;
+      this.taskForm.controls.assignation.value.name = task.user.name;
+      this.taskForm.controls.assignation.value.role = task.user.role;
+      this.taskForm.controls.assignation.value.type = task.user.type;
+    }
+
+    this.taskForm.controls.status.value.idStatus = task.status.idStatus;
+    this.taskForm.controls.status.value.status = task.status.status;
+
+    this.taskForm.controls.name.value = task.name;
+    this.taskForm.controls.time.value = task.time;
+    this.taskForm.controls.priority.value = task.priority;
   }
 }
 

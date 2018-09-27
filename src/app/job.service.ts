@@ -59,6 +59,18 @@ export class JobService implements OnInit {
       return job;
     }
 
+  async getJobTasks(idJob: number): Promise<Task[]> {
+
+  }
+
+  async updateTask(idTask: number): Promise<Task> {
+
+  }
+
+  async deleteTask(idTask: number): Promise<Task> {
+
+  }
+
   getStatusRessource(): Observable<HttpResponse<StatusRessource[]>> {
     return this.http.get<StatusRessource[]>(`${this.STATUS_BASE_URL}`, { observe: 'response' });
   }

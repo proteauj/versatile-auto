@@ -104,14 +104,12 @@ export class JobNewComponent implements OnInit {
     this.isValid = true;
     console.log(job);
 
-this.router.navigate(['/job-task', 1]);
-
-    /*this.jobService.createJob(job).subscribe(data => {
+    this.jobService.createJob(job).subscribe(data => {
       console.log("POST Job is successful ", data);
       this.messageService.add(this.translate.instant('job-new.success'));
       this.router.navigate(['/job-task', data.response.idJob]);
     }, error => {
       console.log("Error", error);
-    });*/
+    });
   }
 }
