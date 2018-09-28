@@ -4,6 +4,7 @@ import { Job, Task, Status } from './models/job';
 import { JobRessource, JobTaskRessource, StatusRessource } from './ressources/jobRessource';
 import { Observable } from "rxjs";
 import { CarService } from './car.service';
+import { UserService } from './user.service';
 
 
 @Injectable({
@@ -11,11 +12,16 @@ import { CarService } from './car.service';
 })
 export class JobService implements OnInit {
 
-  protected JOB_BASE_URL : string = 'http://localhost:8080/jobs'
-  protected TASK_URL : string = '/tasks'
-  protected STATUS_BASE_URL : string = 'http://localhost:8080/status'
+  protected JOB_BASE_URL : string = 'http://localhost:8080/jobs';
+  protected TASK_URL : string = '/tasks';
+  protected STATUS_BASE_URL : string = 'http://localhost:8080/status';
 
-  constructor(private http: HttpClient, private carService: CarService) { }
+  const httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }),
+    observe: 'response'
+  };
+
+  constructor(private http: HttpClient, private carService: CarService, private userService: UserService) { }
 
   ngOnInit() { }
 
@@ -43,36 +49,77 @@ export class JobService implements OnInit {
     return job;
   }
 
-  async getJob(idJob: number): Promise<Job> {
-      var jobRess: JobRessource;
-      var job: Job;
+  getTaskFromRessource(taskRess: JobTaskRessource): Task {
+    var task: Task = {
+      id: taskRess.id,
+      name: taskRess.name,
+      time: taskRess.time,
+      job: this.getJobFromRessource(taskRess.job),
+      status: this.getStatusFromRessource(taskRess.status),
+      priority: taskRess.priority,
+      role: this.userService.getRoleFromRessource(taskRess.role)
+    };
 
-      await new Promise(resolve => {
-        this.getJobRessource(idJob).subscribe(resp => {
-          jobRess = resp.body;
-          job = this.getJobFromRessource(jobRess);
-          resolve();
-        });
-      });
-
-      console.log(job);
-      return job;
+    if (taskRess.user != undefined) {
+      task.user = this.userService.getEmployeeFromRessource(taskRess.user);
     }
 
+    return task;
+  }
+
+  async getJob(idJob: number): Promise<Job> {
+    var jobRess: JobRessource;
+    var job: Job;
+
+    await new Promise(resolve => {
+      this.getJobRessource(idJob).subscribe(resp => {
+        jobRess = resp.body;
+        job = this.getJobFromRessource(jobRess);
+        resolve();
+      });
+    });
+
+    console.log(job);
+    return job;
+  }
+
+  getJobTasksRessource(idJob: number): Observable<HttpResponse<JobTaskRessource[]>> {
+    return this.http.get<JobTaskRessource[]>(`${this.JOB_BASE_URL}/${idJob}${this.TASK_URL}`, this.httpOptions);
+  }
+
   async getJobTasks(idJob: number): Promise<Task[]> {
+    var tasksRessArray: JobTaskRessource[] = [];
+    var tasksArray: Task[] = [];
 
+    await new Promise(resolve => {
+      this.getJobTasksRessource(idJob).subscribe(resp => {
+        tasksRessArray = resp.body;
+
+        for (let taskRess of tasksRessArray) {
+          var task = this.getTaskFromRessource(taskRess);
+          tasksArray.push(task);
+        }
+        resolve();
+      });
+    });
+
+    console.log(tasksArray);
+    return tasksArray;
   }
 
-  async updateTask(idTask: number): Promise<Task> {
-
+  updateTask(task: Task): Observable<HttpResponse<JobTaskRessource>> {
+    var body = JSON.stringify(task);
+    var url = `${this.JOB_BASE_URL}${this.TASK_URL}/${task.id}`;
+    return this.http.put<JobTaskRessource>(url, body, this.httpOptions);
   }
 
-  async deleteTask(idTask: number): Promise<Task> {
-
+  deleteTask(idTask: number) {
+    var url = `${this.JOB_BASE_URL}${this.TASK_URL}/${idTask}`;
+    this.http.delete<>(url, this.httpOptions);
   }
 
   getStatusRessource(): Observable<HttpResponse<StatusRessource[]>> {
-    return this.http.get<StatusRessource[]>(`${this.STATUS_BASE_URL}`, { observe: 'response' });
+    return this.http.get<StatusRessource[]>(`${this.STATUS_BASE_URL}`, this.httpOptions);
   }
 
   async getStatus(): Promise<Status[]> {
@@ -105,7 +152,7 @@ export class JobService implements OnInit {
   createTask(task: Task): Observable<HttpResponse<JobTaskRessource>> {
       const headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
       var body = JSON.stringify(task);
-      var url = this.JOB_BASE_URL + this.TASK_URL;
+      var url = `${this.JOB_BASE_URL}${this.TASK_URL}`;
       return this.http.post<JobTaskRessource>(url, body,{ headers: headers, observe: 'response' });
     }
 }

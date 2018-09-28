@@ -47,25 +47,55 @@ export class JobTaskComponent implements OnInit {
       this.jobService.getJob(idJob).then(data => {
         this.job = data;
 
-        let jobTasks = this.jobService.getJobTasks(this.job.idJob);
-        for (let task of jobTasks) {
-          this.tasks.set(task.id, task);
-        }
+        this.jobService.getJobTasks(this.job.idJob).then(data => {
+          var jobTasks = data;
+          console.log(jobTasks);
+          for (let task of jobTasks) {
+            this.tasks.set(task.id, task);
+          }
+          console.log(this.tasks);
+        });
       });
     });
 
     console.log(this.job);
+    console.log(this.tasks);
+
 
 //, Validators.max(this.tasks.length() + 1)
 
+    this.setTaskFormGroup(null);
+  }
+
+  setTaskFormGroup(task: Task) {
+    var name: string = '';
+    var priority: string = '';
+    var category: Role = null;
+    var assignation: User = null;
+    var time: number = null;
+    var status: Status = null;
+
+    if (task != null) {
+      name = task.name;
+      priority = task.priority;
+      category = task.role;
+      assignation = task.user;
+      time = task.time;
+      status = task.status;
+    }
+
     this.taskForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
-      priority: ['', [Validators.required, Validators.min(1)]],
-      category: [null, [Validators.required]],
-      assignation: [null, []],
-      time: [null, [Validators.min(1)]],
-      status: [null, [Validators.required]]
+      name: [name, [Validators.required]],
+      priority: [priority, [Validators.required, Validators.min(1)]],
+      category: [category, [Validators.required]],
+      assignation: [assignation, []],
+      time: [time, [Validators.min(1)]],
+      status: [status, [Validators.required]]
     });
+  }
+
+  getTasksValues(): Array<Task> {
+      return Array.from(this.tasks.values());
   }
 
   onCategorySelect() {
@@ -138,15 +168,16 @@ export class JobTaskComponent implements OnInit {
   }
 
   onDelete(id: number) {
-    this.jobService.deleteJobTask(id);
-    this.tasks.delete(task.id);
+    this.jobService.deleteTask(id);
+    this.tasks.delete(id);
   }
 
   toUpdate(id: number) {
     this.idTask = id;
     var task: Task = this.tasks.get(id);
+    this.setTaskFormGroup(task);
 
-    this.taskForm.controls.category.value.idRole = task.role.idRole;
+    /*this.taskForm.controls.category.value.idRole = task.role.idRole;
     this.taskForm.controls.category.value.description = task.role.description;
 
     if (task.user != null) {
@@ -161,7 +192,7 @@ export class JobTaskComponent implements OnInit {
 
     this.taskForm.controls.name.value = task.name;
     this.taskForm.controls.time.value = task.time;
-    this.taskForm.controls.priority.value = task.priority;
+    this.taskForm.controls.priority.value = task.priority;*/
   }
 }
 

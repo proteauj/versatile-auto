@@ -50,6 +50,35 @@ export class UserService implements OnInit {
       return this.http.get<RoleRessource[]>(`${this.BASE_URL}${this.urlRoles}`, { observe: 'response' });
     }
 
+    getRoleFromRessource(roleRess: RoleRessource): Role {
+      var role: Role = {
+        idRole: roleRess.idRole,
+        description: roleRess.description
+      };
+
+      return role;
+    }
+
+    getTypeFromRessource(typeRess: TypeRessource): Type {
+      var type: Type = {
+        idType: typeRess.idType,
+        description: typeRess.description
+      };
+
+      return type;
+    }
+
+    getEmployeeFromRessource(userRess: UserRessource): Employee {
+      var employee: Employee = {
+        idUser: userRess.idUser,
+        name: userRess.name,
+        role: this.getRoleFromRessource(userRess.role),
+        type: this.getTypeFromRessource(userRess.type)
+      };
+
+      return employee;
+    }
+
     async getRoles(): Promise<Role[]> {
       var rolesRessArray: RoleRessource[] = [];
       var rolesArray: Role[] = [];

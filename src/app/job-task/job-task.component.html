@@ -94,32 +94,19 @@
             </div>
           </form>
 
-          <!--<a class="btn" href="#"><i class="icon-align-left"></i></a>-->
-          <!---->
-          <!--<button (click)="onAdd()" type="submit" class="btn btn-primary submit-button">-->
-            <!--<i class="fas fa-plus-circle"></i>-->
-          <!--</button>-->
-
           <button (click)="onSubmit()" type="submit" class="submit-button">
             <span>
               <fa-icon [icon]="faPlusCircle" class="fa-lg"></fa-icon>
             </span>
           </button>
         </div>
-
-        <!--<div class="form text-left">-->
-          <!--<button (click)="onAdd()" type="submit" class="btn btn-primary submit-button">-->
-            <!--{{ 'jobtask.submit' | translate}}-->
-          <!--</button>-->
-        <!--</div>-->
-
       </div>
       <div style="width:5%"></div>
     </div>
 
     <div class="row">
       <div style="width:100%">
-        <table class="table table-striped table-task" [mfData]="tasks.value" #mf="mfDataTable">
+        <table class="table table-striped table-task" [mfData]="getTasksValues()" #mf="mfDataTable">
           <thead>
             <tr>
               <th>
