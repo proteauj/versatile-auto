@@ -69,9 +69,9 @@ export class JobTaskComponent implements OnInit {
 
   setTaskFormGroup(task: Task) {
     var name: string = '';
-    var priority: string = '';
+    var priority: number = null;
     var category: Role = null;
-    var assignation: User = null;
+    var assignation: Employee = null;
     var time: number = null;
     var status: Status = null;
 
@@ -168,8 +168,12 @@ export class JobTaskComponent implements OnInit {
   }
 
   onDelete(id: number) {
-    this.jobService.deleteTask(id);
-    this.tasks.delete(id);
+    this.jobService.deleteTask(id).subscribe(data => {
+      console.log("DELETE Task is successful ", data);
+      this.tasks.delete(id);
+    }, error => {
+      console.log("Error", error);
+    });
   }
 
   toUpdate(id: number) {

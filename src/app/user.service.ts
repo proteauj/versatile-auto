@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { User, Role, Type, Employee } from './models/user';
-import { UserRessource, LogInRessource, RoleRessource } from './ressources/userRessource';
+import { UserRessource, LogInRessource, RoleRessource, TypeRessource } from './ressources/userRessource';
 import { Observable } from "rxjs"
 
 @Injectable({
