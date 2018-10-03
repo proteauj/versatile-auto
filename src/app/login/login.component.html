@@ -27,7 +27,7 @@
 
             <div class="form-group">
               <label for="loginPassword" class="sr-only">{{ 'login.password.label' | translate  }}</label>
-              <input type="text" formControlName="password" class="form-control"
+              <input type="password" formControlName="password" class="form-control"
                      [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="loginPassword"
                      placeholder="{{ 'login.password.placeholder' | translate  }}"/>
 
@@ -39,7 +39,9 @@
           </form>
         </div>
         <div class="form text-left">
-          <button [disabled]="loading" class="btn btn-primary submit-button">{{ 'login.submit' | translate}}</button>
+          <button (click)="onLogIn()" type="submit" class="btn btn-primary submit-button">
+            {{ 'login.submit' | translate}}
+          </button>
         </div>
       </div>
       <div class="col-md-4"></div>

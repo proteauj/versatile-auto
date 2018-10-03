@@ -28,6 +28,7 @@ export class JobTaskComponent implements OnInit {
   protected idTask: number = null;
   protected isCreate: boolean = true;
   protected isModify: boolean = false;
+  protected isCategorySelected: boolean = false;
 
   faPlusCircle = faPlusCircle;
   faEdit = faEdit;
@@ -76,6 +77,7 @@ export class JobTaskComponent implements OnInit {
       name = task.name;
       priority = task.priority;
       category = task.role;
+      this.selectCategory(category);
       assignation = task.user;
       time = task.time;
       status = task.status;
@@ -85,6 +87,8 @@ export class JobTaskComponent implements OnInit {
     } else {
       //create state
       this.setButtonState(false);
+      this.submitted = false;
+      this.isCategorySelected = false;
     }
 
     this.taskForm = this.formBuilder.group({
@@ -101,11 +105,18 @@ export class JobTaskComponent implements OnInit {
       return Array.from(this.tasks.values());
   }
 
-  onCategorySelect() {
-    var category: Role = this.taskForm.controls.category.value;
+  selectCategory(category: Role) {
     if (category != undefined) {
       this.employees = this.userService.getEmployeesByRole(category);
     }
+    this.isCategorySelected = true;
+  }
+
+  onCategorySelect() {
+
+    this.taskForm.controls['assignation'].setValue(null);
+    var category: Role = this.taskForm.controls.category.value;
+    this.selectCategory(category);
   }
 
   getTaskFromTaskForm(): Task {
@@ -165,13 +176,13 @@ export class JobTaskComponent implements OnInit {
 
     if (this.idTask != null) {
       this.jobService.updateTask(task).subscribe(data => {
-        this.messageService.add(this.translate.instant('job-task.update.success'));
+        this.messageService.add(this.translate.instant('jobtask.update.success'));
       }, error => {
         console.log("Error", error);
       });
     } else {
       this.jobService.createTask(task).subscribe(data => {
-        this.messageService.add(this.translate.instant('job-task.create.success'));
+        this.messageService.add(this.translate.instant('jobtask.create.success'));
       }, error => {
         console.log("Error", error);
       });
@@ -184,7 +195,7 @@ export class JobTaskComponent implements OnInit {
 
   onDelete(id: number) {
     this.jobService.deleteTask(id).subscribe(data => {
-      this.messageService.add(this.translate.instant('job-task.delete.success'));
+      this.messageService.add(this.translate.instant('jobtask.delete.success'));
       this.tasks.delete(id);
     }, error => {
       console.log("Error", error);

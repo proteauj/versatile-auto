@@ -52,7 +52,7 @@
               <ng-template #loadingCategory>{{ 'jobtask.category.loading' | translate  }}</ng-template>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" *ngIf="isCategorySelected">
               <label for="jobtaskAssignation" class="sr-only">{{ 'jobtask.assignation.label' | translate  }}</label>
               <div *ngIf="employees | async; let employees; else loadingEmployee">
                 <div class="form-group">

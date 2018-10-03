@@ -117,7 +117,7 @@ export class JobService implements OnInit {
       { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
   }
 
-  deleteTask(idTask: number): Observable<HttpResponse> {
+  deleteTask(idTask: number): Observable<HttpResponse<Object>> {
     var url = `${this.JOB_BASE_URL}${this.TASK_URL}/${idTask}`;
     return this.http.delete(url, { observe: 'response' });
   }

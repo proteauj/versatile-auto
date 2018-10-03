@@ -65,6 +65,7 @@
   "jobtask.update.success": "Update succeeded",
   "jobtask.create.success": "Create succeeded",
   "jobtask.delete.success": "Delete succeeded",
+  "jobtask.assignation.noemployee.placeholder": "No employee",
 
   "menu.login": "Log in",
   "menu.job": "Job"

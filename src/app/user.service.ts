@@ -25,10 +25,14 @@ export class UserService implements OnInit {
     await new Promise(resolve => {
       this.getUser(user.email).subscribe(resp => {
         this.user = resp.body[0];
-        this.getLogInUser(this.user.idUser).subscribe(resp => {
-          this.logIn = resp.body;
+        if (this.user != null) {
+          this.getLogInUser(this.user.idUser).subscribe(resp => {
+            this.logIn = resp.body;
+            resolve();
+          });
+        } else {
           resolve();
-        });
+        }
       });
     });
 
