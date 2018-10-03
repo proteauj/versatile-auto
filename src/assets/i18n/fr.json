@@ -62,6 +62,9 @@
   "jobtask.table.priority": "Priorité",
   "jobtask.table.name": "Nom",
   "jobtask.table.status": "Statut",
+  "jobtask.update.success": "Modification réussie",
+  "jobtask.create.success": "Création réussie",
+  "jobtask.delete.success": "Suppression réussie",
 
   "menu.login": "Connexion",
   "menu.job": "Job"

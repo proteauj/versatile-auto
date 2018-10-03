@@ -62,6 +62,9 @@
   "jobtask.table.priority": "Priority",
   "jobtask.table.name": "Name",
   "jobtask.table.status": "Status",
+  "jobtask.update.success": "Update succeeded",
+  "jobtask.create.success": "Create succeeded",
+  "jobtask.delete.success": "Delete succeeded",
 
   "menu.login": "Log in",
   "menu.job": "Job"

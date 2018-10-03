@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataTableModule } from 'angular-6-datatable';
-import { faPlusCircle, faEdit, faMinusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faEdit, faMinusCircle, faSave, faEraser } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-job-task',
@@ -26,11 +26,14 @@ export class JobTaskComponent implements OnInit {
   protected isValid: boolean = false;
   protected job: Job;
   protected idTask: number = null;
+  protected isCreate: boolean = true;
+  protected isModify: boolean = false;
 
   faPlusCircle = faPlusCircle;
   faEdit = faEdit;
   faMinusCircle = faMinusCircle;
-
+  faSave = faSave;
+  faEraser = faEraser;
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private userService: UserService, private router: Router,
@@ -42,6 +45,7 @@ export class JobTaskComponent implements OnInit {
   ngOnInit() {
     this.categories = this.userService.getRoles();
     this.status = this.jobService.getStatus();
+
     this.route.params.subscribe(params => {
       var idJob: number = params['idJob'];
       this.jobService.getJob(idJob).then(data => {
@@ -49,20 +53,13 @@ export class JobTaskComponent implements OnInit {
 
         this.jobService.getJobTasks(this.job.idJob).then(data => {
           var jobTasks = data;
-          console.log(jobTasks);
+
           for (let task of jobTasks) {
             this.tasks.set(task.id, task);
           }
-          console.log(this.tasks);
         });
       });
     });
-
-    console.log(this.job);
-    console.log(this.tasks);
-
-
-//, Validators.max(this.tasks.length() + 1)
 
     this.setTaskFormGroup(null);
   }
@@ -82,6 +79,12 @@ export class JobTaskComponent implements OnInit {
       assignation = task.user;
       time = task.time;
       status = task.status;
+
+      //modify state
+      this.setButtonState(true);
+    } else {
+      //create state
+      this.setButtonState(false);
     }
 
     this.taskForm = this.formBuilder.group({
@@ -105,14 +108,7 @@ export class JobTaskComponent implements OnInit {
     }
   }
 
-  onSubmit(): void {
-    this.submitted = true;
-
-    // stop here if form is invalid
-    if (this.taskForm.invalid) {
-      return;
-    }
-
+  getTaskFromTaskForm(): Task {
     var category: Role = {
       idRole: this.taskForm.controls.category.value.idRole,
       description: this.taskForm.controls.category.value.description
@@ -144,32 +140,51 @@ export class JobTaskComponent implements OnInit {
       user: assignation
     }
 
-    this.isValid = true;
-    this.messageService.add(this.translate.instant('job-task.success'));
+    return task;
+  }
 
-    console.log(this.tasks);
+  setButtonState(isModify: boolean) {
+    this.isModify = isModify;
+    this.isCreate = !isModify;
+  }
+
+  onErase(): void {
+    this.setTaskFormGroup(null);
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.taskForm.invalid) {
+      return;
+    }
+
+    this.isValid = true;
+    var task: Task = this.getTaskFromTaskForm();
 
     if (this.idTask != null) {
       this.jobService.updateTask(task).subscribe(data => {
-        console.log("PUT Task is successful ", data);
+        this.messageService.add(this.translate.instant('job-task.update.success'));
       }, error => {
         console.log("Error", error);
       });
     } else {
       this.jobService.createTask(task).subscribe(data => {
-        console.log("POST Task is successful ", data);
+        this.messageService.add(this.translate.instant('job-task.create.success'));
       }, error => {
         console.log("Error", error);
       });
     }
 
     this.tasks.set(task.id, task);
+    this.setTaskFormGroup(null);
     this.idTask = null;
   }
 
   onDelete(id: number) {
     this.jobService.deleteTask(id).subscribe(data => {
-      console.log("DELETE Task is successful ", data);
+      this.messageService.add(this.translate.instant('job-task.delete.success'));
       this.tasks.delete(id);
     }, error => {
       console.log("Error", error);
@@ -180,23 +195,6 @@ export class JobTaskComponent implements OnInit {
     this.idTask = id;
     var task: Task = this.tasks.get(id);
     this.setTaskFormGroup(task);
-
-    /*this.taskForm.controls.category.value.idRole = task.role.idRole;
-    this.taskForm.controls.category.value.description = task.role.description;
-
-    if (task.user != null) {
-      this.taskForm.controls.assignation.value.idUser = task.user.idUser;
-      this.taskForm.controls.assignation.value.name = task.user.name;
-      this.taskForm.controls.assignation.value.role = task.user.role;
-      this.taskForm.controls.assignation.value.type = task.user.type;
-    }
-
-    this.taskForm.controls.status.value.idStatus = task.status.idStatus;
-    this.taskForm.controls.status.value.status = task.status.status;
-
-    this.taskForm.controls.name.value = task.name;
-    this.taskForm.controls.time.value = task.time;
-    this.taskForm.controls.priority.value = task.priority;*/
   }
 }
 

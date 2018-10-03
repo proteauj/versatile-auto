@@ -94,11 +94,24 @@
             </div>
           </form>
 
+
           <button (click)="onSubmit()" type="submit" class="submit-button">
             <span>
-              <fa-icon [icon]="faPlusCircle" class="fa-lg"></fa-icon>
+              <div *ngIf="isCreate">
+                <fa-icon [icon]="faPlusCircle" class="fa-lg"></fa-icon>
+              </div>
+              <div *ngIf="isModify">
+                <fa-icon [icon]="faSave" class="fa-lg"></fa-icon>
+              </div>
             </span>
           </button>
+
+          <button (click)="onErase()" type="submit" class="submit-button">
+            <span>
+              <fa-icon [icon]="faEraser" class="fa-lg"></fa-icon>
+            </span>
+          </button>
+
         </div>
       </div>
       <div style="width:5%"></div>
