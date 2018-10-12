@@ -1,0 +1,31 @@
+<div class="jumbotron content">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <div class="logo">{{ 'jobdetails.title' | translate }}</div>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+
+    <div class="row">
+      <div style="width:5%"></div>
+      <div style="width:90%">
+        <div class="group form text-center">
+          <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
+            <input type="file" name="files" (change)="onFileChanged($event)"/><br/><br/>
+            <input type = "button" class = "btn btn-primary" (click) = "onSubmit()" value = "Upload file"/>
+          </form>
+        </div>
+      </div>
+      <div style="width:5%"></div>
+    </div>
+    <!--<div class="row">-->
+      <!--<button (click)="onSubmit()" type="submit" class="submit-button">-->
+            <!--<span>-->
+              <!--<fa-icon [icon]="faSave" class="fa-lg"></fa-icon>-->
+            <!--</span>-->
+      <!--</button>-->
+    <!--</div>-->
+  </div>
+</div>

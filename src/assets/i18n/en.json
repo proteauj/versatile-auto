@@ -67,6 +67,8 @@
   "jobtask.delete.success": "Delete succeeded",
   "jobtask.assignation.noemployee.placeholder": "No employee",
 
+  "jobdetails.title": "Job details",
+
   "menu.login": "Log in",
   "menu.job": "Job"
 }

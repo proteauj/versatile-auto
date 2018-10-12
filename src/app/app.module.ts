@@ -13,7 +13,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 //Versatile auto components
 import { LoginComponent } from './login/login.component';
 
-//ngModel
+//Components
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { JobNewComponent } from './job-new/job-new.component';
 import { MessagesComponent } from './messages/messages.component';
@@ -21,6 +21,10 @@ import { AppRoutingModule } from './/app-routing.module';
 import { MenuComponent } from './menu/menu.component';
 import { JobTaskComponent } from './job-task/job-task.component';
 import { JobAttachmentComponent } from './job-attachment/job-attachment.component';
+
+//File upload
+import { AngularFileUploaderModule } from "angular-file-uploader";
+import { JobDetailsComponent } from './job-details/job-details.component';
 
 
 @NgModule({
@@ -31,7 +35,8 @@ import { JobAttachmentComponent } from './job-attachment/job-attachment.componen
         MessagesComponent,
         MenuComponent,
         JobTaskComponent,
-        JobAttachmentComponent
+        JobAttachmentComponent,
+        JobDetailsComponent
     ],
     imports: [
         BrowserModule,
@@ -48,7 +53,8 @@ import { JobAttachmentComponent } from './job-attachment/job-attachment.componen
                 deps: [HttpClient]
             }
         }),
-        AppRoutingModule
+        AppRoutingModule,
+        AngularFileUploaderModule
     ],
     providers: [],
     bootstrap: [AppComponent]

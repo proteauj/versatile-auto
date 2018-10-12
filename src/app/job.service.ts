@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { Job, Task, Status } from './models/job';
-import { JobRessource, JobTaskRessource, StatusRessource } from './ressources/jobRessource';
+import { HttpClient, HttpParams, HttpResponse, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common/http';
+import { Job, Task, Status, FileModel } from './models/job';
+import { JobRessource, JobTaskRessource, StatusRessource, FileRessource } from './ressources/jobRessource';
 import { Observable } from "rxjs";
 import { CarService } from './car.service';
 import { UserService } from './user.service';
@@ -16,6 +16,7 @@ export class JobService implements OnInit {
   protected JOB_BASE_URL : string = 'http://localhost:8080/jobs';
   protected TASK_URL : string = '/tasks';
   protected STATUS_BASE_URL : string = 'http://localhost:8080/status';
+  protected FILES_URL: string = '/files';
 
   protected httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }),
@@ -67,6 +68,18 @@ export class JobService implements OnInit {
     }
 
     return task;
+  }
+
+  getFileFromRessource(fileRess: FileRessource): FileModel {
+    var file: FileModel = {
+      id: fileRess.id,
+      name: fileRess.name,
+      type: fileRess.type,
+      file: fileRess.file,
+      job: fileRess.job
+    }
+
+    return file;
   }
 
   async getJob(idJob: number): Promise<Job> {
@@ -155,9 +168,47 @@ export class JobService implements OnInit {
   }
 
   createTask(task: Task): Observable<HttpResponse<JobTaskRessource>> {
-      var body = JSON.stringify(task);
-      var url = `${this.JOB_BASE_URL}${this.TASK_URL}`;
-      return this.http.post<JobTaskRessource>(url, body,
-        { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
+    var body = JSON.stringify(task);
+    var url = `${this.JOB_BASE_URL}${this.TASK_URL}`;
+    return this.http.post<JobTaskRessource>(url, body,
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
+  }
+
+  createFile(file: File, idJob: number): Observable<HttpResponse<FileRessource[]>> {
+    var url = this.JOB_BASE_URL + '/' + idJob + this.FILES_URL;
+
+    const formdata: FormData = new FormData();
+    formdata.append('file', file);
+
+    return this.http.post<FileRessource[]>(url, formdata, {
+      headers: new HttpHeaders({ 'Accept': 'application/json;' }),
+      observe: 'response'
+    });
+  }
+
+  getFilesRessource(idJob: number): Observable<HttpResponse<FileRessource[]>> {
+    var url = this.JOB_BASE_URL + '/' + idJob + this.FILES_URL;
+    return this.http.get<FileRessource[]>(url,
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
+  }
+
+  async getFiles(idJob: number): Promise<FileModel[]> {
+      var fileRessArray: FileRessource[] = [];
+      var fileArray: FileModel[] = [];
+
+      await new Promise(resolve => {
+        this.getFilesRessource(idJob).subscribe(resp => {
+          fileRessArray = resp.body;
+
+          for (let fileRess of fileRessArray) {
+            var file = this.getFileFromRessource(fileRess);
+            fileArray.push(file);
+          }
+          resolve();
+        });
+      });
+
+      console.log(fileArray);
+      return fileArray;
     }
 }

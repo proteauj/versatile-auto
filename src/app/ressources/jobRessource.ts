@@ -23,3 +23,11 @@ export class JobTaskRessource {
   role: RoleRessource;
   user: UserRessource;
 }
+
+export class FileRessource {
+  id: number;
+  file: FormData;
+  name: string;
+  type: string;
+  job: JobRessource;
+}

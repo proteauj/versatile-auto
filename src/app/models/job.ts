@@ -23,3 +23,11 @@ export class Task {
   role: Role;
   user: Employee;
 }
+
+export class FileModel {
+  id: number;
+  file: FormData;
+  name: string;
+  type: string;
+  job: Job;
+}
