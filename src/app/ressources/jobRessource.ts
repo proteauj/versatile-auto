@@ -25,8 +25,8 @@ export class JobTaskRessource {
 }
 
 export class FileRessource {
-  id: number;
-  file: FormData;
+  idFile: number;
+  file: string;
   name: string;
   type: string;
   job: JobRessource;

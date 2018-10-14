@@ -27,5 +27,24 @@
             <!--</span>-->
       <!--</button>-->
     <!--</div>-->
+
+    <div class="row" >
+      <div class="panel-body">
+        <table>
+          <tr *ngFor="let file of filesSaved">
+            <td>
+              <!--<a href="http://localhost:8080/jobs/files/{{file.id}}">{{file.name}}</a>-->
+              <a [href]="file.url" download="{{file.name}}">{{file.name}}</a>
+            </td>
+            <td>
+              <div *ngIf="file.type.includes('image') && file.file">
+                <img class="img-details" [src]="'data:image/jpg;base64,'+file.file"/>
+              </div>
+            </td>
+          </tr>
+        <!--<a href="{{file}}">{{file}}</a>-->
+        </table>
+      </div>
+    </div>
   </div>
 </div>

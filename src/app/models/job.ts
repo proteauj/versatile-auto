@@ -26,8 +26,9 @@ export class Task {
 
 export class FileModel {
   id: number;
-  file: FormData;
+  file: string;
   name: string;
   type: string;
   job: Job;
+  url: SafeResourceUrl;
 }

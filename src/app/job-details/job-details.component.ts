@@ -7,6 +7,7 @@ import { JobService } from '../job.service';
 import { Job, FileModel } from '../models/job';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 
+
 import {HttpClient, HttpRequest, HttpEvent} from '@angular/common/http';
 
 @Component({
@@ -18,6 +19,7 @@ export class JobDetailsComponent implements OnInit {
 
   protected files: File[] = [];
   protected filesSaved: FileModel[] = [];
+  protected filesToShow: File[] = [];
   protected formData = new FormData();
   protected fileUploadConfig;
   protected job: Job;
@@ -30,21 +32,6 @@ export class JobDetailsComponent implements OnInit {
               private formBuilder: FormBuilder, private route: ActivatedRoute) { }
 
   ngOnInit() {
-  const params={
-    'code': 'h1',
-    'foo': 'bar'
-  }
-
-  const formData = new FormData()
-  Object.keys(params).forEach((k) => {
-    formData.append(k, params[k])
-  })
-
-  // confirm:
-  console.log(formData.get('code'))
-  console.log(formData.get('foo'))
-
-
     this.fileUploadConfig = {
         multiple: true,
         formatsAllowed: ".jpg,.png,.docx,.doc,.xls,.xlsx,.pdf,.gif,.txt",
@@ -68,6 +55,14 @@ export class JobDetailsComponent implements OnInit {
       this.jobService.getJob(this.idJob).then(data => {
         this.job = data;
       });
+
+      this.jobService.getFiles(this.idJob).then(data => {
+            this.filesSaved = data;
+
+            /*for (let fileModel of this.filesSaved) {
+              this.filesToShow.push(new File(fileModel.file, fileModel.name));
+            }*/
+          });
     });
   }
 
@@ -89,4 +84,6 @@ export class JobDetailsComponent implements OnInit {
       this.files.push(file);
     }
   }
+
+
 }

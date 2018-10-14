@@ -5,6 +5,7 @@ import { JobRessource, JobTaskRessource, StatusRessource, FileRessource } from '
 import { Observable } from "rxjs";
 import { CarService } from './car.service';
 import { UserService } from './user.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 
@@ -23,7 +24,8 @@ export class JobService implements OnInit {
     observe: 'response'
   };
 
-  constructor(private http: HttpClient, private carService: CarService, private userService: UserService) { }
+  constructor(private http: HttpClient, private carService: CarService, private userService: UserService,
+              private sanitizer: DomSanitizer) { }
 
   ngOnInit() { }
 
@@ -70,14 +72,34 @@ export class JobService implements OnInit {
     return task;
   }
 
+ base64ToArrayBuffer(base64): Uint8Array {
+    var binaryString = window.atob(base64);
+    var binaryLen = binaryString.length;
+    var bytes = new Uint8Array(binaryLen);
+    for (var i = 0; i < binaryLen; i++) {
+       var ascii = binaryString.charCodeAt(i);
+       bytes[i] = ascii;
+    }
+    return bytes;
+ }
+
+  getUrl(file: Uint8Array, type: string): SafeResourceUrl {
+    const blob = new Blob([file], { type: type });
+    var fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    return fileUrl;
+  }
+
   getFileFromRessource(fileRess: FileRessource): FileModel {
     var file: FileModel = {
-      id: fileRess.id,
+      id: fileRess.idFile,
       name: fileRess.name,
       type: fileRess.type,
       file: fileRess.file,
-      job: fileRess.job
+      job: fileRess.job,
+      url: null
     }
+
+    file.url = this.getUrl(this.base64ToArrayBuffer(file.file), file.type);
 
     return file;
   }
