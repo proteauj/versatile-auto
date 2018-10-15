@@ -68,6 +68,8 @@
   "jobtask.assignation.noemployee.placeholder": "No employee",
 
   "jobdetails.title": "Job details",
+  "jobdetails.table.file": "File",
+  "jobdetails.table.preview": "Preview",
 
   "menu.login": "Log in",
   "menu.job": "Job"

@@ -13,8 +13,18 @@
       <div style="width:90%">
         <div class="group form text-center">
           <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-            <input type="file" name="files" (change)="onFileChanged($event)"/><br/><br/>
-            <input type = "button" class = "btn btn-primary" (click) = "onSubmit()" value = "Upload file"/>
+            <div id="yourBtn" class="upload-btn" style="">
+              <fa-icon [icon]="faFileUpload" class="fa-lg"></fa-icon>
+            <!--</div>-->
+            <!--<div style='height: 0px;width:0px; overflow:hidden;'>-->
+                <input type="file" style="height: 0px;width:0px; overflow:hidden;" name="files" (change)="onFileChanged($event)"/>
+            </div>
+            <!-- here you can have file submit button or you can write a simple script to upload the file automatically-->
+            <!--<input type="submit" value='submit' (click) = "onSubmit()" >-->
+
+            <!--<span class="icon"><fa-icon [icon]="faFileUpload" class="fa-lg"></fa-icon></span>-->
+            <!--<input type="file" name="files" (change)="onFileChanged($event)"/><br/><br/>-->
+            <!--<input type = "button" class = "btn btn-primary" (click) = "onSubmit()" value = "Upload file"/>-->
           </form>
         </div>
       </div>
@@ -28,21 +38,37 @@
       <!--</button>-->
     <!--</div>-->
 
-    <div class="row" >
-      <div class="panel-body">
-        <table>
-          <tr *ngFor="let file of filesSaved">
-            <td>
-              <!--<a href="http://localhost:8080/jobs/files/{{file.id}}">{{file.name}}</a>-->
-              <a [href]="file.url" download="{{file.name}}">{{file.name}}</a>
-            </td>
-            <td>
-              <div *ngIf="file.type.includes('image') && file.file">
-                <img class="img-details" [src]="'data:image/jpg;base64,'+file.file"/>
-              </div>
-            </td>
+    <div class="row">
+      <div style="width:100%">
+        <table class="table table-striped table-details">
+          <thead>
+          <tr>
+            <th>{{ 'jobdetails.table.file' | translate }}</th>
+            <th>{{ 'jobdetails.table.preview' | translate }}</th>
+            <th></th>
           </tr>
-        <!--<a href="{{file}}">{{file}}</a>-->
+          </thead>
+          <tbody>
+            <tr *ngFor="let file of filesSaved">
+              <td>
+                <!--<a href="http://localhost:8080/jobs/files/{{file.id}}">{{file.name}}</a>-->
+                <a [href]="file.url" download="{{file.name}}">{{file.name}}</a>
+              </td>
+              <td>
+                <div *ngIf="file.type.includes('image') && file.file">
+                  <img class="img-details" [src]="'data:image/jpg;base64,'+file.file"/>
+                </div>
+              </td>
+              <td>
+                <button (click)="onDelete(file.id)" type="submit" class="submit-button">
+                  <span>
+                    <fa-icon [icon]="faMinusCircle" class="fa-sm"></fa-icon>
+                  </span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot></tfoot>
         </table>
       </div>
     </div>

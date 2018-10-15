@@ -1,3 +1,18 @@
 .img-details {
-  max-width: 100px;
+  max-width: 50px;
+  max-height: 40px;
+}
+
+.table-details {
+  margin-top: 5px;
+}
+
+.upload-btn {
+  height: 50px;
+  width: 200px;
+  border: 1px dashed #BBB;
+  cursor: pointer;
+  color: black !important;
+  padding: 12.5px;
+  display: inline-block;
 }

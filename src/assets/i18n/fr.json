@@ -67,6 +67,8 @@
   "jobtask.delete.success": "Suppression réussie",
 
   "jobdetails.title": "Détails job",
+  "jobdetails.table.file": "Fichier",
+  "jobdetails.table.preview": "Voir",
 
   "menu.login": "Connexion",
   "menu.job": "Job"

@@ -5,8 +5,7 @@ import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { JobService } from '../job.service';
 import { Job, FileModel } from '../models/job';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
-
+import { faSave, faMinusCircle, faFileUpload } from '@fortawesome/free-solid-svg-icons';
 
 import {HttpClient, HttpRequest, HttpEvent} from '@angular/common/http';
 
@@ -26,6 +25,8 @@ export class JobDetailsComponent implements OnInit {
   protected idJob: number;
 
   faSave = faSave;
+  faMinusCircle = faMinusCircle;
+  faFileUpload = faFileUpload;
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private router: Router,
@@ -64,6 +65,10 @@ export class JobDetailsComponent implements OnInit {
             }*/
           });
     });
+  }
+
+  getFiles() {
+
   }
 
   onSubmit() {
