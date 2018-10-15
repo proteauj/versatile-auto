@@ -96,7 +96,8 @@ export class JobService implements OnInit {
       type: fileRess.type,
       file: fileRess.file,
       job: fileRess.job,
-      url: null
+      url: null,
+      isImage: fileRess.type.includes('image')
     }
 
     file.url = this.getUrl(this.base64ToArrayBuffer(file.file), file.type);
@@ -196,11 +197,14 @@ export class JobService implements OnInit {
       { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
   }
 
-  createFile(file: File, idJob: number): Observable<HttpResponse<FileRessource[]>> {
+  createFiles(files: File[], idJob: number): Observable<HttpResponse<FileRessource[]>> {
     var url = this.JOB_BASE_URL + '/' + idJob + this.FILES_URL;
 
     const formdata: FormData = new FormData();
-    formdata.append('file', file);
+
+    for (let file of files) {
+      formdata.append('file', file);
+    }
 
     return this.http.post<FileRessource[]>(url, formdata, {
       headers: new HttpHeaders({ 'Accept': 'application/json;' }),
@@ -232,5 +236,10 @@ export class JobService implements OnInit {
 
       console.log(fileArray);
       return fileArray;
+    }
+
+    deleteFile(idFile: number): Observable<HttpResponse<Object>> {
+      var url = `${this.JOB_BASE_URL}${this.FILES_URL}/${idFile}`;
+      return this.http.delete(url, { observe: 'response' });
     }
 }

@@ -69,6 +69,9 @@
   "jobdetails.title": "Détails job",
   "jobdetails.table.file": "Fichier",
   "jobdetails.table.preview": "Voir",
+  "jobdetails.files.loading": "Chargement fichiers",
+  "jobdetails.delete.success": "Suppression réussie",
+  "jobdetails.create.success": "Téléversement réussi",
 
   "menu.login": "Connexion",
   "menu.job": "Job"

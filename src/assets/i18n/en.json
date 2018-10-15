@@ -70,6 +70,8 @@
   "jobdetails.title": "Job details",
   "jobdetails.table.file": "File",
   "jobdetails.table.preview": "Preview",
+  "jobdetails.delete.success": "Delete succeeded",
+  "jobdetails.create.success": "Upload succeeded",
 
   "menu.login": "Log in",
   "menu.job": "Job"

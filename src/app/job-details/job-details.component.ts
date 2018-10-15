@@ -17,7 +17,8 @@ import {HttpClient, HttpRequest, HttpEvent} from '@angular/common/http';
 export class JobDetailsComponent implements OnInit {
 
   protected files: File[] = [];
-  protected filesSaved: FileModel[] = [];
+  protected filesSaved: Map<number, FileModel> = new Map<number, FileModel>();
+  //protected filesSaved: Promise<FileModel[]>;
   protected filesToShow: File[] = [];
   protected formData = new FormData();
   protected fileUploadConfig;
@@ -58,37 +59,42 @@ export class JobDetailsComponent implements OnInit {
       });
 
       this.jobService.getFiles(this.idJob).then(data => {
-            this.filesSaved = data;
+        var files = data;
 
-            /*for (let fileModel of this.filesSaved) {
-              this.filesToShow.push(new File(fileModel.file, fileModel.name));
-            }*/
-          });
+        for (let file of files) {
+          this.filesSaved.set(file.id, file);
+        }
+      });
     });
   }
 
-  getFiles() {
-
-  }
-
-  onSubmit() {
-    for (let i = 0; i < this.files.length; i++) {
-      var file: File = this.files[i];
-
-      this.jobService.createFile(file, this.idJob).subscribe(data => {
-        this.filesSaved.push(data[0]);
-        this.messageService.add(this.translate.instant('jobdetails.create.success'));
-      }, error => {
-        console.log("Error", error);
-      });
-    }
+  getFile() {
+    document.getElementById("upload").click();
   }
 
   onFileChanged(event) {
-    for (let file of event.target.files) {
-      this.files.push(file);
-    }
+    this.jobService.createFiles(event.target.files, this.idJob).subscribe(data => {
+      this.messageService.add(this.translate.instant('jobdetails.create.success'));
+      var newFilesSaved = data.body;
+
+      for (let file of newFilesSaved) {
+        this.filesSaved.set(file.id, file);
+      }
+    }, error => {
+      console.log("Error", error);
+    });
   }
 
+  onDelete(idFile: number) {
+    this.jobService.deleteFile(idFile).subscribe(data => {
+      this.messageService.add(this.translate.instant('jobdetails.delete.success'));
+      this.filesSaved.delete(idFile);
+    }, error => {
+      console.log("Error", error);
+    });
+  }
 
+  getFilesValues(): Array<FileModel> {
+    return Array.from(this.filesSaved.values());
+  }
 }

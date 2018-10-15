@@ -31,4 +31,5 @@ export class FileModel {
   type: string;
   job: Job;
   url: SafeResourceUrl;
+  isImage: boolean;
 }

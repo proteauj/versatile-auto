@@ -16,3 +16,9 @@
   padding: 12.5px;
   display: inline-block;
 }
+
+.upload-input {
+  height: 0px;
+  width:0px;
+  overflow:hidden;
+}

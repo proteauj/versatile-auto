@@ -13,34 +13,19 @@
       <div style="width:90%">
         <div class="group form text-center">
           <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-            <div id="yourBtn" class="upload-btn" style="">
+            <div id="yourBtn" class="upload-btn" (click)="getFile()">
               <fa-icon [icon]="faFileUpload" class="fa-lg"></fa-icon>
-            <!--</div>-->
-            <!--<div style='height: 0px;width:0px; overflow:hidden;'>-->
-                <input type="file" style="height: 0px;width:0px; overflow:hidden;" name="files" (change)="onFileChanged($event)"/>
+              <input id="upload" type="file" class="upload-input" (change)="onFileChanged($event)" multiple/>
             </div>
-            <!-- here you can have file submit button or you can write a simple script to upload the file automatically-->
-            <!--<input type="submit" value='submit' (click) = "onSubmit()" >-->
-
-            <!--<span class="icon"><fa-icon [icon]="faFileUpload" class="fa-lg"></fa-icon></span>-->
-            <!--<input type="file" name="files" (change)="onFileChanged($event)"/><br/><br/>-->
-            <!--<input type = "button" class = "btn btn-primary" (click) = "onSubmit()" value = "Upload file"/>-->
           </form>
         </div>
       </div>
       <div style="width:5%"></div>
     </div>
-    <!--<div class="row">-->
-      <!--<button (click)="onSubmit()" type="submit" class="submit-button">-->
-            <!--<span>-->
-              <!--<fa-icon [icon]="faSave" class="fa-lg"></fa-icon>-->
-            <!--</span>-->
-      <!--</button>-->
-    <!--</div>-->
 
     <div class="row">
       <div style="width:100%">
-        <table class="table table-striped table-details">
+        <table class="table table-striped table-details" [mfData]="getFilesValues()" #mf="mfDataTable">
           <thead>
           <tr>
             <th>{{ 'jobdetails.table.file' | translate }}</th>
@@ -49,13 +34,12 @@
           </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let file of filesSaved">
+            <tr *ngFor="let file of mf.data">
               <td>
-                <!--<a href="http://localhost:8080/jobs/files/{{file.id}}">{{file.name}}</a>-->
                 <a [href]="file.url" download="{{file.name}}">{{file.name}}</a>
               </td>
               <td>
-                <div *ngIf="file.type.includes('image') && file.file">
+                <div *ngIf="file && file.isImage && file.file">
                   <img class="img-details" [src]="'data:image/jpg;base64,'+file.file"/>
                 </div>
               </td>
