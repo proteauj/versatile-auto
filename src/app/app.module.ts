@@ -26,6 +26,9 @@ import { JobAttachmentComponent } from './job-attachment/job-attachment.componen
 import { AngularFileUploaderModule } from "angular-file-uploader";
 import { JobDetailsComponent } from './job-details/job-details.component';
 
+//ng-bootstrap
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
     declarations: [
@@ -54,7 +57,8 @@ import { JobDetailsComponent } from './job-details/job-details.component';
             }
         }),
         AppRoutingModule,
-        AngularFileUploaderModule
+        AngularFileUploaderModule,
+        NgbModule
     ],
     providers: [],
     bootstrap: [AppComponent]

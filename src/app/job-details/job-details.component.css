@@ -22,3 +22,18 @@
   width:0px;
   overflow:hidden;
 }
+
+.preview-btn {
+  height: 0px;
+  width:0px;
+  overflow:hidden;
+}
+
+.img-preview {
+  max-width: 275px;
+  max-height: 200px;
+}
+
+.carousel {
+  height: 200px;
+}
