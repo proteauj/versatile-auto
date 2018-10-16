@@ -73,7 +73,7 @@
                 <a [href]="file.url" download="{{file.name}}">{{file.name}}</a>
               </td>
               <td>
-                <div *ngIf="file && file.isImage && file.file">
+                <div *ngIf="file && file.isImage && file.file" class="img-container">
                   <button type="button" class="btn btn-primary" (click)="showPreview(file, content)"></button>
                   <img class="img-details" [src]="'data:image/jpg;base64,'+file.file"/>
                 </div>

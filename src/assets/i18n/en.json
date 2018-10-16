@@ -36,6 +36,7 @@
   "jobnew.status.loading": "Loading status...",
   "jobnew.status.error": "Status required",
   "jobnew.submit": "Create",
+  "jobnew.success": "New job succeeded",
 
   "jobtask.title": "New task",
   "jobtask.name.label": "Name",

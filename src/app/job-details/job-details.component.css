@@ -23,12 +23,6 @@
   overflow:hidden;
 }
 
-.preview-btn {
-  height: 0px;
-  width:0px;
-  overflow:hidden;
-}
-
 .img-preview {
   max-width: 275px;
   max-height: 200px;
@@ -36,4 +30,26 @@
 
 .carousel {
   height: 200px;
+}
+
+.img-container {
+  position: relative;
+  width: 50%;
+}
+
+.img-container img {
+  width: 100%;
+  height: auto;
+}
+
+.img-container .btn {
+  position: absolute;
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }

@@ -36,6 +36,7 @@
   "jobnew.status.loading": "Chargement des statuts...",
   "jobnew.status.error": "Statut obligatoire",
   "jobnew.submit": "Créer",
+  "jobnew.success": "Nouvelle job réussie",
 
   "jobtask.title": "Nouvelle tâche",
   "jobtask.name.label": "Nom",

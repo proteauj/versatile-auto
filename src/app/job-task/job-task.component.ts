@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataTableModule } from 'angular-6-datatable';
-import { faPlusCircle, faEdit, faMinusCircle, faSave, faEraser } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faEdit, faMinusCircle, faSave, faEraser, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-job-task',
@@ -29,12 +29,14 @@ export class JobTaskComponent implements OnInit {
   protected isCreate: boolean = true;
   protected isModify: boolean = false;
   protected isCategorySelected: boolean = false;
+  protected idJob: number;
 
   faPlusCircle = faPlusCircle;
   faEdit = faEdit;
   faMinusCircle = faMinusCircle;
   faSave = faSave;
   faEraser = faEraser;
+  faArrowCircleRight = faArrowCircleRight;
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private userService: UserService, private router: Router,
@@ -48,8 +50,8 @@ export class JobTaskComponent implements OnInit {
     this.status = this.jobService.getStatus();
 
     this.route.params.subscribe(params => {
-      var idJob: number = params['idJob'];
-      this.jobService.getJob(idJob).then(data => {
+      this.idJob = params['idJob'];
+      this.jobService.getJob(this.idJob).then(data => {
         this.job = data;
 
         this.jobService.getJobTasks(this.job.idJob).then(data => {
@@ -182,13 +184,14 @@ export class JobTaskComponent implements OnInit {
       });
     } else {
       this.jobService.createTask(task).subscribe(data => {
+        var taskCreated = data.body;
+        this.tasks.set(taskCreated.id, taskCreated);
         this.messageService.add(this.translate.instant('jobtask.create.success'));
       }, error => {
         console.log("Error", error);
       });
     }
 
-    this.tasks.set(task.id, task);
     this.setTaskFormGroup(null);
     this.idTask = null;
   }
@@ -206,6 +209,10 @@ export class JobTaskComponent implements OnInit {
     this.idTask = id;
     var task: Task = this.tasks.get(id);
     this.setTaskFormGroup(task);
+  }
+
+  toJobDetails() {
+    this.router.navigate(['/job-details', this.idJob]);
   }
 }
 
