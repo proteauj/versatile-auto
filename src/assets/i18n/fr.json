@@ -37,6 +37,7 @@
   "jobnew.status.error": "Statut obligatoire",
   "jobnew.submit": "Créer",
   "jobnew.success": "Nouvelle job réussie",
+  "jobnew.error": "Nouvelle job échouée",
 
   "jobtask.title": "Nouvelle tâche",
   "jobtask.name.label": "Nom",
@@ -66,6 +67,9 @@
   "jobtask.update.success": "Modification réussie",
   "jobtask.create.success": "Création réussie",
   "jobtask.delete.success": "Suppression réussie",
+  "jobtask.update.error": "Modification échouée",
+  "jobtask.create.error": "Création échouée",
+  "jobtask.delete.error": "Suppression échouée",
 
   "jobdetails.title": "Détails job",
   "jobdetails.table.file": "Fichier",
@@ -73,6 +77,8 @@
   "jobdetails.files.loading": "Chargement fichiers",
   "jobdetails.delete.success": "Suppression réussie",
   "jobdetails.create.success": "Téléversement réussi",
+  "jobdetails.create.error": "Téléversement échoué",
+  "jobdetails.delete.error": "Suppression échouée",
 
   "menu.login": "Connexion",
   "menu.job": "Job"

@@ -24,12 +24,7 @@
 }
 
 .img-preview {
-  max-width: 275px;
-  max-height: 200px;
-}
-
-.carousel {
-  height: 200px;
+  width: 100%;
 }
 
 .img-container {
@@ -52,4 +47,17 @@
   overflow: hidden;
   width: 100%;
   height: 100%;
+}
+
+.slide {
+  background: gray !important;
+}
+
+.carousel-indicators  {
+background-color: black;
+    margin-bottom: -20px;
+}
+
+.carousel {
+  height: 300px;
 }

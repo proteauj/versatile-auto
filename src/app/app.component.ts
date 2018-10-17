@@ -13,9 +13,6 @@ import { MenuComponent } from './menu/menu.component';
 export class AppComponent {
 
   constructor(private translate: TranslateService) {
-    translate.setDefaultLang('fr');
-  }
-
-
-
+       translate.setDefaultLang('fr');
+     }
 }

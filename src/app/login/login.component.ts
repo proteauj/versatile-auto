@@ -48,10 +48,10 @@ export class LoginComponent implements OnInit {
       this.isValid = value;
 
       if (this.isValid) {
-        this.messageService.add(this.translate.instant('login.success'));//, user.email);
+        this.messageService.showSuccess(this.translate.instant('login.success'));//, user.email);
         this.router.navigate(['/job-new']);
       } else {
-        this.messageService.add(this.translate.instant('login.fail'));
+        this.messageService.showError(this.translate.instant('login.fail'));
       }
     });
   }

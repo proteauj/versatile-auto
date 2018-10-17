@@ -106,10 +106,10 @@ export class JobNewComponent implements OnInit {
 
     this.jobService.createJob(job).subscribe(data => {
       console.log("POST Job is successful ", data);
-      this.messageService.add(this.translate.instant('jobnew.success'));
+      this.messageService.showSuccess(this.translate.instant('jobnew.success'));
       this.router.navigate(['/job-task', data.body.idJob]);
     }, error => {
-      console.log("Error", error);
+      this.messageService.showError(this.translate.instant('jobnew.error'));
     });
   }
 }

@@ -178,17 +178,17 @@ export class JobTaskComponent implements OnInit {
 
     if (this.idTask != null) {
       this.jobService.updateTask(task).subscribe(data => {
-        this.messageService.add(this.translate.instant('jobtask.update.success'));
+        this.messageService.showSuccess(this.translate.instant('jobtask.update.success'));
       }, error => {
-        console.log("Error", error);
+        this.messageService.showError(this.translate.instant('jobtask.update.error'));
       });
     } else {
       this.jobService.createTask(task).subscribe(data => {
         var taskCreated = data.body;
         this.tasks.set(taskCreated.id, taskCreated);
-        this.messageService.add(this.translate.instant('jobtask.create.success'));
+        this.messageService.showSuccess(this.translate.instant('jobtask.create.success'));
       }, error => {
-        console.log("Error", error);
+        this.messageService.showError(this.translate.instant('jobtask.create.error'));
       });
     }
 
@@ -198,10 +198,10 @@ export class JobTaskComponent implements OnInit {
 
   onDelete(id: number) {
     this.jobService.deleteTask(id).subscribe(data => {
-      this.messageService.add(this.translate.instant('jobtask.delete.success'));
+      this.messageService.showSuccess(this.translate.instant('jobtask.delete.success'));
       this.tasks.delete(id);
     }, error => {
-      console.log("Error", error);
+      this.messageService.showError(this.translate.instant('jobtask.delete.error'));
     });
   }
 

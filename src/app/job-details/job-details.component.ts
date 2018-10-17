@@ -57,8 +57,8 @@ export class JobDetailsComponent implements OnInit {
         hideUploadBtn: true
     };
 
-    this.config.showNavigationArrows = true;
-    this.config.showNavigationIndicators = false;
+    this.config.showNavigationArrows = false;
+    this.config.showNavigationIndicators = true;
     this.config.interval = 1000;
     this.config.wrap = false;
     this.config.keyboard = false;
@@ -86,23 +86,23 @@ export class JobDetailsComponent implements OnInit {
 
   onFileChanged(event) {
     this.jobService.createFiles(event.target.files, this.idJob).subscribe(data => {
-      this.messageService.add(this.translate.instant('jobdetails.create.success'));
+      this.messageService.showSuccess(this.translate.instant('jobdetails.create.success'));
       var newFilesSaved = data.body;
 
       for (let file of newFilesSaved) {
         this.filesSaved.set(file.idFile, this.jobService.getFileFromRessource(file));
       }
     }, error => {
-      console.log("Error", error);
+      this.messageService.showError(this.translate.instant('jobdetails.create.error'));
     });
   }
 
   onDelete(idFile: number) {
     this.jobService.deleteFile(idFile).subscribe(data => {
-      this.messageService.add(this.translate.instant('jobdetails.delete.success'));
+      this.messageService.showSuccess(this.translate.instant('jobdetails.delete.success'));
       this.filesSaved.delete(idFile);
     }, error => {
-      console.log("Error", error);
+      this.messageService.showError(this.translate.instant('jobdetails.delete.error'));
     });
   }
 

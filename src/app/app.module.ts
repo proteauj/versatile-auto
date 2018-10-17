@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -28,7 +28,13 @@ import { JobDetailsComponent } from './job-details/job-details.component';
 
 //ng-bootstrap
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+//import { ToastModule } from 'angular-bootstrap-md';
 
+//ToastModule
+import { CommonModule } from '@angular/common';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
     declarations: [
@@ -58,8 +64,14 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
         }),
         AppRoutingModule,
         AngularFileUploaderModule,
-        NgbModule
+        NgbModule,
+        //ToastModule.forRoot(),
+        MDBBootstrapModule.forRoot(),
+        CommonModule,
+        BrowserAnimationsModule, // required animations module
+        ToastrModule.forRoot() // ToastrModule added
     ],
+    schemas: [ NO_ERRORS_SCHEMA ],
     providers: [],
     bootstrap: [AppComponent]
 })
