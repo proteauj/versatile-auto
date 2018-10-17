@@ -10,25 +10,11 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-//Versatile auto components
-import { LoginComponent } from './login/login.component';
-
-//Components
+//Forms
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-import { JobNewComponent } from './job-new/job-new.component';
-import { MessagesComponent } from './messages/messages.component';
-import { AppRoutingModule } from './/app-routing.module';
-import { MenuComponent } from './menu/menu.component';
-import { JobTaskComponent } from './job-task/job-task.component';
-import { JobAttachmentComponent } from './job-attachment/job-attachment.component';
 
 //File upload
 import { AngularFileUploaderModule } from "angular-file-uploader";
-import { JobDetailsComponent } from './job-details/job-details.component';
-
-//ng-bootstrap
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-//import { ToastModule } from 'angular-bootstrap-md';
 
 //ToastModule
 import { CommonModule } from '@angular/common';
@@ -36,15 +22,21 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 
+//Components
+import { LoginComponent } from './login/login.component';
+import { JobNewComponent } from './job-new/job-new.component';
+import { AppRoutingModule } from './/app-routing.module';
+import { MenuComponent } from './menu/menu.component';
+import { JobTaskComponent } from './job-task/job-task.component';
+import { JobDetailsComponent } from './job-details/job-details.component';
+
 @NgModule({
     declarations: [
         AppComponent,
         LoginComponent,
         JobNewComponent,
-        MessagesComponent,
         MenuComponent,
         JobTaskComponent,
-        JobAttachmentComponent,
         JobDetailsComponent
     ],
     imports: [
@@ -63,9 +55,6 @@ import { ToastrModule } from 'ngx-toastr';
             }
         }),
         AppRoutingModule,
-        AngularFileUploaderModule,
-        NgbModule,
-        //ToastModule.forRoot(),
         MDBBootstrapModule.forRoot(),
         CommonModule,
         BrowserAnimationsModule, // required animations module
