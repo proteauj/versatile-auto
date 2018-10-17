@@ -7,6 +7,8 @@ import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-job-new',
@@ -22,6 +24,8 @@ export class JobNewComponent implements OnInit {
     protected carForm: FormGroup;
     protected isValid: boolean = false;
     status: Promise<Status[]>;
+
+    faCalendarAlt = faCalendarAlt;
 
 	job: Job = {
 	    idJob: null,
@@ -41,7 +45,8 @@ export class JobNewComponent implements OnInit {
 
   constructor(private carService: CarService, private messageService: MessageService,
               private translate: TranslateService, private jobService: JobService,
-              private router: Router, private formBuilder: FormBuilder) { }
+              private router: Router, private formBuilder: FormBuilder,
+              private calendar: NgbCalendar) { }
 
   // convenience getter for easy access to form fields
   get f() { return this.carForm.controls; }
@@ -56,8 +61,14 @@ export class JobNewComponent implements OnInit {
           make: [null, [Validators.required]],
           model: [null, [Validators.required]],
           vin: ['', []],
-          status: [null, [Validators.required]]
+          status: [null, [Validators.required]],
+          arrivalDate: [null, [Validators.required]],
+          toDeliverDate: [null, [Validators.required]],
         });
+  }
+
+  selectToday() {
+    this.model = this.calendar.getToday();
   }
 
   onMakeSelect() {

@@ -35,6 +35,8 @@
   "jobnew.status.placeholder": "Select status",
   "jobnew.status.loading": "Loading status...",
   "jobnew.status.error": "Status required",
+  "jobnew.arrivalDate.placeholder": "Arrival date",
+  "jobnew.toDeliverDate.placeholder": "To deliver date",
   "jobnew.submit": "Create",
   "jobnew.success": "New job succeeded",
   "jobnew.error": "New job failed",

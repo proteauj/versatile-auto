@@ -35,6 +35,8 @@
   "jobnew.status.placeholder": "Sélectionner statut",
   "jobnew.status.loading": "Chargement des statuts...",
   "jobnew.status.error": "Statut obligatoire",
+  "jobnew.arrivalDate.placeholder": "Date d'arrivée",
+  "jobnew.toDeliverDate.placeholder": "Date livraison prévue",
   "jobnew.submit": "Créer",
   "jobnew.success": "Nouvelle job réussie",
   "jobnew.error": "Nouvelle job échouée",

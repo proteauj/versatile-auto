@@ -16,6 +16,9 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 //File upload
 import { AngularFileUploaderModule } from "angular-file-uploader";
 
+//DatePicker
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 //ToastModule
 import { CommonModule } from '@angular/common';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
@@ -55,6 +58,7 @@ import { JobDetailsComponent } from './job-details/job-details.component';
             }
         }),
         AppRoutingModule,
+        NgbModule,
         MDBBootstrapModule.forRoot(),
         CommonModule,
         BrowserAnimationsModule, // required animations module
