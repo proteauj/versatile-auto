@@ -15,9 +15,9 @@
           <form class="car-form text-left" [formGroup]="carForm" (ngSubmit)="onCreate(job)">
             <div class="form-group">
               <label for="jobnewDescription" class="sr-only">{{ 'jobnew.description.label' | translate  }}</label>
-              <input type="text" formControlName="description" class="form-control" required
-                     [ngClass]="{ 'is-invalid': submitted && f.description.errors }" id="jobNewDescription"
-                     placeholder="{{ 'jobnew.description.placeholder' | translate  }}"/>
+              <textarea type="text" formControlName="description" class="form-control" required
+                        [ngClass]="{ 'is-invalid': submitted && f.description.errors }" id="jobNewDescription"
+                        placeholder="{{ 'jobnew.description.placeholder' | translate  }}"></textarea>
 
               <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
                 <div *ngIf="f.description.errors.required">{{ 'jobnew.description.error' | translate  }}</div>

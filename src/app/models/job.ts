@@ -1,11 +1,14 @@
 import { Car } from './car';
 import { Role, Employee } from './user';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 export class Job {
   idJob: number;
   description: string;
   car: Car;
   status: Status;
+  arrivalDate: Date;
+  toDeliverDate: Date;
 }
 
 export class Status {

@@ -15,9 +15,9 @@
           <form class="car-form text-left" [formGroup]="taskForm" (ngSubmit)="onAdd()">
             <div class="form-group">
               <label for="jobtaskName" class="sr-only">{{ 'jobtask.name.label' | translate  }}</label>
-              <input type="text" formControlName="name" class="form-control" required
+              <textarea type="text" formControlName="name" class="form-control" required
                      [ngClass]="{ 'is-invalid': submitted && f.name.errors }" id="jobtaskName"
-                     placeholder="{{ 'jobtask.name.placeholder' | translate  }}"/>
+                        placeholder="{{ 'jobtask.name.placeholder' | translate  }}"></textarea>
 
               <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
                 <div *ngIf="f.name.errors.required">{{ 'jobtask.name.error' | translate  }}</div>

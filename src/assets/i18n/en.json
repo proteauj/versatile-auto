@@ -82,6 +82,9 @@
   "jobdetails.create.error": "Upload failed",
   "jobdetails.delete.error": "Delete failed",
 
+  "job.title": "Jobs",
+  "job.loading": "Loading jobs...",
+
   "menu.login": "Log in",
   "menu.job": "Job"
 }

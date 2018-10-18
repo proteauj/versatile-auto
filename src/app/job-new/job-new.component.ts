@@ -7,7 +7,7 @@ import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbDateStruct, NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct, NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -31,7 +31,9 @@ export class JobNewComponent implements OnInit {
 	    idJob: null,
       description: '',
       car: null,
-      status: null
+      status: null,
+      arrivalDate: null,
+      toDeliverDate: null
 	};
 
 	car: Car = {
@@ -40,6 +42,10 @@ export class JobNewComponent implements OnInit {
 	    model: null,
 	    vin: null
 	};
+
+  getTodayDate() {
+    return this.calendar.getToday();
+  }
 
 	creationTried: boolean = false;
 
@@ -62,13 +68,9 @@ export class JobNewComponent implements OnInit {
           model: [null, [Validators.required]],
           vin: ['', []],
           status: [null, [Validators.required]],
-          arrivalDate: [null, [Validators.required]],
+          arrivalDate: [this.getTodayDate(), [Validators.required]],
           toDeliverDate: [null, [Validators.required]],
         });
-  }
-
-  selectToday() {
-    this.model = this.calendar.getToday();
   }
 
   onMakeSelect() {
@@ -76,6 +78,10 @@ export class JobNewComponent implements OnInit {
     if (make != undefined) {
       this.models = this.carService.getModels(make);
     }
+  }
+
+  getDateFromNgbDate(ngbDate: NgbDate): Date {
+    return new Date(ngbDate.year, ngbDate.month -1, ngbDate.day);
   }
 
   onCreate(): void {
@@ -109,7 +115,9 @@ export class JobNewComponent implements OnInit {
       idJob: null,
       description: this.carForm.controls.description.value,
       car: car,
-      status: status
+      status: status,
+      arrivalDate: this.getDateFromNgbDate(this.carForm.controls.arrivalDate.value),
+      toDeliverDate: this.getDateFromNgbDate(this.carForm.controls.toDeliverDate.value)
     }
 
     this.isValid = true;

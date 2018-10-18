@@ -32,6 +32,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { MenuComponent } from './menu/menu.component';
 import { JobTaskComponent } from './job-task/job-task.component';
 import { JobDetailsComponent } from './job-details/job-details.component';
+import { JobComponent } from './job/job.component';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,8 @@ import { JobDetailsComponent } from './job-details/job-details.component';
         JobNewComponent,
         MenuComponent,
         JobTaskComponent,
-        JobDetailsComponent
+        JobDetailsComponent,
+        JobComponent
     ],
     imports: [
         BrowserModule,

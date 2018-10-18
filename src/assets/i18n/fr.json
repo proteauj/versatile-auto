@@ -82,6 +82,9 @@
   "jobdetails.create.error": "Téléversement échoué",
   "jobdetails.delete.error": "Suppression échouée",
 
+  "job.title": "Jobs",
+  "job.loading": "Chargement des jobs...",
+
   "menu.login": "Connexion",
   "menu.job": "Job"
 }

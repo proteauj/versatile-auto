@@ -5,9 +5,7 @@ import { JobRessource, JobTaskRessource, StatusRessource, FileRessource } from '
 import { Observable } from "rxjs";
 import { CarService } from './car.service';
 import { UserService } from './user.service';
-import { DomSanitizer } from '@angular/platform-browser';
-
-
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +17,8 @@ export class JobService implements OnInit {
   protected STATUS_BASE_URL : string = 'http://localhost:8080/status';
   protected FILES_URL: string = '/files';
 
+  protected CAR_IMAGERY_URL: string = 'http://www.carimagery.com/api.asmx/GetImageUrl?searchTerm=';
+
   protected httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }),
     observe: 'response'
@@ -28,10 +28,6 @@ export class JobService implements OnInit {
               private sanitizer: DomSanitizer) { }
 
   ngOnInit() { }
-
-  getJobRessource(idJob: number): Observable<HttpResponse<JobRessource>> {
-    return this.http.get<JobRessource>(`${this.JOB_BASE_URL}/${idJob}`, { observe: 'response' });
-  }
 
   getStatusFromRessource(statusRess: StatusRessource): Status {
     var status: Status = {
@@ -47,7 +43,9 @@ export class JobService implements OnInit {
       idJob: jobRess.idJob,
       description: jobRess.description,
       car: this.carService.getCarFromRessource(jobRess.car),
-      status: this.getStatusFromRessource(jobRess.status)
+      status: this.getStatusFromRessource(jobRess.status),
+      arrivalDate: jobRess.arrivalDate,
+      toDeliverDate: jobRess.toDeliverDate
     };
 
     return job;
@@ -103,6 +101,34 @@ export class JobService implements OnInit {
     file.url = this.getUrl(this.base64ToArrayBuffer(file.file), file.type);
 
     return file;
+  }
+
+  getJobsRessource(): Observable<HttpResponse<JobRessource[]>> {
+    return this.http.get<JobRessource[]>(`${this.JOB_BASE_URL}`, { observe: 'response' });
+  }
+
+  async getJobs(): Promise<Job[]> {
+    var jobsRess: JobRessource[] = [];
+    var jobs: Job[] = [];
+
+    await new Promise(resolve => {
+      this.getJobsRessource().subscribe(resp => {
+        jobsRess = resp.body;
+
+        for (let jobRess of jobsRess) {
+          var job: Job = this.getJobFromRessource(jobRess);
+          jobs.push(job);
+        }
+        resolve();
+      });
+    });
+
+    console.log(jobs);
+    return jobs;
+  }
+
+  getJobRessource(idJob: number): Observable<HttpResponse<JobRessource>> {
+    return this.http.get<JobRessource>(`${this.JOB_BASE_URL}/${idJob}`, { observe: 'response' });
   }
 
   async getJob(idJob: number): Promise<Job> {

@@ -6,6 +6,8 @@ export class JobRessource {
   description: string;
   car: CarRessource;
   status: StatusRessource;
+  arrivalDate: Date;
+  toDeliverDate: Date;
 }
 
 export class StatusRessource {
