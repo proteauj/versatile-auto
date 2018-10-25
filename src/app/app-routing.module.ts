@@ -12,10 +12,11 @@ import { Job } from './models/job';
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'job', component: JobComponent},
+  { path: 'job', component: JobComponent },
   { path: 'job-new', component: JobNewComponent },
-  { path: 'job-task/:idJob', component: JobTaskComponent},
-  { path: 'job-details/:idJob', component: JobDetailsComponent}
+  { path: 'job-new/:idJob', component: JobNewComponent },
+  { path: 'job-task/:idJob', component: JobTaskComponent },
+  { path: 'job-details/:idJob', component: JobDetailsComponent }
 ];
 
 @NgModule({

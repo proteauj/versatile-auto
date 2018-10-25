@@ -3,6 +3,8 @@ import { Job } from '../models/job';
 import { JobService } from '../job.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
+import { SafeResourceUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job',
@@ -12,18 +14,15 @@ import { TranslateService } from '@ngx-translate/core';
 export class JobComponent implements OnInit {
 
   protected jobs: Promise<Job[]>;
-  protected images: Map<number, string> = new Map<number, string>();
 
   constructor(private messageService: MessageService, private translate: TranslateService,
-              private jobService: JobService) { }
+              private jobService: JobService, private router: Router) { }
 
   ngOnInit() {
     this.jobs = this.jobService.getJobs();
   }
 
-  getCarImages() {
-    for (let job of this.jobs) {
-
-    }
+  showJob(job: Job) {
+    this.router.navigate(['/job-new', job.idJob]);
   }
 }

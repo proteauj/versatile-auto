@@ -1,6 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Job, Task, Status, FileModel } from './models/job';
+import { Car } from './models/car';
 import { JobRessource, JobTaskRessource, StatusRessource, FileRessource } from './ressources/jobRessource';
 import { Observable } from "rxjs";
 import { CarService } from './car.service';
@@ -44,9 +45,14 @@ export class JobService implements OnInit {
       description: jobRess.description,
       car: this.carService.getCarFromRessource(jobRess.car),
       status: this.getStatusFromRessource(jobRess.status),
-      arrivalDate: jobRess.arrivalDate,
-      toDeliverDate: jobRess.toDeliverDate
+      arrivalDate: new Date(jobRess.arrivalDate),
+      toDeliverDate: new Date(jobRess.toDeliverDate),
+      carUrl: null;
     };
+
+    this.getCarImage(job.car).then(data => {
+       job.carUrl = data;
+    });
 
     return job;
   }
@@ -245,27 +251,72 @@ export class JobService implements OnInit {
   }
 
   async getFiles(idJob: number): Promise<FileModel[]> {
-      var fileRessArray: FileRessource[] = [];
-      var fileArray: FileModel[] = [];
+    var fileRessArray: FileRessource[] = [];
+    var fileArray: FileModel[] = [];
+
+    await new Promise(resolve => {
+      this.getFilesRessource(idJob).subscribe(resp => {
+        fileRessArray = resp.body;
+
+        for (let fileRess of fileRessArray) {
+          var file = this.getFileFromRessource(fileRess);
+          fileArray.push(file);
+        }
+        resolve();
+      });
+    });
+
+    console.log(fileArray);
+    return fileArray;
+  }
+
+  deleteFile(idFile: number): Observable<HttpResponse<Object>> {
+    var url = `${this.JOB_BASE_URL}${this.FILES_URL}/${idFile}`;
+    return this.http.delete(url, { observe: 'response' });
+  }
+
+  getCarImageryUrl(car: Car): Observable<string> {
+      var url = this.CAR_IMAGERY_URL + car.model.make.title + ' ' + car.model.title + ' ' + car.year;
+      return this.http.get<string>(url,
+        { headers: new HttpHeaders(), responseType:'text' });
+    }
+
+  getElement(response: string): string {
+    var parser = new DOMParser();
+    var xmlDoc = parser.parseFromString(response, "text/xml");
+    var node = xmlDoc.childNodes[0];
+    var url = node.innerHTML;
+    return url;
+
+    /*if (window.DOMParser) {
+      var parser = new DOMParser();
+      xmlDoc = parser.parseFromString(response, "text/xml");
+    } else { //IE
+      xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+      xmlDoc.async = false;
+      xmlDoc.loadXML(response);
+    }
+
+    return xmlDoc.childNodes[0].innerHtml;*/
+  }
+
+
+  async getCarImage(car: Car): Promise<SafeResourceUrl> {
+      var carImgUrl: SafeResourceUrl;
 
       await new Promise(resolve => {
-        this.getFilesRessource(idJob).subscribe(resp => {
-          fileRessArray = resp.body;
-
-          for (let fileRess of fileRessArray) {
-            var file = this.getFileFromRessource(fileRess);
-            fileArray.push(file);
-          }
+        this.getCarImageryUrl(car).subscribe(resp => {
+          var url: string = this.getElement(resp);
+          carImgUrl = this.getSafeUrl(url);
           resolve();
         });
       });
 
-      console.log(fileArray);
-      return fileArray;
+      return carImgUrl;
     }
 
-    deleteFile(idFile: number): Observable<HttpResponse<Object>> {
-      var url = `${this.JOB_BASE_URL}${this.FILES_URL}/${idFile}`;
-      return this.http.delete(url, { observe: 'response' });
+  getSafeUrl(url): SafeResourceUrl {
+      var fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+      return fileUrl;
     }
 }

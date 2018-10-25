@@ -5,7 +5,7 @@ import { CarService } from '../car.service';
 import { JobService } from '../job.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
@@ -24,6 +24,9 @@ export class JobNewComponent implements OnInit {
     protected carForm: FormGroup;
     protected isValid: boolean = false;
     status: Promise<Status[]>;
+    protected idJob: number;
+    protected job: Job;
+    protected isModify: boolean = false;
 
     faCalendarAlt = faCalendarAlt;
 
@@ -52,32 +55,98 @@ export class JobNewComponent implements OnInit {
   constructor(private carService: CarService, private messageService: MessageService,
               private translate: TranslateService, private jobService: JobService,
               private router: Router, private formBuilder: FormBuilder,
-              private calendar: NgbCalendar) { }
+              private calendar: NgbCalendar, private route: ActivatedRoute) { }
 
   // convenience getter for easy access to form fields
   get f() { return this.carForm.controls; }
 
   ngOnInit() {
+    this.setCarFormGroup(null);
+
+    const routeParams = this.route.snapshot.params;
+    var paramIdJob = routeParams.idJob;
+
+    if (paramIdJob) {
+      this.idJob = paramIdJob;
+      this.isModify = true;
+
+      this.jobService.getJob(this.idJob).then(data => {
+        this.job = data;
+        this.setCarFormGroup(this.job);
+      });
+    }
+
     this.makes = this.carService.getMakes();
     this.status = this.jobService.getStatus();
-
-    this.carForm = this.formBuilder.group({
-          description: ['', [Validators.required]],
-          year: ['', [Validators.required, Validators.pattern("[0-9]{4}")]],
-          make: [null, [Validators.required]],
-          model: [null, [Validators.required]],
-          vin: ['', []],
-          status: [null, [Validators.required]],
-          arrivalDate: [this.getTodayDate(), [Validators.required]],
-          toDeliverDate: [null, [Validators.required]],
-        });
   }
 
-  onMakeSelect() {
-    var make: Make = this.carForm.controls.make.value;
+  setCarFormGroup(job: Job) {
+      var description: string = '';
+      var year: number = null;
+      var make: Make = null;
+      var model: Model = null;
+      var vin: string = '';
+      var status: Status = null;
+      var arrivalDate: Date = this.getTodayDate();
+      var toDeliverDate: Date = null;
+
+      if (job != null) {
+        description = job.description;
+        year = job.car.year;
+        make = job.car.model.make;
+        this.selectMake(make);
+        model = job.car.model;
+        vin = job.car.vin;
+        status = job.status;
+
+        if (job.arrivalDate != null) {
+          arrivalDate = {
+            year: job.arrivalDate.getFullYear(),
+            month: job.arrivalDate.getMonth() + 1,
+            day: job.arrivalDate.getDay()
+          };
+        }
+
+        if (job.toDeliverDate != null) {
+          toDeliverDate = {
+            year: job.toDeliverDate.getFullYear(),
+            month: job.toDeliverDate.getMonth(),
+            day: job.toDeliverDate.getDay()
+          };
+        }
+
+        //modify state
+        //this.setButtonState(true);
+      } else {
+        //create state
+        //this.setButtonState(false);
+        this.creationTried = false;
+        this.isMakeSelected = false;
+      }
+
+      this.carForm = this.formBuilder.group({
+        description: [description, [Validators.required]],
+        year: [year, [Validators.required, Validators.pattern("[0-9]{4}")]],
+        make: [make, [Validators.required]],
+        model: [model, [Validators.required]],
+        vin: [vin, []],
+        status: [status, [Validators.required]],
+        arrivalDate: [arrivalDate, [Validators.required]],
+        toDeliverDate: [toDeliverDate, [Validators.required]]
+      });
+    }
+
+  selectMake(make: Make) {
     if (make != undefined) {
       this.models = this.carService.getModels(make);
     }
+    this.isMakeSelected = true;
+  }
+
+  onMakeSelect() {
+    this.carForm.controls['model'].setValue(null);
+    var make: Make = this.taskForm.controls.make.value;
+    this.selectMake(make);
   }
 
   getDateFromNgbDate(ngbDate: NgbDate): Date {

@@ -9,6 +9,7 @@ export class Job {
   status: Status;
   arrivalDate: Date;
   toDeliverDate: Date;
+  carUrl: SafeResourceUrl;
 }
 
 export class Status {

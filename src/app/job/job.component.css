@@ -1,0 +1,34 @@
+.img-job {
+  width: 50%;
+  height: 75px;
+  object-fit: cover;
+  //opacity: 0.6;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 15px;
+}
+
+.job-container .btn {
+  background: transparent;
+  border: 0;
+  width: 100%;
+  position: absolute;
+  height: 75px;
+  cursor: pointer;
+
+}
+
+.job-container {
+  height: 75px;
+}
+
+.job-title {
+  text-align: center;
+  position: absolute;
+  width: 98%;
+  vertical-align: middle;
+  font-weight: bolder;
+  color: white;
+  background: rgba(0, 0, 0, 1);
+}
