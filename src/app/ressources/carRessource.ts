@@ -1,7 +1,7 @@
 export class CarRessource {
   id: number;
   year: number;
-  vin: number;
+  vin: string;
   model: ModelRessource;
 }
 

@@ -37,7 +37,7 @@
   "jobnew.status.error": "Status required",
   "jobnew.arrivalDate.placeholder": "Arrival date",
   "jobnew.toDeliverDate.placeholder": "To deliver date",
-  "jobnew.submit": "Create",
+  "jobnew.submit": "Save",
   "jobnew.success": "New job succeeded",
   "jobnew.error": "New job failed",
 

@@ -47,7 +47,7 @@ export class JobService implements OnInit {
       status: this.getStatusFromRessource(jobRess.status),
       arrivalDate: new Date(jobRess.arrivalDate),
       toDeliverDate: new Date(jobRess.toDeliverDate),
-      carUrl: null;
+      carUrl: null
     };
 
     this.getCarImage(job.car).then(data => {
@@ -99,7 +99,7 @@ export class JobService implements OnInit {
       name: fileRess.name,
       type: fileRess.type,
       file: fileRess.file,
-      job: fileRess.job,
+      job: this.getJobFromRessource(fileRess.job),
       url: null,
       isImage: fileRess.type.includes('image')
     }
@@ -222,6 +222,13 @@ export class JobService implements OnInit {
       { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
   }
 
+  updateJob(job: Job): Observable<HttpResponse<JobRessource>> {
+     var body = JSON.stringify(job);
+     var url = `${this.JOB_BASE_URL}/${job.idJob}`;
+     return this.http.put<JobRessource>(url, body,
+       { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
+  }
+
   createTask(task: Task): Observable<HttpResponse<JobTaskRessource>> {
     var body = JSON.stringify(task);
     var url = `${this.JOB_BASE_URL}${this.TASK_URL}`;
@@ -287,17 +294,6 @@ export class JobService implements OnInit {
     var node = xmlDoc.childNodes[0];
     var url = node.innerHTML;
     return url;
-
-    /*if (window.DOMParser) {
-      var parser = new DOMParser();
-      xmlDoc = parser.parseFromString(response, "text/xml");
-    } else { //IE
-      xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-      xmlDoc.async = false;
-      xmlDoc.loadXML(response);
-    }
-
-    return xmlDoc.childNodes[0].innerHtml;*/
   }
 
 

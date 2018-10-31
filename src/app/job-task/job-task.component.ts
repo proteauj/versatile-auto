@@ -185,7 +185,7 @@ export class JobTaskComponent implements OnInit {
     } else {
       this.jobService.createTask(task).subscribe(data => {
         var taskCreated = data.body;
-        this.tasks.set(taskCreated.id, taskCreated);
+        this.tasks.set(taskCreated.id, this.jobService.getTaskFromRessource(taskCreated));
         this.messageService.showSuccess(this.translate.instant('jobtask.create.success'));
       }, error => {
         this.messageService.showError(this.translate.instant('jobtask.create.error'));

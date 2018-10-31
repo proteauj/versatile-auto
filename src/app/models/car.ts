@@ -1,7 +1,7 @@
 export class Car {
   id: number;
   year: number;
-  vin: number;
+  vin: string;
   model: Model;
 }
 

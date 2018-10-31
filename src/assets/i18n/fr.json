@@ -37,7 +37,7 @@
   "jobnew.status.error": "Statut obligatoire",
   "jobnew.arrivalDate.placeholder": "Date d'arrivée",
   "jobnew.toDeliverDate.placeholder": "Date livraison prévue",
-  "jobnew.submit": "Créer",
+  "jobnew.submit": "Enregistrer",
   "jobnew.success": "Nouvelle job réussie",
   "jobnew.error": "Nouvelle job échouée",
 

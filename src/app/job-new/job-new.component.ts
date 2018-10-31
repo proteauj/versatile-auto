@@ -25,9 +25,9 @@ export class JobNewComponent implements OnInit {
     protected isValid: boolean = false;
     status: Promise<Status[]>;
     protected idJob: number;
-    protected job: Job;
+    protected jobToModify: Job;
     protected isModify: boolean = false;
-
+    protected isMakeSelected: boolean = false;
     faCalendarAlt = faCalendarAlt;
 
 	job: Job = {
@@ -36,7 +36,8 @@ export class JobNewComponent implements OnInit {
       car: null,
       status: null,
       arrivalDate: null,
-      toDeliverDate: null
+      toDeliverDate: null,
+      carUrl: ''
 	};
 
 	car: Car = {
@@ -71,8 +72,8 @@ export class JobNewComponent implements OnInit {
       this.isModify = true;
 
       this.jobService.getJob(this.idJob).then(data => {
-        this.job = data;
-        this.setCarFormGroup(this.job);
+        this.jobToModify = data;
+        this.setCarFormGroup(this.jobToModify);
       });
     }
 
@@ -87,8 +88,8 @@ export class JobNewComponent implements OnInit {
       var model: Model = null;
       var vin: string = '';
       var status: Status = null;
-      var arrivalDate: Date = this.getTodayDate();
-      var toDeliverDate: Date = null;
+      var arrivalDate: NgbDateStruct = this.getTodayDate();
+      var toDeliverDate: NgbDateStruct = null;
 
       if (job != null) {
         description = job.description;
@@ -103,23 +104,19 @@ export class JobNewComponent implements OnInit {
           arrivalDate = {
             year: job.arrivalDate.getFullYear(),
             month: job.arrivalDate.getMonth() + 1,
-            day: job.arrivalDate.getDay()
+            day: job.arrivalDate.getDate()
           };
         }
 
         if (job.toDeliverDate != null) {
           toDeliverDate = {
             year: job.toDeliverDate.getFullYear(),
-            month: job.toDeliverDate.getMonth(),
-            day: job.toDeliverDate.getDay()
+            month: job.toDeliverDate.getMonth() + 1,
+            day: job.toDeliverDate.getDate()
           };
         }
-
-        //modify state
-        //this.setButtonState(true);
       } else {
         //create state
-        //this.setButtonState(false);
         this.creationTried = false;
         this.isMakeSelected = false;
       }
@@ -145,7 +142,7 @@ export class JobNewComponent implements OnInit {
 
   onMakeSelect() {
     this.carForm.controls['model'].setValue(null);
-    var make: Make = this.taskForm.controls.make.value;
+    var make: Make = this.carForm.controls.make.value;
     this.selectMake(make);
   }
 
@@ -153,7 +150,7 @@ export class JobNewComponent implements OnInit {
     return new Date(ngbDate.year, ngbDate.month -1, ngbDate.day);
   }
 
-  onCreate(): void {
+  onSubmit(): void {
     this.submitted = true;
 
     // stop here if form is invalid
@@ -161,43 +158,68 @@ export class JobNewComponent implements OnInit {
       return;
     }
 
+    var make: Make = {
+      id: this.carForm.controls.make.value.id,
+      code: this.carForm.controls.make.value.code,
+      title: this.carForm.controls.make.value.title
+    };
+
     var model: Model = {
       id: this.carForm.controls.model.value.id,
-      make: this.carForm.controls.make.value,
+      make: make,
       code: this.carForm.controls.model.value.code,
       title: this.carForm.controls.model.value.title
-    }
+    };
 
-    var car: Car = {
+    this.car = {
       id: null,
       year: this.carForm.controls.year.value,
       model: model,
       vin: this.carForm.controls.vin.value
-    }
+    };
 
     var status: Status = {
       idStatus: this.carForm.controls.status.value.idStatus,
       status: this.carForm.controls.status.value.status
-    }
+    };
 
-    var job: Job = {
+    this.job = {
       idJob: null,
       description: this.carForm.controls.description.value,
-      car: car,
+      car: this.car,
       status: status,
       arrivalDate: this.getDateFromNgbDate(this.carForm.controls.arrivalDate.value),
-      toDeliverDate: this.getDateFromNgbDate(this.carForm.controls.toDeliverDate.value)
-    }
+      toDeliverDate: this.getDateFromNgbDate(this.carForm.controls.toDeliverDate.value),
+      carUrl: ''
+    };
 
     this.isValid = true;
-    console.log(job);
+    console.log(this.job);
 
-    this.jobService.createJob(job).subscribe(data => {
-      console.log("POST Job is successful ", data);
-      this.messageService.showSuccess(this.translate.instant('jobnew.success'));
-      this.router.navigate(['/job-task', data.body.idJob]);
-    }, error => {
-      this.messageService.showError(this.translate.instant('jobnew.error'));
-    });
+    if (this.isModify) {
+      this.jobToModify.description = this.job.description;
+      this.jobToModify.car.year = this.job.car.year;
+      this.jobToModify.car.model = this.job.car.model;
+      this.jobToModify.car.vin = this.job.car.vin;
+      this.jobToModify.status = this.job.status;
+      this.jobToModify.arrivalDate = this.job.arrivalDate;
+      this.jobToModify.toDeliverDate = this.job.toDeliverDate;
+
+      this.jobService.updateJob(this.jobToModify).subscribe(data => {
+        console.log("PUT Job is successful ", data);
+        this.messageService.showSuccess(this.translate.instant('jobnew.success'));
+        this.router.navigate(['/job']);
+      }, error => {
+        this.messageService.showError(this.translate.instant('jobnew.error'));
+      });
+    } else {
+      this.jobService.createJob(this.job).subscribe(data => {
+        console.log("POST Job is successful ", data);
+        this.messageService.showSuccess(this.translate.instant('jobnew.success'));
+        this.router.navigate(['/job-task', data.body.idJob]);
+      }, error => {
+        this.messageService.showError(this.translate.instant('jobnew.error'));
+      });
+    }
   }
 }

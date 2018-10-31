@@ -9,11 +9,11 @@
 
       <div class="row">
         <div style="width:5%"></div>
-        <div style="width:90%">
+        <div style="width:90%" *ngIf="jobs">
           <div class="job-container" *ngFor="let job of jobs | async">
             <div class="job-title">{{job.car.model.title}} {{job.car.year}}</div>
             <button type="button" class="btn btn-primary" (click)="showJob(job)"></button>
-            <img class="img-job" [src]="job.carUrl"/>
+            <img class="img-job" [src]="job.carUrl" onError="this.src='./app/assets/audi.jpg';"/>
           </div>
         </div>
         <div style="width:5%"></div>
