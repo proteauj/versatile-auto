@@ -1,12 +1,10 @@
 .img-job {
-  width: 50%;
+  max-width: 145px;
   height: 75px;
   object-fit: cover;
-  //opacity: 0.6;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 15px;
 }
 
 .job-container .btn {
@@ -31,4 +29,30 @@
   font-weight: bolder;
   color: white;
   background: rgba(0, 0, 0, 1);
+}
+
+.my-image-list {
+  @include mdc-image-list-standard-columns(1) !important;
+}
+
+.my-image-list-item {
+  margin: 1px;
+  border: solid 0.5px rgba(0, 0, 0, 0.12);
+  background-color: rgba(0,0,0,0.2);
+}
+
+.mdc-image-list__supporting {
+  padding: 0px !important;
+}
+
+.img-container .btn {
+  position: absolute;
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }

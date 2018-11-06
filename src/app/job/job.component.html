@@ -10,14 +10,89 @@
       <div class="row">
         <div style="width:5%"></div>
         <div style="width:90%" *ngIf="jobs">
-          <div class="job-container" *ngFor="let job of jobs | async">
-            <div class="job-title">{{job.car.model.title}} {{job.car.year}}</div>
-            <button type="button" class="btn btn-primary" (click)="showJob(job)"></button>
-            <img class="img-job" [src]="job.carUrl" onError="this.src='./app/assets/audi.jpg';"/>
-          </div>
+
+          <!--<div class="job-container">-->
+
+            <!--<ul class="mdc-list mdc-list&#45;&#45;two-line" aria-orientation="vertical">-->
+              <!--<li class="mdc-list-item">-->
+                 <!--&lt;!&ndash;<span class="mdc-list&#45;&#45;avatar-list">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<img class="img-job" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                <!--<span class="mdc-list-item__text">-->
+
+                  <!--<span class="mdc-list-item__primary-text">-->
+                    <!--{{job.car.model.title}} {{job.car.year}}-->
+                  <!--</span>-->
+                  <!--<span class="mdc-list-item__secondary-text">Second-line text</span>-->
+                <!--</span>-->
+              <!--</li>-->
+            <!--</ul>-->
+
+          <ul class="mdc-image-list my-image-list " >
+            <div *ngFor="let job of jobs | async">
+              <li class="mdc-image-list__item my-image-list-item">
+                <div class="mdc-image-list__supporting">
+                  <span class="mdc-image-list__label">{{job.car.model.title}} {{job.car.year}}</span>
+                </div>
+                <div class="img-container">
+                  <button type="button" class="btn btn-primary" (click)="showJob(job)"></button>
+                  <img class="mdc-image-list__image img-job" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>
+                </div>
+                <div>
+                  <mdc-card-actions>
+                    <mdc-card-action-icons>
+                      <button mdcIconButton (click)="showSummary(job)">
+                        <mdc-icon>description</mdc-icon>
+                      </button>
+                      <button mdcIconButton (click)="showTask(job)">
+                        <mdc-icon>toc</mdc-icon>
+                      </button>
+                      <button mdcIconButton (click)="showDetails(job)">
+                        <mdc-icon>input</mdc-icon>
+                      </button>
+                    </mdc-card-action-icons>
+                  </mdc-card-actions>
+                </div>
+              </li>
+            </div>
+          </ul>
+
+            <!--<div class="job-title">{{job.car.model.title}} {{job.car.year}}</div>-->
+            <!--<button type="button" class="btn btn-primary" (click)="showJob(job)"></button>-->
+            <!--<img class="img-job" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>-->
+
+          <!--</div>-->
+
+          <!--<mdc-card *ngFor="let job of jobs | async">-->
+            <!--<mdc-card-primary-action (click)="showJob(job)">-->
+              <!--<mdc-card-media class="demo-card" square>-->
+                <!--<mdc-card-media-content class="demo-card__media-content&#45;&#45;with-title">-->
+                  <!--<div class="demo-card__media-title" mdcSubtitle2>{{job.car.model.title}} {{job.car.year}}</div>-->
+                  <!--<img class="mdc-image-list__image img-job" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>-->
+                <!--</mdc-card-media-content>-->
+              <!--</mdc-card-media>-->
+            <!--</mdc-card-primary-action>-->
+            <!--<mdc-card-actions>-->
+              <!--<mdc-card-action-icons>-->
+                <!--<button mdcIconButton (click)="showSummary(job)">-->
+                  <!--<mdc-icon>description</mdc-icon>-->
+                <!--</button>-->
+                <!--<button mdcIconButton (click)="showTask(job)">-->
+                  <!--<mdc-icon>toc</mdc-icon>-->
+                <!--</button>-->
+                <!--<button mdcIconButton (click)="showDetails(job)">-->
+                  <!--<mdc-icon>input</mdc-icon>-->
+                <!--</button>-->
+              <!--</mdc-card-action-icons>-->
+            <!--</mdc-card-actions>-->
+          <!--</mdc-card>-->
+
         </div>
         <div style="width:5%"></div>
       </div>
     </div>
   </div>
 </div>
+
+<!--mdc-list-item__graphic	Optional, the first tile in the row (in LTR languages, the first column of the list item). Typically an icon or image.-->
+<!--mdc-list-item__meta	Optional, the last tile in the row (in LTR languages, the last column of the list item). Typically small text, icon. or image.-->

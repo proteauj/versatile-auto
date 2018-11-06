@@ -25,4 +25,16 @@ export class JobComponent implements OnInit {
   showJob(job: Job) {
     this.router.navigate(['/job-new', job.idJob]);
   }
+
+  showSummary(job: Job) {
+ //   this.router.navigate(['/job-new', job.idJob]);
+  }
+
+  showTask(job: Job) {
+    this.router.navigate(['/job-task', job.idJob]);
+  }
+
+  showDetails(job: Job) {
+    this.router.navigate(['/job-details', job.idJob]);
+  }
 }

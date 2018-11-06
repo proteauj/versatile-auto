@@ -285,13 +285,13 @@ export class JobService implements OnInit {
   getCarImageryUrl(car: Car): Observable<string> {
       var url = this.CAR_IMAGERY_URL + car.model.make.title + ' ' + car.model.title + ' ' + car.year;
       return this.http.get<string>(url,
-        { headers: new HttpHeaders(), responseType:'text' });
+        { headers: new HttpHeaders(), responseType:'text' as 'json' });
     }
 
   getElement(response: string): string {
     var parser = new DOMParser();
     var xmlDoc = parser.parseFromString(response, "text/xml");
-    var node = xmlDoc.childNodes[0];
+    var node = <HTMLElement> xmlDoc.childNodes[0];
     var url = node.innerHTML;
     return url;
   }

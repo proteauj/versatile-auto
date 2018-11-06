@@ -33,6 +33,7 @@ import { MenuComponent } from './menu/menu.component';
 import { JobTaskComponent } from './job-task/job-task.component';
 import { JobDetailsComponent } from './job-details/job-details.component';
 import { JobComponent } from './job/job.component';
+import { AppMaterialModule } from './material.module';
 
 @NgModule({
     declarations: [
@@ -64,7 +65,8 @@ import { JobComponent } from './job/job.component';
         MDBBootstrapModule.forRoot(),
         CommonModule,
         BrowserAnimationsModule, // required animations module
-        ToastrModule.forRoot() // ToastrModule added
+        ToastrModule.forRoot(), // ToastrModule added
+        AppMaterialModule
     ],
     schemas: [ NO_ERRORS_SCHEMA ],
     providers: [],
