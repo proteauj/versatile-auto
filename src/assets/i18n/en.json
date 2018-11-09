@@ -81,9 +81,12 @@
   "jobdetails.create.success": "Upload succeeded",
   "jobdetails.create.error": "Upload failed",
   "jobdetails.delete.error": "Delete failed",
+  "jobdetails.preview.title": "Image preview",
 
   "job.title": "Jobs",
   "job.loading": "Loading jobs...",
+  "job.summary.title": "Job summary",
+  "job.status.placeholder": "Status",
 
   "menu.login": "Log in",
   "menu.job": "Job"

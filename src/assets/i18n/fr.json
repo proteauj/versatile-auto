@@ -81,9 +81,12 @@
   "jobdetails.create.success": "Téléversement réussi",
   "jobdetails.create.error": "Téléversement échoué",
   "jobdetails.delete.error": "Suppression échouée",
+  "jobdetails.preview.title": "Prévisualiser images",
 
   "job.title": "Jobs",
   "job.loading": "Chargement des jobs...",
+  "job.summary.title": "Sommaire",
+  "job.status.placeholder": "Statut",
 
   "menu.login": "Connexion",
   "menu.job": "Job"

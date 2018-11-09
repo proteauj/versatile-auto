@@ -1,17 +1,5 @@
 <div class="jumbotron content">
   <div class="container">
-    <!--<carousel id="previewContainer" class="preview-container">-->
-      <!--<ng-container *ngFor="let file of imageFiles;">-->
-        <!--<ng-container *carouselItem>-->
-          <!--<div class="item">-->
-            <!--<img [src]="'data:image/jpg;base64,'+file.file"/>-->
-          <!--</div>-->
-        <!--</ng-container>-->
-      <!--</ng-container>-->
-    <!--</carousel>-->
-
-
-
     <div class="row">
       <div class="col-md-4"></div>
       <div class="col-md-4">
@@ -35,11 +23,9 @@
       <div style="width:5%"></div>
     </div>
 
-
-
     <ng-template #content let-modal>
       <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+        <h4 class="modal-title" id="modal-basic-title">{{ 'jobdetails.preview.title' | translate }}</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -54,7 +40,6 @@
       <div class="modal-footer">
       </div>
     </ng-template>
-
 
     <div class="row">
       <div style="width:100%">

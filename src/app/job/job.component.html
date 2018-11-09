@@ -10,24 +10,6 @@
       <div class="row">
         <div style="width:5%"></div>
         <div style="width:90%" *ngIf="jobs">
-
-          <!--<div class="job-container">-->
-
-            <!--<ul class="mdc-list mdc-list&#45;&#45;two-line" aria-orientation="vertical">-->
-              <!--<li class="mdc-list-item">-->
-                 <!--&lt;!&ndash;<span class="mdc-list&#45;&#45;avatar-list">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<img class="img-job" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>&ndash;&gt;-->
-                  <!--&lt;!&ndash;</span>&ndash;&gt;-->
-                <!--<span class="mdc-list-item__text">-->
-
-                  <!--<span class="mdc-list-item__primary-text">-->
-                    <!--{{job.car.model.title}} {{job.car.year}}-->
-                  <!--</span>-->
-                  <!--<span class="mdc-list-item__secondary-text">Second-line text</span>-->
-                <!--</span>-->
-              <!--</li>-->
-            <!--</ul>-->
-
           <ul class="mdc-image-list my-image-list " >
             <div *ngFor="let job of jobs | async">
               <li class="mdc-image-list__item my-image-list-item">
@@ -41,9 +23,12 @@
                 <div>
                   <mdc-card-actions>
                     <mdc-card-action-icons>
-                      <button mdcIconButton (click)="showSummary(job)">
-                        <mdc-icon>description</mdc-icon>
-                      </button>
+                      <!--<div mdcMenuSurfaceAnchor #menuSurfaceAnchor>-->
+                        <!--<button mdcIconButton mdc-button raised (click)="menuSurface.open = !menuSurface.open">-->
+                      <button mdcIconButton (click)="showSummary(job, content)">
+                          <mdc-icon>description</mdc-icon>
+                        </button>
+                      <!--</div>-->
                       <button mdcIconButton (click)="showTask(job)">
                         <mdc-icon>toc</mdc-icon>
                       </button>
@@ -57,35 +42,94 @@
             </div>
           </ul>
 
-            <!--<div class="job-title">{{job.car.model.title}} {{job.car.year}}</div>-->
-            <!--<button type="button" class="btn btn-primary" (click)="showJob(job)"></button>-->
-            <!--<img class="img-job" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>-->
 
-          <!--</div>-->
+          <!--<mdc-menu-surface #menuSurface class="demo-menu-surface&#45;&#45;one"-->
+                            <!--[hoistToBody]="false" [anchorElement]="menuSurfaceAnchor"-->
+                            <!--[anchorCorner]="topStart" [quickOpen]="false"-->
+                            <!--[fixed]="false" [anchorMargin]="{top: 0, bottom: 0, left: 0, right: 0}">-->
+            <!--<mdc-list #twoline twoLine>-->
+              <!--<mdc-list-item>-->
+                <!--<mdc-list-item-text [secondaryText]="job.car.vin">-->
+                  <!--{{job.car.model.make.title}} {{job.car.model.title}} {{job.car.year}}-->
+                <!--</mdc-list-item-text>-->
+              <!--</mdc-list-item>-->
+              <!--<mdc-list-item>{{job.status.status}}</mdc-list-item>-->
+              <!--<mdc-list-item *ngFor="task of tasks.get(job.idJob)">-->
+              <!--<mdc-list-item-text [secondaryText]="task.user.name">-->
+                <!--{{task.name}} {{task.status.status}}-->
+              <!--</mdc-list-item-text>-->
+            <!--</mdc-list-item>-->
+            <!--</mdc-list>-->
+          <!--</mdc-menu-surface>-->
 
-          <!--<mdc-card *ngFor="let job of jobs | async">-->
-            <!--<mdc-card-primary-action (click)="showJob(job)">-->
-              <!--<mdc-card-media class="demo-card" square>-->
-                <!--<mdc-card-media-content class="demo-card__media-content&#45;&#45;with-title">-->
-                  <!--<div class="demo-card__media-title" mdcSubtitle2>{{job.car.model.title}} {{job.car.year}}</div>-->
-                  <!--<img class="mdc-image-list__image img-job" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>-->
-                <!--</mdc-card-media-content>-->
-              <!--</mdc-card-media>-->
-            <!--</mdc-card-primary-action>-->
-            <!--<mdc-card-actions>-->
-              <!--<mdc-card-action-icons>-->
-                <!--<button mdcIconButton (click)="showSummary(job)">-->
-                  <!--<mdc-icon>description</mdc-icon>-->
-                <!--</button>-->
-                <!--<button mdcIconButton (click)="showTask(job)">-->
-                  <!--<mdc-icon>toc</mdc-icon>-->
-                <!--</button>-->
-                <!--<button mdcIconButton (click)="showDetails(job)">-->
-                  <!--<mdc-icon>input</mdc-icon>-->
-                <!--</button>-->
-              <!--</mdc-card-action-icons>-->
-            <!--</mdc-card-actions>-->
-          <!--</mdc-card>-->
+
+          <ng-template #content let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">{{ 'job.summary.title' | translate }}</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div style="width:65%">
+                  <mdc-list #twoline twoLine>
+                    <mdc-list-item>
+                      <mdc-list-item-text [secondaryText]="selectedJob.car.vin">
+                      {{selectedJob.car.model.make.title}} {{selectedJob.car.model.title}} {{selectedJob.car.year}}
+                      </mdc-list-item-text>
+                    </mdc-list-item>
+                  </mdc-list>
+                </div>
+                <div style="width:35%">
+                  <div class="mdc-select " #jobStatus>
+                    <i class="mdc-select__dropdown-icon"></i>
+                    <select id="shaped_outlined" class="mdc-select__native-control"
+                            [(ngModel)]="selectedJob.status.idStatus">
+                        <!--TODO: {{selectedJob.status.status}}-->
+                        <option *ngFor="let status of statusArr | async" [ngValue]="status.idStatus">
+                          {{ status.status }}
+                        </option>
+                    </select>
+                    <label for="shaped_outlined" class="mdc-floating-label mdc-floating-label--float-above">
+                      {{'job.status.placeholder' | translate}}
+                    </label>
+                    <!--<div class="mdc-notched-outline">-->
+                      <!--<svg>-->
+                        <!--<path class="mdc-notched-outline__path"></path>-->
+                      <!--</svg>-->
+                    <!--</div>-->
+                    <!--<div class="mdc-notched-outline__idle"></div>-->
+                    <div class="mdc-line-ripple"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" *ngFor="let task of tasks">
+                <div style="width:75%">
+                  <mdc-list #twoline twoLine>
+                    <mdc-list-item *ngIf="task.user">
+                      <!--TODO: elapsedTime/totalTime-->
+                      <mdc-list-item-text [secondaryText]="task.user.name">
+                      {{task.name}} {{task.time}}
+                      </mdc-list-item-text>
+                    </mdc-list-item>
+                    <mdc-list-item *ngIf="!task.user" class="one-line-item">
+                      {{task.name}} {{task.time}}
+                    </mdc-list-item>
+                  </mdc-list>
+                </div>
+                <div style="width:25%">
+                  {{task.status.status}}
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </ng-template>
+
+
+
 
         </div>
         <div style="width:5%"></div>
@@ -94,5 +138,3 @@
   </div>
 </div>
 
-<!--mdc-list-item__graphic	Optional, the first tile in the row (in LTR languages, the first column of the list item). Typically an icon or image.-->
-<!--mdc-list-item__meta	Optional, the last tile in the row (in LTR languages, the last column of the list item). Typically small text, icon. or image.-->

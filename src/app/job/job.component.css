@@ -56,3 +56,11 @@
   width: 100%;
   height: 100%;
 }
+
+.mdc-list-item {
+  padding: 0px 5px !important;
+}
+
+.one-line-item {
+  height: 30px !important;
+}
