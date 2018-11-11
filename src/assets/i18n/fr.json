@@ -87,6 +87,9 @@
   "job.loading": "Chargement des jobs...",
   "job.summary.title": "Sommaire",
   "job.status.placeholder": "Statut",
+  "job.submit": "Enregistrer",
+  "job.success": "Enregistrement réussi",
+  "job.error": "Enregistrement échoué",
 
   "menu.login": "Connexion",
   "menu.job": "Job"

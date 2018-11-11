@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Job, Task } from '../models/job';
+import { Job, Task, Status } from '../models/job';
 import { JobService } from '../job.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs/Observable';
+import { forkJoin } from "rxjs/observable/forkJoin";
 
 @Component({
   selector: 'app-job',
@@ -20,6 +22,7 @@ export class JobComponent implements OnInit {
   protected selectedJob: Job;
   closeResult: string;
   protected statusArr: Promise<Status[]>;
+  protected modalSummary;
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private router: Router, private modalService: NgbModal) { }
@@ -58,7 +61,8 @@ export class JobComponent implements OnInit {
       this.tasks.push(task);
     }
 
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true }).result.then((result) => {
+    this.modalSummary = this.modalService.open(content);
+    this.modalSummary.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -74,4 +78,63 @@ export class JobComponent implements OnInit {
       return  `with: ${reason}`;
     }
   }
+
+  onSubmit(selectedJob:Job, tasks:Task[]) {
+    var observables = [];
+    observables.push(this.jobService.updateJob(this.selectedJob));
+    for (let task of tasks) {
+      observables.push(this.jobService.updateTask(task));
+    }
+
+    forkJoin(observables).subscribe(results => {
+      this.messageService.showSuccess(this.translate.instant('job.success'));
+      this.modalSummary.close();
+      this.router.navigate(['/job']);
+    }, error => {
+      this.messageService.showError(this.translate.instant('job.error'));
+    });
+
+/*    this.jobService.updateJob(this.selectedJob).subscribe(data => {
+      observables.push(data);
+      console.log("PUT Job is successful ", data);
+    }
+
+    for (let task of tasks) {
+      this.jobService.updateTask(task).subscribe(data => {
+        observables.push(data);
+        console.log("PUT Task is successful ", data);
+      }
+    }
+
+    Observable.concat(...observables).subscribe(() => {
+      this.messageService.showSuccess(this.translate.instant('job.success'));
+      this.modalService.close();
+      this.router.navigate(['/job']);
+    }, error => {
+      this.messageService.showError(this.translate.instant('job.error'));
+    });
+  */
+
+  }
+
+  getStatusFromEventOnChange(event: Event): Status {
+    let selectedOptions = event.target['options'];
+    let selectedIndex = selectedOptions.selectedIndex;
+    let idStatusSelected:number = +selectedOptions[selectedIndex].attributes['ng-reflect-ng-value'].value;
+    let statusSelected:string = selectedOptions[selectedIndex].text;
+
+    let status:Status = {
+      idStatus: idStatusSelected,
+      status: statusSelected
+    };
+    return status;
+  }
+
+  setSelectedStatusTask(task:Task, event: Event) {
+    task.status = this.getStatusFromEventOnChange(event);
+  }
+
+  setSelectedStatusJob(job:Job, event: Event) {
+      job.status = this.getStatusFromEventOnChange(event);
+    }
 }

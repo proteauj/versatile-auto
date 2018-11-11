@@ -87,6 +87,9 @@
   "job.loading": "Loading jobs...",
   "job.summary.title": "Job summary",
   "job.status.placeholder": "Status",
+  "job.submit": "Save",
+  "job.success": "Save succeeded",
+  "job.error": "Save failed",
 
   "menu.login": "Log in",
   "menu.job": "Job"

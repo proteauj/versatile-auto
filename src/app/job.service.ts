@@ -296,7 +296,6 @@ export class JobService implements OnInit {
     return url;
   }
 
-
   async getCarImage(car: Car): Promise<SafeResourceUrl> {
       var carImgUrl: SafeResourceUrl;
 
