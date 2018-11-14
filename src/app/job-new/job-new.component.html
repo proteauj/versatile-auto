@@ -23,106 +23,137 @@
                 <div *ngIf="f.description.errors.required">{{ 'jobnew.description.error' | translate  }}</div>
               </div>
             </div>
-            <div class="form-group">
-              <label for="jobnewYear" class="sr-only">{{ 'jobnew.year.label' | translate  }}</label>
-              <input type="number" formControlName="year" class="form-control" required
-                     [ngClass]="{ 'is-invalid': submitted && f.year.errors }" id="jobnewYear"
-                     placeholder="{{ 'jobnew.year.placeholder' | translate  }}"/>
+            <!--<div class="form-group">-->
+              <!--<label for="jobnewYear" class="sr-only">{{ 'jobnew.year.label' | translate  }}</label>-->
+              <!--<input type="number" formControlName="year" class="form-control" required-->
+                     <!--[ngClass]="{ 'is-invalid': submitted && f.year.errors }" id="jobnewYear"-->
+                     <!--placeholder="{{ 'jobnew.year.placeholder' | translate  }}"/>-->
 
-              <div *ngIf="submitted && f.year.errors" class="invalid-feedback">
-                <div *ngIf="f.year.errors.required">{{ 'jobnew.year.error' | translate  }}</div>
-                <div *ngIf="f.year.errors.pattern">{{ 'jobnew.year.error.format' | translate  }}</div>
-              </div>
+              <!--<div *ngIf="submitted && f.year.errors" class="invalid-feedback">-->
+                <!--<div *ngIf="f.year.errors.required">{{ 'jobnew.year.error' | translate  }}</div>-->
+                <!--<div *ngIf="f.year.errors.pattern">{{ 'jobnew.year.error.format' | translate  }}</div>-->
+              <!--</div>-->
 
-            </div>
-            <div class="form-group">
-              <label for="jobnewMake" class="sr-only">{{ 'jobnew.make.label' | translate  }}</label>
-              <div *ngIf="makes | async; let makes; else loadingMake">
-                <div class="form-group">
-                  <ng-select formControlName="make" (change)="onMakeSelect(selectedMake)"
-                             name="make" [items]="makes" required
-                             [placeholder]="'jobnew.make.placeholder' | translate"
-                             bindLabel="title" [ngClass]="{ 'is-invalid': submitted && f.make.errors }">
-                  </ng-select>
-                </div>
-                <div *ngIf="submitted && f.make.errors" class="invalid-feedback">
-                  <div *ngIf="f.make.errors.required">{{ 'jobnew.make.error' | translate  }}</div>
-                </div>
-              </div>
-              <ng-template #loadingMake>{{ 'jobnew.make.loading' | translate  }}</ng-template>
-            </div>
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<label for="jobnewMake" class="sr-only">{{ 'jobnew.make.label' | translate  }}</label>-->
+              <!--<div *ngIf="makes | async; let makes; else loadingMake">-->
+                <!--<div class="form-group">-->
+                  <!--<ng-select formControlName="make" (change)="onMakeSelect(selectedMake)"-->
+                             <!--name="make" [items]="makes" required-->
+                             <!--[placeholder]="'jobnew.make.placeholder' | translate"-->
+                             <!--bindLabel="title" [ngClass]="{ 'is-invalid': submitted && f.make.errors }">-->
+                  <!--</ng-select>-->
+                <!--</div>-->
+                <!--<div *ngIf="submitted && f.make.errors" class="invalid-feedback">-->
+                  <!--<div *ngIf="f.make.errors.required">{{ 'jobnew.make.error' | translate  }}</div>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<ng-template #loadingMake>{{ 'jobnew.make.loading' | translate  }}</ng-template>-->
+            <!--</div>-->
 
-            <div class="form-group">
-              <label for="jobnewModel" class="sr-only">{{ 'jobnew.model.label' | translate  }}</label>
-              <div *ngIf="models | async; let models; else loadingModel">
-                <div class="form-group">
-                  <ng-select formControlName="model"
-                             name="model" [items]="models" required
-                             [placeholder]="'jobnew.model.placeholder' | translate"
-                             bindLabel="title" [ngClass]="{ 'is-invalid': submitted && f.model.errors }">
-                  </ng-select>
-                </div>
-                <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
-                  <div *ngIf="f.model.errors.required">{{ 'jobnew.model.error' | translate  }}</div>
-                </div>
-              </div>
-              <ng-template #loadingModel>{{ 'jobnew.model.loading' | translate  }}</ng-template>
-            </div>
-
-            <div class="form-group">
-              <label for="jobnewVin" class="sr-only">{{ 'jobnew.vin.label' | translate  }}</label>
-              <input type="text" formControlName="vin" class="form-control" id="jobnewVin"
-                     placeholder="{{ 'jobnew.vin.placeholder' | translate  }}"/>
-            </div>
+            <!--<div class="form-group">-->
+              <!--<label for="jobnewModel" class="sr-only">{{ 'jobnew.model.label' | translate  }}</label>-->
+              <!--<div *ngIf="models | async; let models; else loadingModel">-->
+                <!--<div class="form-group">-->
+                  <!--<ng-select formControlName="model"-->
+                             <!--name="model" [items]="models" required-->
+                             <!--[placeholder]="'jobnew.model.placeholder' | translate"-->
+                             <!--bindLabel="title" [ngClass]="{ 'is-invalid': submitted && f.model.errors }">-->
+                  <!--</ng-select>-->
+                <!--</div>-->
+                <!--<div *ngIf="submitted && f.model.errors" class="invalid-feedback">-->
+                  <!--<div *ngIf="f.model.errors.required">{{ 'jobnew.model.error' | translate  }}</div>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<ng-template #loadingModel>{{ 'jobnew.model.loading' | translate  }}</ng-template>-->
+            <!--</div>-->
 
             <div class="form-group">
-              <label for="jobnewStatus" class="sr-only">{{ 'jobnew.status.label' | translate  }}</label>
-              <div *ngIf="status | async; let status; else loadingStatus">
-                <div class="form-group">
-                  <ng-select formControlName="status" name="status" [items]="status" required
-                             [placeholder]="'jobnew.status.placeholder' | translate"
-                             bindLabel="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
-                  </ng-select>
+              <!--<label for="jobnewVin" class="sr-only">{{ 'jobnew.vin.label' | translate  }}</label>-->
+              <!--<input type="text" formControlName="vin" class="form-control" id="jobnewVin"-->
+                     <!--placeholder="{{ 'jobnew.vin.placeholder' | translate  }}"/>-->
+
+
+              <mdc-form-field>
+                <!--<mdc-text-field dense class="mdc-text-field__bottom-line" #jobnewVin formControlName="vin"-->
+                                <!--label="{{ 'jobnew.vin.label' | translate  }}" outlined-->
+                                <!--[helperText]="demoformHelper" required minlength=17></mdc-text-field>-->
+                  <!--<mdc-text-field-helper-text *ngIf="f.vin.touched && f.vin.errors"-->
+                                              <!--#demoformHelper="mdcHelperText" validation>-->
+                    <!--<span *ngIf="f.vin.errors.required">{{ 'jobnew.vin.required.error' | translate  }}</span>-->
+                    <!--<span *ngIf="f.vin.errors.minlength">{{ 'jobnew.vin.length.error' | translate  }}</span>-->
+                  <!--</mdc-text-field-helper-text>-->
+
+
+                <div class="mdc-text-field">
+                  <input formControlName="vin" type="text" id="vin" class="mdc-text-field__input"
+                         required minlength=17 (change)="getCarFromVin()">
+                  <label for="vin" class="mdc-floating-label">{{ 'jobnew.vin.label' | translate  }}</label>
+                  <div class="mdc-line-ripple"></div>
                 </div>
-                <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
-                  <div *ngIf="f.status.errors.required">{{ 'jobnew.status.error' | translate  }}</div>
+              </mdc-form-field>
+              <div class="mdc-card">
+                <div class="mdc-card__media" *ngIf="vinCar | async">
+                  <img class="mdc-image-list__image img-job" [src]="(vinCar | async)?.imageUrl"/>
                 </div>
-              </div>
-              <ng-template #loadingStatus>{{ 'jobnew.status.loading' | translate  }}</ng-template>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd" id="arrivalDate"
-                       name="dp" formControlName="arrivalDate" ngbDatepicker #d1="ngbDatepicker"
-                       placeholder="{{ 'jobnew.arrivalDate.placeholder' | translate  }}">
-                <div class="input-group-append">
-                  <button class="btn btn-calendar" (click)="d1.toggle()" type="button">
-                    <fa-icon [icon]="faCalendarAlt" class="fa-sm"></fa-icon>
-                  </button>
+                <div class="demo-card__primary mdc-typography--headline6">
+                  {{(vinCar | async)?.model.make.title}} {{(vinCar | async)?.model.title}}
                 </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <input class="form-control" placeholder="yyyy-mm-dd" id="toDeliverDate"
-                       name="dp" formControlName="toDeliverDate" ngbDatepicker #d2="ngbDatepicker"
-                       placeholder="{{ 'jobnew.toDeliverDate.placeholder' | translate  }}">
-                <div class="input-group-append">
-                  <button class="btn btn-calendar" (click)="d2.toggle()" type="button">
-                    <fa-icon [icon]="faCalendarAlt" class="fa-sm"></fa-icon>
-                  </button>
+                <div class="demo-card__secondary mdc-typography--subtitle2">
+                  {{(vinCar | async)?.year}} {{(vinCar | async)?.vin}}
                 </div>
               </div>
             </div>
-          </form>
+
+              <div class="form-group">
+                <label for="jobnewStatus" class="sr-only">{{ 'jobnew.status.label' | translate  }}</label>
+                <div *ngIf="status | async; let status; else loadingStatus">
+                  <div class="form-group">
+                    <ng-select formControlName="status" name="status" [items]="status" required
+                               [placeholder]="'jobnew.status.placeholder' | translate"
+                               bindLabel="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
+                    </ng-select>
+                  </div>
+                  <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
+                    <div *ngIf="f.status.errors.required">{{ 'jobnew.status.error' | translate  }}</div>
+                  </div>
+                </div>
+                <ng-template #loadingStatus>{{ 'jobnew.status.loading' | translate  }}</ng-template>
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd" id="arrivalDate"
+                         name="dp" formControlName="arrivalDate" ngbDatepicker #d1="ngbDatepicker"
+                         placeholder="{{ 'jobnew.arrivalDate.placeholder' | translate  }}">
+                  <div class="input-group-append">
+                    <button class="btn btn-calendar" (click)="d1.toggle()" type="button">
+                      <fa-icon [icon]="faCalendarAlt" class="fa-sm"></fa-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" placeholder="yyyy-mm-dd" id="toDeliverDate"
+                         name="dp" formControlName="toDeliverDate" ngbDatepicker #d2="ngbDatepicker"
+                         placeholder="{{ 'jobnew.toDeliverDate.placeholder' | translate  }}">
+                  <div class="input-group-append">
+                    <button class="btn btn-calendar" (click)="d2.toggle()" type="button">
+                      <fa-icon [icon]="faCalendarAlt" class="fa-sm"></fa-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="form text-left">
+            <button (click)="onSubmit(job)" type="submit" class="mdc-button mdc-button--raised ">
+              {{ 'jobnew.submit' | translate}}
+            </button>
+          </div>
         </div>
-        <div class="form text-left">
-          <button (click)="onSubmit(job)" type="submit" class="mdc-button mdc-button--raised ">
-            {{ 'jobnew.submit' | translate}}
-          </button>
-        </div>
+        <div class="col-md-4"></div>
       </div>
-      <div class="col-md-4"></div>
     </div>
   </div>
-</div>

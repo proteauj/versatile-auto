@@ -8,8 +8,6 @@ import { ToastrService } from 'ngx-toastr';
 export class MessageService {
   constructor(private toastr: ToastrService) { }
 
-  //messages: string[] = [];
-
   showSuccess(message: string) {
     this.toastr.success(message, '', {
       timeOut: 3000
@@ -21,14 +19,4 @@ export class MessageService {
       timeOut: 3000
     });
   }
-
-  /*add(message: string) {
-    $timeout(function() {
-      this.messages.push(message);
-    }, 300);
-  }
-
-  clear() {
-    this.messages = [];
-  }*/
 }

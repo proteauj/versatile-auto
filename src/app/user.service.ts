@@ -3,17 +3,14 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { User, Role, Type, Employee } from './models/user';
 import { UserRessource, LogInRessource, RoleRessource, TypeRessource } from './ressources/userRessource';
-import { Observable } from "rxjs"
+import { Observable } from "rxjs";
+import { AppConstants} from './app.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService implements OnInit {
 
-  protected BASE_URL : string = 'http://localhost:8080/users'
-  protected emailParam : string = '?email=';
-  protected urlLogIns : string = '/logIns';
-  protected urlRoles : string = '/roles';
   protected user;
   protected logIn;
 
@@ -42,16 +39,16 @@ export class UserService implements OnInit {
 
     // Rest Items Service: Read all REST Items
     getUser(email: string): Observable<HttpResponse<UserRessource>> {
-      return this.http.get<UserRessource>(`${this.BASE_URL}${this.emailParam}${email}`, { observe: 'response' });
+      return this.http.get<UserRessource>(`${AppConstants.USERS_URL}${AppConstants.EMAIL_PARAM}${email}`, { observe: 'response' });
     }
 
     // Rest Items Service: Read all REST Items
     getLogInUser(idUser: number): Observable<HttpResponse<LogInRessource>> {
-      return this.http.get<LogInRessource>(`${this.BASE_URL}/${idUser}${this.urlLogIns}`, { observe: 'response' });
+      return this.http.get<LogInRessource>(`${AppConstants.USERS_URL}/${idUser}${AppConstants.LOG_INS_URL}`, { observe: 'response' });
     }
 
     getRoleRessource(): Observable<HttpResponse<RoleRessource[]>> {
-      return this.http.get<RoleRessource[]>(`${this.BASE_URL}${this.urlRoles}`, { observe: 'response' });
+      return this.http.get<RoleRessource[]>(`${AppConstants.USERS_URL}${AppConstants.ROLES_URL}`, { observe: 'response' });
     }
 
     getRoleFromRessource(roleRess: RoleRessource): Role {
@@ -106,7 +103,7 @@ export class UserService implements OnInit {
     }
 
     getUsersByRoleRessource(role: Role): Observable<HttpResponse<UserRessource[]>> {
-      return this.http.get<UserRessource[]>(`${this.BASE_URL}${this.urlRoles}/${role.idRole}`, { observe: 'response' });
+      return this.http.get<UserRessource[]>(`${AppConstants.USERS_URL}${AppConstants.ROLES_URL}/${role.idRole}`, { observe: 'response' });
     }
 
     async getEmployeesByRole(role: Role): Promise<Employee[]> {

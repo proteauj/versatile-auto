@@ -93,28 +93,6 @@ export class JobComponent implements OnInit {
     }, error => {
       this.messageService.showError(this.translate.instant('job.error'));
     });
-
-/*    this.jobService.updateJob(this.selectedJob).subscribe(data => {
-      observables.push(data);
-      console.log("PUT Job is successful ", data);
-    }
-
-    for (let task of tasks) {
-      this.jobService.updateTask(task).subscribe(data => {
-        observables.push(data);
-        console.log("PUT Task is successful ", data);
-      }
-    }
-
-    Observable.concat(...observables).subscribe(() => {
-      this.messageService.showSuccess(this.translate.instant('job.success'));
-      this.modalService.close();
-      this.router.navigate(['/job']);
-    }, error => {
-      this.messageService.showError(this.translate.instant('job.error'));
-    });
-  */
-
   }
 
   getStatusFromEventOnChange(event: Event): Status {

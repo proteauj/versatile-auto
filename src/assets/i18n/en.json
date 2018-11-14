@@ -31,6 +31,8 @@
   "jobnew.model.error": "Model required",
   "jobnew.vin.label": "VIN",
   "jobnew.vin.placeholder": "VIN",
+  "jobnew.vin.required.error": "Vin required",
+  "jobnew.vin.length.error": "Vin 17 characters",
   "jobnew.status.label": "Status",
   "jobnew.status.placeholder": "Select status",
   "jobnew.status.loading": "Loading status...",

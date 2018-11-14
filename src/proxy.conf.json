@@ -1,0 +1,8 @@
+{
+  "/apimarketcheck/*": {
+    "target": "http://api.marketcheck.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  }
+}

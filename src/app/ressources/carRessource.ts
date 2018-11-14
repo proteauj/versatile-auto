@@ -3,6 +3,7 @@ export class CarRessource {
   year: number;
   vin: string;
   model: ModelRessource;
+  imageUrl: string;
 }
 
 export class MakeRessource {

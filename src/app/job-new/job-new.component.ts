@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Car, Make, Model } from '../models/car';
+import { Car, Make, Model, VinDecoded } from '../models/car';
 import { Job, Status } from '../models/job';
 import { CarService } from '../car.service';
 import { JobService } from '../job.service';
@@ -31,6 +31,7 @@ export class JobNewComponent implements OnInit {
     protected isModify: boolean = false;
     protected isMakeSelected: boolean = false;
     faCalendarAlt = faCalendarAlt;
+    protected vinCar: Promise<Car>;
 
 	job: Job = {
 	    idJob: null,
@@ -223,5 +224,10 @@ export class JobNewComponent implements OnInit {
         this.messageService.showError(this.translate.instant('jobnew.error'));
       });
     }
+  }
+
+  getCarFromVin():void {
+    var vin = this.carForm.controls.vin.value;
+    this.vinCar = this.carService.getCarFromVin(vin);
   }
 }

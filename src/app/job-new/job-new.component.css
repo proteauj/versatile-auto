@@ -7,3 +7,14 @@
 .btn-calendar {
   color: #6c757d;
 }
+
+.mdc-text-field {
+  width: 100% !important;
+}
+
+.mdc-card {
+    padding: 0px 5px 0px 5px;
+    color: grey;
+    margin: 2px 0 2px 0;
+}
+

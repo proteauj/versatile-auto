@@ -31,6 +31,8 @@
   "jobnew.model.error": "Modèle obligatoire",
   "jobnew.vin.label": "VIN",
   "jobnew.vin.placeholder": "VIN",
+  "jobnew.vin.required.error": "Vin obligatoire",
+  "jobnew.vin.length.error": "Vin 17 caractères",
   "jobnew.status.label": "Statut",
   "jobnew.status.placeholder": "Sélectionner statut",
   "jobnew.status.loading": "Chargement des statuts...",
