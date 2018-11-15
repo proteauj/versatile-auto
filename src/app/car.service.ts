@@ -63,8 +63,8 @@ export class CarService implements OnInit {
       id: carRess.id,
       year: carRess.year,
       vin: carRess.vin,
-      model: this.getModelFromRessource(carRess.model)
-      imageUrl: carRess.imageUrl;
+      model: this.getModelFromRessource(carRess.model),
+      imageUrl: carRess.imageUrl
     };
 
     return car;

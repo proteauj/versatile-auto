@@ -20,8 +20,6 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 export class JobNewComponent implements OnInit {
     validJob: Job;
     validCar: Car;
-    makes: Promise<Make[]>;
-    models: Promise<Model[]>;
     submitted: boolean = false;
     protected carForm: FormGroup;
     protected isValid: boolean = false;
@@ -29,9 +27,7 @@ export class JobNewComponent implements OnInit {
     protected idJob: number;
     protected jobToModify: Job;
     protected isModify: boolean = false;
-    protected isMakeSelected: boolean = false;
     faCalendarAlt = faCalendarAlt;
-    protected vinCar: Promise<Car>;
 
 	job: Job = {
 	    idJob: null,
@@ -47,7 +43,8 @@ export class JobNewComponent implements OnInit {
 	    id: null,
 	    year: null,
 	    model: null,
-	    vin: null
+	    vin: null,
+	    imageUrl: null
 	};
 
   getTodayDate() {
@@ -80,73 +77,52 @@ export class JobNewComponent implements OnInit {
       });
     }
 
-    this.makes = this.carService.getMakes();
     this.status = this.jobService.getStatus();
   }
 
   setCarFormGroup(job: Job) {
-      var description: string = '';
-      var year: number = null;
-      var make: Make = null;
-      var model: Model = null;
-      var vin: string = '';
-      var status: Status = null;
-      var arrivalDate: NgbDateStruct = this.getTodayDate();
-      var toDeliverDate: NgbDateStruct = null;
+    var description: string = '';
+    var year: number = null;
+    var make: Make = null;
+    var model: Model = null;
+    var vin: string = '';
+    var status: Status = null;
+    var arrivalDate: NgbDateStruct = this.getTodayDate();
+    var toDeliverDate: NgbDateStruct = null;
 
-      if (job != null) {
-        description = job.description;
-        year = job.car.year;
-        make = job.car.model.make;
-        this.selectMake(make);
-        model = job.car.model;
-        vin = job.car.vin;
-        status = job.status;
+    if (job != null) {
+      description = job.description;
+      vin = job.car.vin;
+      this.car = job.car;
+      status = job.status;
 
-        if (job.arrivalDate != null) {
-          arrivalDate = {
-            year: job.arrivalDate.getFullYear(),
-            month: job.arrivalDate.getMonth() + 1,
-            day: job.arrivalDate.getDate()
-          };
-        }
-
-        if (job.toDeliverDate != null) {
-          toDeliverDate = {
-            year: job.toDeliverDate.getFullYear(),
-            month: job.toDeliverDate.getMonth() + 1,
-            day: job.toDeliverDate.getDate()
-          };
-        }
-      } else {
-        //create state
-        this.creationTried = false;
-        this.isMakeSelected = false;
+      if (job.arrivalDate != null) {
+        arrivalDate = {
+          year: job.arrivalDate.getFullYear(),
+          month: job.arrivalDate.getMonth() + 1,
+          day: job.arrivalDate.getDate()
+        };
       }
 
-      this.carForm = this.formBuilder.group({
-        description: [description, [Validators.required]],
-        year: [year, [Validators.required, Validators.pattern("[0-9]{4}")]],
-        make: [make, [Validators.required]],
-        model: [model, [Validators.required]],
-        vin: [vin, []],
-        status: [status, [Validators.required]],
-        arrivalDate: [arrivalDate, [Validators.required]],
-        toDeliverDate: [toDeliverDate, [Validators.required]]
-      });
+      if (job.toDeliverDate != null) {
+        toDeliverDate = {
+          year: job.toDeliverDate.getFullYear(),
+          month: job.toDeliverDate.getMonth() + 1,
+          day: job.toDeliverDate.getDate()
+        };
+      }
+    } else {
+      //create state
+      this.creationTried = false;
     }
 
-  selectMake(make: Make) {
-    if (make != undefined) {
-      this.models = this.carService.getModels(make);
-    }
-    this.isMakeSelected = true;
-  }
-
-  onMakeSelect() {
-    this.carForm.controls['model'].setValue(null);
-    var make: Make = this.carForm.controls.make.value;
-    this.selectMake(make);
+    this.carForm = this.formBuilder.group({
+      description: [description, [Validators.required]],
+      vin: [vin, [Validators.required, Validators.pattern("[0-9A-Z]{17}")]],
+      status: [status, [Validators.required]],
+      arrivalDate: [arrivalDate, [Validators.required]],
+      toDeliverDate: [toDeliverDate, [Validators.required]]
+    });
   }
 
   getDateFromNgbDate(ngbDate: NgbDate): Date {
@@ -160,26 +136,6 @@ export class JobNewComponent implements OnInit {
     if (this.carForm.invalid) {
       return;
     }
-
-    var make: Make = {
-      id: this.carForm.controls.make.value.id,
-      code: this.carForm.controls.make.value.code,
-      title: this.carForm.controls.make.value.title
-    };
-
-    var model: Model = {
-      id: this.carForm.controls.model.value.id,
-      make: make,
-      code: this.carForm.controls.model.value.code,
-      title: this.carForm.controls.model.value.title
-    };
-
-    this.car = {
-      id: null,
-      year: this.carForm.controls.year.value,
-      model: model,
-      vin: this.carForm.controls.vin.value
-    };
 
     var status: Status = {
       idStatus: this.carForm.controls.status.value.idStatus,
@@ -228,6 +184,9 @@ export class JobNewComponent implements OnInit {
 
   getCarFromVin():void {
     var vin = this.carForm.controls.vin.value;
-    this.vinCar = this.carService.getCarFromVin(vin);
+
+    this.carService.getCarFromVin(vin).then(data => {
+      this.car  = data;
+    });
   }
 }

@@ -34,6 +34,7 @@ import { JobTaskComponent } from './job-task/job-task.component';
 import { JobDetailsComponent } from './job-details/job-details.component';
 import { JobComponent } from './job/job.component';
 import { AppMaterialModule } from './material.module';
+import { JobInspectComponent } from './job-inspect/job-inspect.component';
 
 @NgModule({
     declarations: [
@@ -43,7 +44,8 @@ import { AppMaterialModule } from './material.module';
         MenuComponent,
         JobTaskComponent,
         JobDetailsComponent,
-        JobComponent
+        JobComponent,
+        JobInspectComponent
     ],
     imports: [
         BrowserModule,
