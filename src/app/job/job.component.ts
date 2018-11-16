@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Job, Task, Status } from '../models/job';
+import { Job, JobTask, Status } from '../models/job';
 import { JobService } from '../job.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,8 +17,8 @@ import { forkJoin } from "rxjs/observable/forkJoin";
 export class JobComponent implements OnInit {
 
   protected jobs: Promise<Job[]>;
-  protected tasksMap: Map<number, Task[]> = new Map<number, Task[]>();
-  protected tasks: Task[] = [];
+  protected tasksMap: Map<number, JobTask[]> = new Map<number, JobTask[]>();
+  protected tasks: JobTask[] = [];
   protected selectedJob: Job;
   closeResult: string;
   protected statusArr: Promise<Status[]>;
@@ -79,7 +79,7 @@ export class JobComponent implements OnInit {
     }
   }
 
-  onSubmit(selectedJob:Job, tasks:Task[]) {
+  onSubmit(selectedJob:Job, tasks:JobTask[]) {
     var observables = [];
     observables.push(this.jobService.updateJob(this.selectedJob));
     for (let task of tasks) {
@@ -108,7 +108,7 @@ export class JobComponent implements OnInit {
     return status;
   }
 
-  setSelectedStatusTask(task:Task, event: Event) {
+  setSelectedStatusTask(task:JobTask, event: Event) {
     task.status = this.getStatusFromEventOnChange(event);
   }
 

@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common/http';
-import { Job, Task, Status, FileModel } from './models/job';
+import { Job, JobTask, Status, FileModel } from './models/job';
 import { Car } from './models/car';
 import { JobRessource, JobTaskRessource, StatusRessource, FileRessource } from './ressources/jobRessource';
 import { Observable } from "rxjs";
@@ -46,8 +46,8 @@ export class JobService implements OnInit {
     return job;
   }
 
-  getTaskFromRessource(taskRess: JobTaskRessource): Task {
-    var task: Task = {
+  getTaskFromRessource(taskRess: JobTaskRessource): JobTask {
+    var task: JobTask = {
       id: taskRess.id,
       name: taskRess.name,
       time: taskRess.time,
@@ -147,9 +147,9 @@ export class JobService implements OnInit {
       { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
   }
 
-  async getJobTasks(idJob: number): Promise<Task[]> {
+  async getJobTasks(idJob: number): Promise<JobTask[]> {
     var tasksRessArray: JobTaskRessource[] = [];
-    var tasksArray: Task[] = [];
+    var tasksArray: JobTask[] = [];
 
     await new Promise(resolve => {
       this.getJobTasksRessource(idJob).subscribe(resp => {
@@ -167,7 +167,7 @@ export class JobService implements OnInit {
     return tasksArray;
   }
 
-  updateTask(task: Task): Observable<HttpResponse<JobTaskRessource>> {
+  updateTask(task: JobTask): Observable<HttpResponse<JobTaskRessource>> {
     var body = JSON.stringify(task);
     var url = `${AppConstants.JOB_BASE_URL}${AppConstants.TASK_URL}/${task.id}`;
     return this.http.put<JobTaskRessource>(url, body,
@@ -218,7 +218,7 @@ export class JobService implements OnInit {
        { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
   }
 
-  createTask(task: Task): Observable<HttpResponse<JobTaskRessource>> {
+  createTask(task: JobTask): Observable<HttpResponse<JobTaskRessource>> {
     var body = JSON.stringify(task);
     var url = `${AppConstants.JOB_BASE_URL}${AppConstants.TASK_URL}`;
     return this.http.post<JobTaskRessource>(url, body,

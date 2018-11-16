@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Job, Task, Status } from '../models/job';
+import { Job, JobTask, Status } from '../models/job';
 import { Employee, Role } from '../models/user';
 import { JobService } from '../job.service';
 import { UserService } from '../user.service';
@@ -20,7 +20,7 @@ export class JobTaskComponent implements OnInit {
   protected categories: Promise<Role[]>;
   protected employees: Promise<Employee[]>;
   protected status: Promise<Status[]>;
-  protected tasks: Map<number, Task> = new Map<number, Task>();
+  protected tasks: Map<number, JobTask> = new Map<number, JobTask>();
   protected submitted: boolean = false;
   protected taskForm: FormGroup;
   protected isValid: boolean = false;
@@ -67,7 +67,7 @@ export class JobTaskComponent implements OnInit {
     this.setTaskFormGroup(null);
   }
 
-  setTaskFormGroup(task: Task) {
+  setTaskFormGroup(task: JobTask) {
     var name: string = '';
     var priority: number = null;
     var category: Role = null;
@@ -103,7 +103,7 @@ export class JobTaskComponent implements OnInit {
     });
   }
 
-  getTasksValues(): Array<Task> {
+  getTasksValues(): Array<JobTask> {
       return Array.from(this.tasks.values());
   }
 
@@ -121,7 +121,7 @@ export class JobTaskComponent implements OnInit {
     this.selectCategory(category);
   }
 
-  getTaskFromTaskForm(): Task {
+  getTaskFromTaskForm(): JobTask {
     var category: Role = {
       idRole: this.taskForm.controls.category.value.idRole,
       description: this.taskForm.controls.category.value.description
@@ -142,7 +142,7 @@ export class JobTaskComponent implements OnInit {
       status: this.taskForm.controls.status.value.status
     }
 
-    var task: Task = {
+    var task: JobTask = {
       id: this.idTask,
       name: this.taskForm.controls.name.value,
       time: this.taskForm.controls.time.value,
@@ -174,7 +174,7 @@ export class JobTaskComponent implements OnInit {
     }
 
     this.isValid = true;
-    var task: Task = this.getTaskFromTaskForm();
+    var task: JobTask = this.getTaskFromTaskForm();
 
     if (this.idTask != null) {
       this.jobService.updateTask(task).subscribe(data => {
@@ -207,7 +207,7 @@ export class JobTaskComponent implements OnInit {
 
   toUpdate(id: number) {
     this.idTask = id;
-    var task: Task = this.tasks.get(id);
+    var task: JobTask = this.tasks.get(id);
     this.setTaskFormGroup(task);
   }
 

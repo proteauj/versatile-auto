@@ -17,7 +17,7 @@ export class Status {
   status: string;
 }
 
-export class Task {
+export class JobTask {
   id: number;
   name: string;
   time: number;

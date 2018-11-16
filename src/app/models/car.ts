@@ -1,9 +1,11 @@
+import { SafeResourceUrl } from '@angular/platform-browser';
+
 export class Car {
   id: number;
   year: number;
   vin: string;
   model: Model;
-  imageUrl: string;
+  imageUrl: SafeResourceUrl;
 }
 
 export class Make {
