@@ -1,5 +1,6 @@
 import { CarRessource } from './carRessource';
 import { RoleRessource, UserRessource } from './userRessource';
+import { TaskRessource, CarAreaRessource } from './jobInspectRessource';
 
 export class JobRessource {
   idJob: number;
@@ -18,12 +19,15 @@ export class StatusRessource {
 export class JobTaskRessource {
   id: number;
   name: string;
-  time: number;
+  estimatedTime: number;
   job: JobRessource;
   status: StatusRessource;
   priority: number;
   role: RoleRessource;
   user: UserRessource;
+  task: TaskRessource;
+  elapsedTime: number;
+  carArea: CarAreaRessource;
 }
 
 export class FileRessource {

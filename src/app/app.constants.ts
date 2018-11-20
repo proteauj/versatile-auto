@@ -16,16 +16,21 @@ export class AppConstants {
   public static FILES_URL: string = '/files';
 
   //CAR service
-  public static MAKES_URL : string = AppConstants.API_BASE_URL + '/makes'
+  public static MAKES_URL : string = AppConstants.API_BASE_URL + '/makes';
   public static MODELS_URL : string = '/models';
-  public static CAR_URL : string = AppConstants.API_BASE_URL + '/cars'
+  public static CAR_URL : string = AppConstants.API_BASE_URL + '/cars';
   public static VIN_URL : string = '/vin';
 
   //USER service
-  public static USERS_URL : string = AppConstants.API_BASE_URL + '/users'
+  public static USERS_URL : string = AppConstants.API_BASE_URL + '/users';
   public static EMAIL_PARAM : string = '?email=';
   public static LOG_INS_URL : string = '/logIns';
   public static ROLES_URL : string = '/roles';
+
+  //JOBINSPECT service
+  public static TASKS_URL : string = AppConstants.API_BASE_URL + '/tasks';
+  public static CAR_AREA_ONLY_PARAM : string = '?carAreaOnly=';
+  public static CAR_AREAS_URL : string = AppConstants.API_BASE_URL + '/car-areas';
 
   //CAR IMAGERY
   public static CAR_IMAGERY_URL: string = 'http://www.carimagery.com/api.asmx/GetImageUrl?searchTerm=';

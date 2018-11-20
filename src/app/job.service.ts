@@ -1,8 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common/http';
-import { Job, JobTask, Status, FileModel } from './models/job';
+import { Job, Status, FileModel } from './models/job';
 import { Car } from './models/car';
-import { JobRessource, JobTaskRessource, StatusRessource, FileRessource } from './ressources/jobRessource';
+import { JobRessource, StatusRessource, FileRessource } from './ressources/jobRessource';
 import { Observable } from "rxjs";
 import { CarService } from './car.service';
 import { UserService } from './user.service';
@@ -44,25 +44,6 @@ export class JobService implements OnInit {
     });
 
     return job;
-  }
-
-  getTaskFromRessource(taskRess: JobTaskRessource): JobTask {
-    var task: JobTask = {
-      id: taskRess.id,
-      name: taskRess.name,
-      time: taskRess.time,
-      job: this.getJobFromRessource(taskRess.job),
-      status: this.getStatusFromRessource(taskRess.status),
-      user: null,
-      priority: taskRess.priority,
-      role: this.userService.getRoleFromRessource(taskRess.role)
-    };
-
-    if (taskRess.user != undefined) {
-      task.user = this.userService.getEmployeeFromRessource(taskRess.user);
-    }
-
-    return task;
   }
 
  base64ToArrayBuffer(base64): Uint8Array {
@@ -142,43 +123,6 @@ export class JobService implements OnInit {
     return job;
   }
 
-  getJobTasksRessource(idJob: number): Observable<HttpResponse<JobTaskRessource[]>> {
-    return this.http.get<JobTaskRessource[]>(`${AppConstants.JOB_BASE_URL}/${idJob}${AppConstants.TASK_URL}`,
-      { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
-  }
-
-  async getJobTasks(idJob: number): Promise<JobTask[]> {
-    var tasksRessArray: JobTaskRessource[] = [];
-    var tasksArray: JobTask[] = [];
-
-    await new Promise(resolve => {
-      this.getJobTasksRessource(idJob).subscribe(resp => {
-        tasksRessArray = resp.body;
-
-        for (let taskRess of tasksRessArray) {
-          var task = this.getTaskFromRessource(taskRess);
-          tasksArray.push(task);
-        }
-        resolve();
-      });
-    });
-
-    console.log(tasksArray);
-    return tasksArray;
-  }
-
-  updateTask(task: JobTask): Observable<HttpResponse<JobTaskRessource>> {
-    var body = JSON.stringify(task);
-    var url = `${AppConstants.JOB_BASE_URL}${AppConstants.TASK_URL}/${task.id}`;
-    return this.http.put<JobTaskRessource>(url, body,
-      { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
-  }
-
-  deleteTask(idTask: number): Observable<HttpResponse<Object>> {
-    var url = `${AppConstants.JOB_BASE_URL}${AppConstants.TASK_URL}/${idTask}`;
-    return this.http.delete(url, { observe: 'response' });
-  }
-
   getStatusRessource(): Observable<HttpResponse<StatusRessource[]>> {
     return this.http.get<StatusRessource[]>(`${AppConstants.STATUS_BASE_URL}`,
       { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
@@ -216,13 +160,6 @@ export class JobService implements OnInit {
      var url = `${AppConstants.JOB_BASE_URL}/${job.idJob}`;
      return this.http.put<JobRessource>(url, body,
        { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
-  }
-
-  createTask(task: JobTask): Observable<HttpResponse<JobTaskRessource>> {
-    var body = JSON.stringify(task);
-    var url = `${AppConstants.JOB_BASE_URL}${AppConstants.TASK_URL}`;
-    return this.http.post<JobTaskRessource>(url, body,
-      { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
   }
 
   createFiles(files: File[], idJob: number): Observable<HttpResponse<FileRessource[]>> {
@@ -286,21 +223,21 @@ export class JobService implements OnInit {
   }
 
   async getCarImage(car: Car): Promise<SafeResourceUrl> {
-      var carImgUrl: SafeResourceUrl;
+    var carImgUrl: SafeResourceUrl;
 
-      await new Promise(resolve => {
-        this.getCarImageryUrl(car).subscribe(resp => {
-          var url: string = this.getElement(resp);
-          carImgUrl = this.getSafeUrl(url);
-          resolve();
-        });
+    await new Promise(resolve => {
+      this.getCarImageryUrl(car).subscribe(resp => {
+        var url: string = this.getElement(resp);
+        carImgUrl = this.getSafeUrl(url);
+        resolve();
       });
+    });
 
-      return carImgUrl;
-    }
+    return carImgUrl;
+  }
 
   getSafeUrl(url): SafeResourceUrl {
-      var fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-      return fileUrl;
-    }
+    var fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    return fileUrl;
+  }
 }

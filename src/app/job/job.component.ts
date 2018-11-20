@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Job, JobTask, Status } from '../models/job';
 import { JobService } from '../job.service';
+import { TaskService } from '../task.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
@@ -25,14 +26,15 @@ export class JobComponent implements OnInit {
   protected modalSummary;
 
   constructor(private messageService: MessageService, private translate: TranslateService,
-              private jobService: JobService, private router: Router, private modalService: NgbModal) { }
+              private jobService: JobService, private router: Router, private modalService: NgbModal,
+              private taskService: TaskService) { }
 
   ngOnInit() {
     this.jobs = this.jobService.getJobs();
 
     this.jobs.then(data => {
       for (let job of data) {
-        this.jobService.getJobTasks(job.idJob).then(data => {
+        this.taskService.getJobTasks(job.idJob).then(data => {
           var jobTasks = data;
           this.tasksMap.set(job.idJob, jobTasks);
         });
@@ -83,7 +85,7 @@ export class JobComponent implements OnInit {
     var observables = [];
     observables.push(this.jobService.updateJob(this.selectedJob));
     for (let task of tasks) {
-      observables.push(this.jobService.updateTask(task));
+      observables.push(this.taskService.updateTask(task));
     }
 
     forkJoin(observables).subscribe(results => {

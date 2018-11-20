@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Job, JobTask, Status } from '../models/job';
 import { Employee, Role } from '../models/user';
 import { JobService } from '../job.service';
+import { TaskService } from '../task.service';
 import { UserService } from '../user.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -40,7 +41,8 @@ export class JobTaskComponent implements OnInit {
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private userService: UserService, private router: Router,
-              private formBuilder: FormBuilder, private route: ActivatedRoute) { }
+              private formBuilder: FormBuilder, private route: ActivatedRoute,
+              private taskService: TaskService) { }
 
   // convenience getter for easy access to form fields
   get f() { return this.taskForm.controls; }
@@ -54,7 +56,7 @@ export class JobTaskComponent implements OnInit {
       this.jobService.getJob(this.idJob).then(data => {
         this.job = data;
 
-        this.jobService.getJobTasks(this.job.idJob).then(data => {
+        this.taskService.getJobTasks(this.job.idJob).then(data => {
           var jobTasks = data;
 
           for (let task of jobTasks) {
@@ -81,7 +83,7 @@ export class JobTaskComponent implements OnInit {
       category = task.role;
       this.selectCategory(category);
       assignation = task.user;
-      time = task.time;
+      time = task.estimatedTime;
       status = task.status;
 
       //modify state
@@ -145,12 +147,15 @@ export class JobTaskComponent implements OnInit {
     var task: JobTask = {
       id: this.idTask,
       name: this.taskForm.controls.name.value,
-      time: this.taskForm.controls.time.value,
+      estimatedTime: this.taskForm.controls.time.value,
       job: this.job,
       status: status,
       priority: this.taskForm.controls.priority.value,
       role: category,
-      user: assignation
+      user: assignation,
+      task: null,
+      elapsedTime: 0,
+      carArea: null
     }
 
     return task;
@@ -177,15 +182,15 @@ export class JobTaskComponent implements OnInit {
     var task: JobTask = this.getTaskFromTaskForm();
 
     if (this.idTask != null) {
-      this.jobService.updateTask(task).subscribe(data => {
+      this.taskService.updateTask(task).subscribe(data => {
         this.messageService.showSuccess(this.translate.instant('jobtask.update.success'));
       }, error => {
         this.messageService.showError(this.translate.instant('jobtask.update.error'));
       });
     } else {
-      this.jobService.createTask(task).subscribe(data => {
+      this.taskService.createTask(task).subscribe(data => {
         var taskCreated = data.body;
-        this.tasks.set(taskCreated.id, this.jobService.getTaskFromRessource(taskCreated));
+        this.tasks.set(taskCreated.id, this.taskService.getJobTaskFromRessource(taskCreated));
         this.messageService.showSuccess(this.translate.instant('jobtask.create.success'));
       }, error => {
         this.messageService.showError(this.translate.instant('jobtask.create.error'));
@@ -197,7 +202,7 @@ export class JobTaskComponent implements OnInit {
   }
 
   onDelete(id: number) {
-    this.jobService.deleteTask(id).subscribe(data => {
+    this.taskService.deleteTask(id).subscribe(data => {
       this.messageService.showSuccess(this.translate.instant('jobtask.delete.success'));
       this.tasks.delete(id);
     }, error => {

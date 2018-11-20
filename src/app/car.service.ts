@@ -1,7 +1,9 @@
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Car, Make, Model, VinDecoded } from './models/car';
+import { CarArea, CarSide } from './models/jobInspect';
 import { CarRessource, MakeRessource, ModelRessource } from './ressources/carRessource';
+import { CarAreaRessource, CarSideRessource } from './ressources/jobInspectRessource';
 import { Observable } from "rxjs";
 import { AppConstants} from './app.constants';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -37,12 +39,14 @@ export class CarService implements OnInit {
       await new Promise(resolve => {
         this.getCarFromVinRessource(vin).subscribe(resp => {
           car = resp.body;
-          car.imageUrl = this.getSafeUrl(car.imageUrl);
           resolve();
         });
       });
 
-      return this.getCarFromRessource(car);
+      var carModel: Car = this.getCarFromRessource(car);
+      carModel.imageUrl = this.getSafeUrl(car.imageUrl);
+
+      return carModel;
     }
 
   getSafeUrl(url): SafeResourceUrl {
@@ -127,5 +131,24 @@ export class CarService implements OnInit {
       });
 
       return modelArray;
+    }
+
+    getCarAreaFromRessource(carAreaRess: CarAreaRessource): CarArea {
+      var carArea: CarArea = {
+        idCarArea: carAreaRess.idCarArea,
+        code: carAreaRess.code,
+        carSide: this.getCarSideFromRessource(carAreaRess.carSide)
+      };
+
+      return carArea;
+    }
+
+    getCarSideFromRessource(carSideRess: CarSideRessource): CarSide {
+      var carSide: CarSide = {
+        idCarSide: carSideRess.idCarSide,
+        name: carSideRess.name
+      };
+
+      return carSide;
     }
 }

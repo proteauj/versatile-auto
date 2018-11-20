@@ -82,9 +82,9 @@
               <div class="mdc-select mdc-select--outlined demo-select-outline-shaped" #partTask>
                 <i class="mdc-select__dropdown-icon"></i>
                 <select class="mdc-select__native-control shaped outlined"
-                        [(ngModel)]="selectedPart.task.id"
+                        [(ngModel)]="selectedTask"
                         (change)="setSelectedTaskPart(selectedPart, $event)">
-                  <option *ngFor="let task of taskArr | async" [ngValue]="task.id">
+                  <option *ngFor="let task of tasks | async" [ngValue]="task.idTask">
                     {{ task.name }}
                   </option>
                 </select>
@@ -98,6 +98,27 @@
               <!-- TODO: Ajouter temps par défaut avec un sélecteur pour augmenter/réduire à coup de 15 minutes -->
             </div>
           </div>
+          <div class="row">
+            {{ selectedPart.name }}
+            <div class="task">
+              <div class="mdc-select mdc-select--outlined demo-select-outline-shaped" #partTask>
+                <i class="mdc-select__dropdown-icon"></i>
+                <select class="mdc-select__native-control shaped outlined"
+                        [(ngModel)]="selectedCarArea.idCarArea"
+                        (change)="setSelectedCarArea(selectedCarArea, $event)" multiple>
+                  <option *ngFor="let carArea of carAreas | async" [ngValue]="carArea.idCarArea">
+                    {{ carArea.code }}
+                  </option>
+                </select>
+                <div class="mdc-notched-outline">
+                  <svg>
+                    <path class="mdc-notched-outline__path"></path>
+                  </svg>
+                </div>
+                <div class="mdc-notched-outline__idle"></div>
+              </div>
+            </div>
+          </div>
           <div class="form text-left">
             <button (click)="onSubmit(selectedPart, tasks)" type="submit" class="mdc-button mdc-button--raised ">
               {{ 'jobinspect.submit' | translate}}
@@ -108,7 +129,7 @@
         </div>
       </ng-template>
 
-      <div class="row" *ngFor="let task of partTasks">
+      <div class="row" *ngFor="let task of jobTasks">
         <div style="width:100%" class="mdc-list--dense">
           <mdc-list #twoline twoLine>
             <mdc-list-item class="two-line-item">
