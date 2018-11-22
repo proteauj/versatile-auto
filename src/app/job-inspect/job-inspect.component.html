@@ -111,13 +111,11 @@
         <div class="modal-body">
           <div class="row">
             {{ selectedCarArea.name }}
-            <div class="task">
               <div class="mdc-select mdc-select--outlined demo-select-outline-shaped" #partTask>
-                <i class="mdc-select__dropdown-icon"></i>
                 <select class="mdc-select__native-control shaped outlined"
-                        [(ngModel)]="selectedTask"
+                        [(ngModel)]="selectedTasks"
                         (change)="setSelectedTaskPart(selectedPart, $event)" multiple>
-                  <option *ngFor="let task of tasks | async" [ngValue]="task.idTask">
+                  <option *ngFor="let task of tasks | async" [ngValue]="task">
                     {{ task.name }}
                   </option>
                 </select>
@@ -129,17 +127,14 @@
                 <div class="mdc-notched-outline__idle"></div>
               </div>
               <!-- TODO: Ajouter temps par défaut avec un sélecteur pour augmenter/réduire à coup de 15 minutes -->
-            </div>
           </div>
           <div class="row">
             {{ selectedCarArea.name }}
-            <div class="task">
               <div class="mdc-select mdc-select--outlined demo-select-outline-shaped" #partTask>
                 <i class="mdc-select__dropdown-icon"></i>
                 <select class="mdc-select__native-control shaped outlined"
-                        [(ngModel)]="selectedCarArea"
-                        (change)="setSelectedCarArea(selectedCarArea, $event)">
-                  <option *ngFor="let carArea of carAreas | async" [ngValue]="carArea.idCarArea">
+                        [(ngModel)]="selectedCarArea">
+                  <option *ngFor="let carArea of carAreas | async" [ngValue]="carArea">
                     {{ carArea.code }}
                   </option>
                 </select>
@@ -150,10 +145,9 @@
                 </div>
                 <div class="mdc-notched-outline__idle"></div>
               </div>
-            </div>
           </div>
           <div class="form text-left">
-            <button (click)="onSubmit(selectedCarArea, tasks)" type="submit" class="mdc-button mdc-button--raised ">
+            <button (click)="onSubmit(selectedCarArea, selectedTasks)" type="submit" class="mdc-button mdc-button--raised ">
               {{ 'jobinspect.submit' | translate}}
             </button>
           </div>

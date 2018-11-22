@@ -1,0 +1,38 @@
+.one-line-item {
+  align-items: unset;
+  padding: 10px 0px 0px 16px !important;
+}
+
+.mdc-list--dense {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  height: 45px;
+}
+
+.mdc-list--two-line .mdc-list-item {
+  height: 45px;
+}
+
+.mdc-list {
+  width: 100% !important;
+  padding: 0px 0 !important;
+}
+
+.mdc-select {
+  width: 90% !important;
+  height: auto !important;
+  margin-left: 10px;
+}
+
+.mdc-select__native-control {
+  width: 100% !important;
+  height: fit-content !important;
+}
+
+.demo-select-outline-shaped .mdc-floating-label--float-above {
+  -webkit-transform: translateY(-130%) translateX(17.2px) scale(.75);
+  -ms-transform: translateY(-130%) translateX(17.2px) scale(.75);
+  transform: translateY(-60%) translateX(1px) scale(.75);
+}
+
+

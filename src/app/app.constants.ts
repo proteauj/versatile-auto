@@ -13,6 +13,7 @@ export class AppConstants {
   public static JOB_BASE_URL : string = AppConstants.API_BASE_URL + '/jobs';
   public static TASK_URL : string = '/tasks';
   public static STATUS_BASE_URL : string = AppConstants.API_BASE_URL + '/status';
+  public static STATUS_PARAM : string = '?status=';
   public static FILES_URL: string = '/files';
 
   //CAR service

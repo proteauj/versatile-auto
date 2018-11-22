@@ -128,6 +128,25 @@ export class JobService implements OnInit {
       { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
   }
 
+  getStatusStrRessource(status:string): Observable<HttpResponse<StatusRessource[]>> {
+    var url = `${AppConstants.STATUS_BASE_URL}${AppConstants.STATUS_PARAM}${status}`;
+    return this.http.get<StatusRessource[]>(url,
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
+  }
+
+  async getStatusStr(statusStr:string): Promise<Status> {
+    var status:Status;
+
+    await new Promise(resolve => {
+      this.getStatusStrRessource(statusStr).subscribe(resp => {
+        status = this.getStatusFromRessource(resp.body[0]);
+        resolve();
+      });
+    });
+
+    return status;
+  }
+
   async getStatus(): Promise<Status[]> {
     var statusRessArray: StatusRessource[] = [];
     var statusArray: Status[] = [];
