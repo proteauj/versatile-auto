@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JobTask } from '../models/job';
+import { Job, JobTask, Status } from '../models/job';
 import { CarArea, Task } from '../models/jobInspect';
 import { JobInspectService } from '../job-inspect.service';
 import { TaskService } from '../task.service';
@@ -21,16 +21,25 @@ export class JobInspectComponent implements OnInit {
               private taskService: TaskService) { }
 
   protected carAreas: Promise<CarArea[]>;
+  protected carAreasMap: Map<string, CarArea> = new Map<string, CarArea>();
   protected tasks: Promise<Task[]>;
   protected jobTasks: JobTask[];
   protected idJob: number;
+  protected job: Job;
 
   ngOnInit() {
     this.carAreas = this.jobInspectService.getCarAreas();
     this.tasks = this.taskService.getTasks();
 
+    this.carAreas.then(data => {
+      for (let carArea of data) {
+        this.carAreasMap.set(carArea.code, carArea);
+      }
+    });
+
     this.route.params.subscribe(params => {
       this.idJob = params['idJob'];
+
 
       this.jobInspectService.getJobTasksWithCarArea(this.idJob).then(data => {
         this.jobTasks = data;
@@ -38,4 +47,24 @@ export class JobInspectComponent implements OnInit {
     });
   }
 
+  carPartSelected(event) {
+    var carAreaCode = event.currentTarget.id;
+    var carArea = this.carAreasMap.get(carAreaCode);
+
+    var status: Status = null;
+
+    var jobTask: JobTask = {
+      id: -1,
+      name: '',
+      estimatedTime: 0,
+      job: this.job,
+      status: status,
+      priority: 0,
+      role: null,
+      user: null,
+      task: null,
+      elapsedTime: 0,
+      carArea: carArea
+    }
+  }
 }
