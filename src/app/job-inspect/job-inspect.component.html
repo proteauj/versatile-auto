@@ -44,59 +44,59 @@
 
 
 
-          <area id="hood" (click)=carPartSelected($event) target="_blank" alt="Hood"
+          <area id="hood" (click)="carPartSelected($event,content)" target="_blank" alt="Hood"
                 href="javascript:void(0)" coords="103,71,196,148" shape="rect">
-          <area id="fr_window" (click)=carPartSelected($event) target="_blank" alt="Front window"
+          <area id="fr_window" (click)="carPartSelected($event,content)" target="_blank" alt="Front window"
                 href="javascript:void(0)" coords="102,151,199,151,187,187,114,186" shape="poly">
-          <area id="roof" (click)=carPartSelected($event) target="_blank" alt="Roof"
+          <area id="roof" (click)="carPartSelected($event,content)" target="_blank" alt="Roof"
                 href="javascript:void(0)" coords="113,188,187,274" shape="rect">
-          <area id="ba_window" (click)=carPartSelected($event) target="_blank" alt="Back window"
+          <area id="ba_window" (click)="carPartSelected($event,content)" target="_blank" alt="Back window"
                 href="javascript:void(0)" coords="117,282,181,281,190,320,109,320" shape="poly">
-          <area id="trunk" (click)=carPartSelected($event) target="_blank" alt="Trunk"
+          <area id="trunk" (click)="carPartSelected($event,content)" target="_blank" alt="Trunk"
                 href="javascript:void(0)" coords="100,322,200,360" shape="rect">
-          <area id="ba_bumper" (click)=carPartSelected($event) target="_blank" alt="Back bumper"
+          <area id="ba_bumper" (click)="carPartSelected($event,content)" target="_blank" alt="Back bumper"
                 href="javascript:void(0)" coords="94,394,207,411" shape="rect">
-          <area id="ba_l_light" (click)=carPartSelected($event) target="_blank" alt="Back left light"
+          <area id="ba_l_light" (click)="carPartSelected($event,content)" target="_blank" alt="Back left light"
                 href="javascript:void(0)" coords="90,372,119,393" shape="rect">
-          <area id="ba_r_light" (click)=carPartSelected($event) target="_blank" alt="Back right light"
+          <area id="ba_r_light" (click)="carPartSelected($event,content)" target="_blank" alt="Back right light"
                 href="javascript:void(0)" coords="184,374,208,394" shape="rect">
-          <area id="fr_bumper" (click)=carPartSelected($event) target="_blank" alt="Front bumper"
+          <area id="fr_bumper" (click)="carPartSelected($event,content)" target="_blank" alt="Front bumper"
                 href="javascript:void(0)" coords="93,5,208,26" shape="rect">
-          <area id="fr_l_light" (click)=carPartSelected($event) target="_blank" alt="Front left light"
+          <area id="fr_l_light" (click)="carPartSelected($event,content)" target="_blank" alt="Front left light"
                 href="javascript:void(0)" coords="98,27,120,41" shape="rect">
-          <area id="fr_r_light" (click)=carPartSelected($event) target="_blank" alt="Front right light"
+          <area id="fr_r_light" (click)="carPartSelected($event,content)" target="_blank" alt="Front right light"
                 href="javascript:void(0)" coords="182,27,201,39" shape="rect">
-          <area id="fr_l_door" (click)=carPartSelected($event) target="_blank" alt="Front left door"
+          <area id="fr_l_door" (click)="carPartSelected($event,content)" target="_blank" alt="Front left door"
                 href="javascript:void(0)" coords="32,149,79,222" shape="rect">
-          <area id="fr_r_door" (click)=carPartSelected($event) target="_blank" alt="Front right door"
+          <area id="fr_r_door" (click)="carPartSelected($event,content)" target="_blank" alt="Front right door"
                 href="javascript:void(0)" coords="221,151,268,223" shape="rect">
-          <area id="re_l_door" (click)=carPartSelected($event) target="_blank" alt="Rear left door"
+          <area id="re_l_door" (click)="carPartSelected($event,content)" target="_blank" alt="Rear left door"
                 href="javascript:void(0)" coords="32,224,81,225,80,289,58,277,32,261" shape="poly">
-          <area id="re_r_door" (click)=carPartSelected($event) target="_blank" alt="Rear right door"
+          <area id="re_r_door" (click)="carPartSelected($event,content)" target="_blank" alt="Rear right door"
                 href="javascript:void(0)" coords="223,226,269,228,269,265,233,289,221,279" shape="poly">
-          <area id="fr_l_rocker" (click)=carPartSelected($event) target="_blank" alt="Front left rocker"
+          <area id="fr_l_rocker" (click)="carPartSelected($event,content)" target="_blank" alt="Front left rocker"
                 href="javascript:void(0)" coords="43,64,59,115,37,146,83,148,73,80" shape="poly">
-          <area id="fr_r_rocker" (click)=carPartSelected($event) target="_blank" alt="Front right rocker"
+          <area id="fr_r_rocker" (click)="carPartSelected($event,content)" target="_blank" alt="Front right rocker"
                 href="javascript:void(0)" coords="232,80,221,148,268,148,245,116,268,76" shape="poly">
-          <area id="re_l_rocker" (click)=carPartSelected($event) target="_blank" alt="Rear left rocker"
+          <area id="re_l_rocker" (click)="carPartSelected($event,content)" target="_blank" alt="Rear left rocker"
                 href="javascript:void(0)" coords="33,269,59,301,33,340,73,357,78,293" shape="poly">
-          <area id="re_r_rocker" (click)=carPartSelected($event) target="_blank" alt="Rear right rocker"
+          <area id="re_r_rocker" (click)="carPartSelected($event,content)" target="_blank" alt="Rear right rocker"
                 href="javascript:void(0)" coords="269,268,243,295,269,353,225,355,223,291" shape="poly">
-          <area id="fr_l_wheel" (click)=carPartSelected($event) target="_top" alt="Front left wheel"
+          <area id="fr_l_wheel" (click)="carPartSelected($event,content)" target="_top" alt="Front left wheel"
                 href="javascript:void(0)" coords="35,117,19" shape="circle">
-          <area id="fr_r_wheel" (click)=carPartSelected($event) target="_top" alt="Front right wheel"
+          <area id="fr_r_wheel" (click)="carPartSelected($event,content)" target="_top" alt="Front right wheel"
                 href="javascript:void(0)" coords="265,117,21" shape="circle">
-          <area id="re_l_wheel" (click)=carPartSelected($event) target="_top" alt="Rear left wheel"
+          <area id="re_l_wheel" (click)="carPartSelected($event,content)" target="_top" alt="Rear left wheel"
                 href="javascript:void(0)" coords="36,297,20" shape="circle">
-          <area id="re_r_wheel" (click)=carPartSelected($event) target="_top" alt="Rear right wheel"
+          <area id="re_r_wheel" (click)="carPartSelected($event,content)" target="_top" alt="Rear right wheel"
                 href="javascript:void(0)" coords="265,297,19" shape="circle">
-          <area id="fr_r_window" (click)=carPartSelected($event) target="_blank" alt="Front right window"
+          <area id="fr_r_window" (click)="carPartSelected($event,content)" target="_blank" alt="Front right window"
                 href="javascript:void(0)" coords="219,157,196,194,195,223,220,221" shape="poly">
-          <area id="fr_l_window" (click)=carPartSelected($event) target="_blank" alt="Front left window"
+          <area id="fr_l_window" (click)="carPartSelected($event,content)" target="_blank" alt="Front left window"
                 href="javascript:void(0)" coords="82,155,107,197,106,224,82,222" shape="poly">
-          <area id="re_r_window" (click)=carPartSelected($event) target="_blank" alt="Rear right window"
+          <area id="re_r_window" (click)="carPartSelected($event,content)" target="_blank" alt="Rear right window"
                 href="javascript:void(0)" coords="196,230,221,228,221,283,197,264" shape="poly">
-          <area id="re_l_window" (click)=carPartSelected($event) target="_blank" alt="Rear left window"
+          <area id="re_l_window" (click)="carPartSelected($event,content)" target="_blank" alt="Rear left window"
                 href="javascript:void(0)" coords="83,226,106,230,105,265,81,284" shape="poly">
         </map>
       </div>
@@ -110,13 +110,13 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            {{ selectedPart.name }}
+            {{ selectedCarArea.name }}
             <div class="task">
               <div class="mdc-select mdc-select--outlined demo-select-outline-shaped" #partTask>
                 <i class="mdc-select__dropdown-icon"></i>
                 <select class="mdc-select__native-control shaped outlined"
                         [(ngModel)]="selectedTask"
-                        (change)="setSelectedTaskPart(selectedPart, $event)">
+                        (change)="setSelectedTaskPart(selectedPart, $event)" multiple>
                   <option *ngFor="let task of tasks | async" [ngValue]="task.idTask">
                     {{ task.name }}
                   </option>
@@ -132,13 +132,13 @@
             </div>
           </div>
           <div class="row">
-            {{ selectedPart.name }}
+            {{ selectedCarArea.name }}
             <div class="task">
               <div class="mdc-select mdc-select--outlined demo-select-outline-shaped" #partTask>
                 <i class="mdc-select__dropdown-icon"></i>
                 <select class="mdc-select__native-control shaped outlined"
-                        [(ngModel)]="selectedCarArea.idCarArea"
-                        (change)="setSelectedCarArea(selectedCarArea, $event)" multiple>
+                        [(ngModel)]="selectedCarArea"
+                        (change)="setSelectedCarArea(selectedCarArea, $event)">
                   <option *ngFor="let carArea of carAreas | async" [ngValue]="carArea.idCarArea">
                     {{ carArea.code }}
                   </option>
@@ -153,7 +153,7 @@
             </div>
           </div>
           <div class="form text-left">
-            <button (click)="onSubmit(selectedPart, tasks)" type="submit" class="mdc-button mdc-button--raised ">
+            <button (click)="onSubmit(selectedCarArea, tasks)" type="submit" class="mdc-button mdc-button--raised ">
               {{ 'jobinspect.submit' | translate}}
             </button>
           </div>

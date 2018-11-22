@@ -26,6 +26,9 @@ export class JobInspectComponent implements OnInit {
   protected jobTasks: JobTask[];
   protected idJob: number;
   protected job: Job;
+  protected modalTask;
+  protected closeResult: string;
+  protected selectedCarArea: CarArea;
 
   ngOnInit() {
     this.carAreas = this.jobInspectService.getCarAreas();
@@ -47,9 +50,9 @@ export class JobInspectComponent implements OnInit {
     });
   }
 
-  carPartSelected(event) {
+  carPartSelected(event, content) {
     var carAreaCode = event.currentTarget.id;
-    var carArea = this.carAreasMap.get(carAreaCode);
+    this.selectedCarArea = this.carAreasMap.get(carAreaCode);
 
     var status: Status = null;
 
@@ -64,7 +67,26 @@ export class JobInspectComponent implements OnInit {
       user: null,
       task: null,
       elapsedTime: 0,
-      carArea: carArea
+      carArea: this.selectedCarArea
     }
+
+    this.modalTask = this.modalService.open(content);
+    this.modalTask.result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
   }
+
+
+
+    private getDismissReason(reason: any): string {
+      if (reason === ModalDismissReasons.ESC) {
+        return 'by pressing ESC';
+      } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+        return 'by clicking on a backdrop';
+      } else {
+        return  `with: ${reason}`;
+      }
+    }
 }
