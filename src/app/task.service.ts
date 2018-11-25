@@ -121,10 +121,10 @@ export class TaskService {
     return this.http.delete(url, { observe: 'response' });
   }
 
-  createTask(task: JobTask): Observable<HttpResponse<JobTaskRessource>> {
-    var body = JSON.stringify(task);
+  createTask(tasks: JobTask[]): Observable<HttpResponse<JobTaskRessource[]>> {
+    var body = JSON.stringify(tasks);
     var url = `${AppConstants.JOB_BASE_URL}${AppConstants.TASK_URL}`;
-    return this.http.post<JobTaskRessource>(url, body,
+    return this.http.post<JobTaskRessource[]>(url, body,
       { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
   }
 }

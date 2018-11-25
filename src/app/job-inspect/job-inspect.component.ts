@@ -8,6 +8,7 @@ import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { MaphilightModule } from 'ng-maphilight';
 
 @Component({
   selector: 'app-job-inspect',
@@ -25,6 +26,7 @@ export class JobInspectComponent implements OnInit {
   protected carAreasMap: Map<string, CarArea> = new Map<string, CarArea>();
   protected tasks: Promise<Task[]>;
   protected jobTasks: JobTask[];
+  protected jobTasksMap: Map<string, JobTask[]> = new Map<string, JobTask[]>();
   protected newStatus: Status;
   protected idJob: number;
   protected job: Job;
@@ -32,6 +34,31 @@ export class JobInspectComponent implements OnInit {
   protected closeResult: string;
   protected selectedCarArea: CarArea;
   protected selectedTasks: Task[];
+
+  protected config = {
+     "fade": false,
+     "alwaysOn": false,
+     "neverOn": false,
+     "fill": true,
+     "fillColor": "#ff0000",
+     "fillOpacity": 0.4,
+     "stroke": true,
+     "strokeColor": "#000000",
+     "strokeOpacity": 1,
+     "strokeWidth": 1,
+     "shadow": false,
+     "shadowColor": "#000000",
+     "shadowOpacity": 0.8,
+     "shadowRadius": 10
+  };
+
+  isPartSelected(partCode:string): string {
+    if (this.jobTasksMap.get(partCode) != null) {
+      return '{"alwaysOn":true}';
+    } else {
+      return '{"alwaysOn":false}';
+    }
+  }
 
   ngOnInit() {
     this.carAreas = this.jobInspectService.getCarAreas();
@@ -46,15 +73,30 @@ export class JobInspectComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.idJob = params['idJob'];
 
+      this.jobService.getJob(this.idJob).then(data => {
+        this.job = data;
+      });
 
       this.jobInspectService.getJobTasksWithCarArea(this.idJob).then(data => {
         this.jobTasks = data;
+        for (let jobTask of this.jobTasks) {
+          var carAreaCode: string = jobTask.carArea.code;
+
+          if (this.jobTasksMap.get(carAreaCode) == null) {
+            this.jobTasksMap.set(carAreaCode, []);
+          }
+          this.jobTasksMap.get(carAreaCode).push(jobTask);
+        }
       });
     });
 
     this.jobService.getStatusStr('NEW').then(data => {
       this.newStatus = data;
     });
+
+    //document.getElementById('Map').maphilight();
+    //$('.Map').maphilight();
+
   }
 
   carPartSelected(event, content) {
@@ -95,9 +137,14 @@ export class JobInspectComponent implements OnInit {
         carArea: selectedCarArea
       }
 
-      this.taskService.createTask(jobTask);
       this.jobTasks.push(jobTask);
     }
+
+    this.taskService.createTask(this.jobTasks).subscribe(data => {
+      this.messageService.showSuccess(this.translate.instant('jobinspect.create.success'));
+    }, error => {
+      this.messageService.showError(this.translate.instant('jobinspect.create.error'));
+    });
   }
 
   /*setSelectedCarArea(selectedCarArea:CarArea, $event) {

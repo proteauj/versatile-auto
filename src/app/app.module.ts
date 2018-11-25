@@ -36,6 +36,8 @@ import { JobComponent } from './job/job.component';
 import { AppMaterialModule } from './material.module';
 import { JobInspectComponent } from './job-inspect/job-inspect.component';
 
+import { MaphilightModule } from 'ng-maphilight';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -68,7 +70,8 @@ import { JobInspectComponent } from './job-inspect/job-inspect.component';
         CommonModule,
         BrowserAnimationsModule, // required animations module
         ToastrModule.forRoot(), // ToastrModule added
-        AppMaterialModule
+        AppMaterialModule,
+        MaphilightModule
     ],
     schemas: [ NO_ERRORS_SCHEMA ],
     providers: [],
