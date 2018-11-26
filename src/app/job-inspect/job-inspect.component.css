@@ -17,6 +17,10 @@
   padding: 0px 0 !important;
 }
 
+.mdc-list-item {
+  height: unset;
+}
+
 .mdc-select {
   width: 90% !important;
   height: auto !important;

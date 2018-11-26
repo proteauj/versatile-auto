@@ -14,8 +14,7 @@
           <img id="image" src="../assets/car-damage.png" width="300" height="432" usemap="#Map" >
           <map name="Map">
             <area id="hood" (click)="carPartSelected($event,content)" target="_blank" alt="Hood"
-                  href="javascript:void(0)" coords="103,71,196,148" shape="rect"
-                  data-maphilight="{{isPartSelected('hood')}}">
+                  href="javascript:void(0)" coords="103,71,196,148" shape="rect">
             <area id="fr_window" (click)="carPartSelected($event,content)" target="_blank" alt="Front window"
                   href="javascript:void(0)" coords="102,151,199,151,187,187,114,186" shape="poly">
             <area id="roof" (click)="carPartSelected($event,content)" target="_blank" alt="Roof"
@@ -92,21 +91,33 @@
         <div class="modal-body">
           <div class="row">
             {{ selectedCarArea.name }}
-              <div class="mdc-select mdc-select--outlined demo-select-outline-shaped" #partTask>
-                <select class="mdc-select__native-control shaped outlined"
-                        [(ngModel)]="selectedTasks"
-                        (change)="setSelectedTaskPart(selectedPart, $event)" multiple>
-                  <option *ngFor="let task of tasks | async" [ngValue]="task">
-                    {{ task.name }}
-                  </option>
-                </select>
-                <div class="mdc-notched-outline">
-                  <svg>
-                    <path class="mdc-notched-outline__path"></path>
-                  </svg>
-                </div>
-                <div class="mdc-notched-outline__idle"></div>
-              </div>
+              <!--<div class="mdc-select mdc-select&#45;&#45;outlined demo-select-outline-shaped" #partTask>-->
+                <!--<select class="mdc-select__native-control shaped outlined"-->
+                        <!--[(ngModel)]="selectedTasks"-->
+                        <!--(change)="setSelectedTaskPart(selectedPart, $event)" multiple>-->
+                  <!--<option *ngFor="let task of tasks | async" [ngValue]="task">-->
+                    <!--{{ task.name }}-->
+                  <!--</option>-->
+                <!--</select>-->
+                <!--<div class="mdc-notched-outline">-->
+                  <!--<svg>-->
+                    <!--<path class="mdc-notched-outline__path"></path>-->
+                  <!--</svg>-->
+                <!--</div>-->
+                <!--<div class="mdc-notched-outline__idle"></div>-->
+              <!--</div>-->
+
+            <!--<div class="custom-control custom-checkbox" *ngFor="let task of tasks | async">-->
+              <!--<input type="checkbox" class="custom-control-input" id="customCheck1">-->
+              <!--<label class="custom-control-label" for="customCheck1">{{ task.name }}</label>-->
+            <!--</div>-->
+
+            <mdc-list #checkboxes>
+              <mdc-list-item *ngFor="let task of tasks | async">
+                {{ task.name }}
+                <mdc-checkbox mdcListItemMeta></mdc-checkbox>
+              </mdc-list-item>
+            </mdc-list>
               <!-- TODO: Ajouter temps par défaut avec un sélecteur pour augmenter/réduire à coup de 15 minutes -->
           </div>
           <div class="row">
@@ -116,7 +127,7 @@
                 <select class="mdc-select__native-control shaped outlined"
                         [(ngModel)]="selectedCarArea">
                   <option *ngFor="let carArea of carAreas | async" [ngValue]="carArea">
-                    {{ carArea.code }}
+                    {{ ('jobinspect.carpart.' + carArea.code) | translate }}
                   </option>
                 </select>
                 <div class="mdc-notched-outline">

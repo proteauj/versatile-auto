@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Job, JobTask, Status } from '../models/job';
 import { CarArea, Task } from '../models/jobInspect';
 import { JobInspectService } from '../job-inspect.service';
@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { MaphilightModule } from 'ng-maphilight';
+import { MdcCheckbox } from '@angular-mdc/web';
 
 @Component({
   selector: 'app-job-inspect',
@@ -54,9 +55,9 @@ export class JobInspectComponent implements OnInit {
 
   isPartSelected(partCode:string): string {
     if (this.jobTasksMap.get(partCode) != null) {
-      return '{"alwaysOn":true}';
+      return 'data-maphilight={"alwaysOn":true}';
     } else {
-      return '{"alwaysOn":false}';
+      return 'data-maphilight={"alwaysOn":false}';
     }
   }
 
@@ -84,6 +85,9 @@ export class JobInspectComponent implements OnInit {
 
           if (this.jobTasksMap.get(carAreaCode) == null) {
             this.jobTasksMap.set(carAreaCode, []);
+
+            var element = document.getElementById(carAreaCode);
+            element.setAttribute('data-maphilight', '{"alwaysOn":true}');
           }
           this.jobTasksMap.get(carAreaCode).push(jobTask);
         }
