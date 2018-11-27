@@ -10,6 +10,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { MaphilightModule } from 'ng-maphilight';
 import { MdcCheckbox } from '@angular-mdc/web';
+import { MdcSliderChange } from '@angular-mdc/web';
+//import { MatSliderModule } from '@angular/material/slider';
+
+
 
 @Component({
   selector: 'app-job-inspect',
@@ -35,6 +39,10 @@ export class JobInspectComponent implements OnInit {
   protected closeResult: string;
   protected selectedCarArea: CarArea;
   protected selectedTasks: Task[];
+
+  protected markersInputEventValue: number;
+  protected markersChangeEventValue: number;
+
 
   protected config = {
      "fade": false,
@@ -98,8 +106,9 @@ export class JobInspectComponent implements OnInit {
       this.newStatus = data;
     });
 
-    //document.getElementById('Map').maphilight();
-    //$('.Map').maphilight();
+    //jQuery('#image').maphilight();
+    //document.getElementById('carMap').maphilight();
+    //$('.carMap').maphilight();
 
   }
 

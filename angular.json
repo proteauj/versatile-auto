@@ -30,7 +30,7 @@
             ],
             "scripts": ["node_modules/jquery/dist/jquery.min.js",
                        "node_modules/bootstrap/dist/js/bootstrap.min.js",
-            "node_modules/Simple-jQuery-Plugin-For-Highlighting-Image-Map-Maphilight/jquery.maphilight.min.js"]
+                       "node_modules/maphilight/jquery.maphilight.min.js"]
           },
           "configurations": {
             "production": {

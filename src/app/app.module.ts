@@ -37,6 +37,9 @@ import { AppMaterialModule } from './material.module';
 import { JobInspectComponent } from './job-inspect/job-inspect.component';
 
 import { MaphilightModule } from 'ng-maphilight';
+import { MatSliderModule } from '@angular/material/slider';
+import 'hammerjs'
+
 
 @NgModule({
     declarations: [
@@ -51,6 +54,7 @@ import { MaphilightModule } from 'ng-maphilight';
     ],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         FontAwesomeModule,
         NgSelectModule,
         FormsModule,
@@ -71,7 +75,8 @@ import { MaphilightModule } from 'ng-maphilight';
         BrowserAnimationsModule, // required animations module
         ToastrModule.forRoot(), // ToastrModule added
         AppMaterialModule,
-        MaphilightModule
+        MaphilightModule,
+        MatSliderModule
     ],
     schemas: [ NO_ERRORS_SCHEMA ],
     providers: [],
