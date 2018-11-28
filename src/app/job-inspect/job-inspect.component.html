@@ -119,8 +119,9 @@
                   [max]="300"
                   [min]="15"
                   [step]="15"
-                  [thumbLabel]="thumbLabel"
-                  [tickInterval]="autoTicks"
+                  [thumbLabel]="true"
+                  [displayWith]="formatLabel"
+                  [tickInterval]="30"
                   [(ngModel)]="task.avgTime">
                 </mat-slider>
 

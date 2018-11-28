@@ -2,6 +2,24 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 
+/*$mdc-theme-primary: #25317E;
+$mdc-theme-secondary: #04A6E4;
+
+.mdc-theme--primary	{
+  color:#25317E;
+}
+
+.mdc-theme--secondary {
+  color:#04A6E4;
+}*/
+
+:root {
+  --mdc-theme-primary: #25317E !important;
+  --mdc-theme-secondary: #04A6E4 !important;
+  --mdc-theme-on-primary: white !important;
+  --mdc-theme-on-secondary: black !important;
+}
+
 .container {
   padding-right: 0px !important;
   padding-left: 0px !important;
