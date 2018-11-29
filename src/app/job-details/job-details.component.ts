@@ -19,15 +19,14 @@ import {HttpClient, HttpRequest, HttpEvent} from '@angular/common/http';
 })
 export class JobDetailsComponent implements OnInit {
 
-  protected files: File[] = [];
-  protected filesSaved: Map<number, FileModel> = new Map<number, FileModel>();
-  //protected filesSaved: Promise<FileModel[]>;
-  protected filesToShow: File[] = [];
-  protected formData = new FormData();
-  protected fileUploadConfig;
-  protected job: Job;
-  protected idJob: number;
-  protected imageFiles: FileModel[] = [];
+  private files: File[] = [];
+  private filesSaved: Map<number, FileModel> = new Map<number, FileModel>();
+  private filesToShow: File[] = [];
+  private formData = new FormData();
+  private fileUploadConfig;
+  private job: Job;
+  private idJob: number;
+  private imageFiles: FileModel[] = [];
 
   faSave = faSave;
   faMinusCircle = faMinusCircle;

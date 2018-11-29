@@ -18,19 +18,19 @@ import { faPlusCircle, faEdit, faMinusCircle, faSave, faEraser, faArrowCircleRig
 })
 export class JobTaskComponent implements OnInit {
 
-  protected categories: Promise<Role[]>;
-  protected employees: Promise<Employee[]>;
-  protected status: Promise<Status[]>;
-  protected tasks: Map<number, JobTask> = new Map<number, JobTask>();
-  protected submitted: boolean = false;
-  protected taskForm: FormGroup;
-  protected isValid: boolean = false;
-  protected job: Job;
-  protected idTask: number = null;
-  protected isCreate: boolean = true;
-  protected isModify: boolean = false;
-  protected isCategorySelected: boolean = false;
-  protected idJob: number;
+  private categories: Promise<Role[]>;
+  private employees: Promise<Employee[]>;
+  private status: Promise<Status[]>;
+  private tasks: Map<number, JobTask> = new Map<number, JobTask>();
+  private submitted: boolean = false;
+  private taskForm: FormGroup;
+  private isValid: boolean = false;
+  private job: Job;
+  private idTask: number = null;
+  private isCreate: boolean = true;
+  private isModify: boolean = false;
+  private isCategorySelected: boolean = false;
+  private idJob: number;
 
   faPlusCircle = faPlusCircle;
   faEdit = faEdit;

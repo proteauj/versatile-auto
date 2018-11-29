@@ -13,9 +13,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-	protected submitted: boolean = false;
-	protected isValid;
-  protected loginForm: FormGroup;
+	private submitted: boolean = false;
+	private isValid;
+  private loginForm: FormGroup;
 
   constructor(private userService: UserService, private messageService: MessageService,
     private translate: TranslateService, private router: Router, private formBuilder: FormBuilder) { }

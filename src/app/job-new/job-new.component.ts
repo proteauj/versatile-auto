@@ -18,15 +18,15 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./job-new.component.css']
 })
 export class JobNewComponent implements OnInit {
-    validJob: Job;
-    validCar: Car;
-    submitted: boolean = false;
-    protected carForm: FormGroup;
-    protected isValid: boolean = false;
-    status: Promise<Status[]>;
-    protected idJob: number;
-    protected jobToModify: Job;
-    protected isModify: boolean = false;
+    private validJob: Job;
+    private validCar: Car;
+    private submitted: boolean = false;
+    private carForm: FormGroup;
+    private isValid: boolean = false;
+    private status: Promise<Status[]>;
+    private idJob: number;
+    private jobToModify: Job;
+    private isModify: boolean = false;
     faCalendarAlt = faCalendarAlt;
 
 	job: Job = {

@@ -23,19 +23,19 @@ export class JobInspectComponent implements OnInit {
               private modalService: NgbModal, private route: ActivatedRoute,
               private taskService: TaskService, private jobService: JobService) { }
 
-  protected carAreas: Promise<CarArea[]>;
-  protected carAreasMap: Map<string, CarArea> = new Map<string, CarArea>();
-  protected tasks: Promise<Task[]>;
-  protected jobTasks: JobTask[];
-  protected jobTasksMap: Map<string, JobTask[]> = new Map<string, JobTask[]>();
-  protected newStatus: Status;
-  protected idJob: number;
-  protected job: Job;
-  protected modalTask;
-  protected closeResult: string;
-  protected selectedCarArea: CarArea;
+  private carAreas: Promise<CarArea[]>;
+  private carAreasMap: Map<string, CarArea> = new Map<string, CarArea>();
+  private tasks: Promise<Task[]>;
+  private jobTasks: JobTask[];
+  private jobTasksMap: Map<string, JobTask[]> = new Map<string, JobTask[]>();
+  private newStatus: Status;
+  private idJob: number;
+  private job: Job;
+  private modalTask;
+  private closeResult: string;
+  private selectedCarArea: CarArea;
 
-  protected config = {
+  private config = {
      "fade": false,
      "alwaysOn": false,
      "neverOn": false,

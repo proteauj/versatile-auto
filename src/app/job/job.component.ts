@@ -17,13 +17,13 @@ import { forkJoin } from "rxjs/observable/forkJoin";
 })
 export class JobComponent implements OnInit {
 
-  protected jobs: Promise<Job[]>;
-  protected tasksMap: Map<number, JobTask[]> = new Map<number, JobTask[]>();
-  protected tasks: JobTask[] = [];
-  protected selectedJob: Job;
-  closeResult: string;
-  protected statusArr: Promise<Status[]>;
-  protected modalSummary;
+  private jobs: Promise<Job[]>;
+  private tasksMap: Map<number, JobTask[]> = new Map<number, JobTask[]>();
+  private tasks: JobTask[] = [];
+  private selectedJob: Job;
+  private closeResult: string;
+  private statusArr: Promise<Status[]>;
+  private modalSummary;
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private router: Router, private modalService: NgbModal,
