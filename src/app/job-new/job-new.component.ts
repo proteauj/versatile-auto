@@ -20,10 +20,10 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 export class JobNewComponent implements OnInit {
     private validJob: Job;
     private validCar: Car;
-    private submitted: boolean = false;
-    private carForm: FormGroup;
+    public submitted: boolean = false;
+    public carForm: FormGroup;
     private isValid: boolean = false;
-    private status: Promise<Status[]>;
+    public status: Promise<Status[]>;
     private idJob: number;
     private jobToModify: Job;
     private isModify: boolean = false;

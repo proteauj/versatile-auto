@@ -12,7 +12,7 @@
       <div style="width:5%"></div>
       <div style="width:90%">
         <div class="group form text-center">
-          <form class="car-form text-left" [formGroup]="taskForm" (ngSubmit)="onAdd()">
+          <form class="car-form text-left" [formGroup]="taskForm">
             <div class="form-group">
               <label for="jobtaskName" class="sr-only">{{ 'jobtask.name.label' | translate  }}</label>
               <textarea type="text" formControlName="name" class="form-control" required

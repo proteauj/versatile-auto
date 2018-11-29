@@ -12,7 +12,7 @@
       <div class="col-md-4"></div>
       <div class="col-md-4">
         <div class="group form text-center">
-          <form class="car-form text-left" [formGroup]="carForm" (ngSubmit)="onCreate(job)">
+          <form class="car-form text-left" [formGroup]="carForm">
             <div class="form-group">
               <label for="jobnewDescription" class="sr-only">{{ 'jobnew.description.label' | translate  }}</label>
               <textarea type="text" formControlName="description" class="form-control" required
@@ -102,7 +102,7 @@
             </form>
           </div>
           <div class="form text-left">
-            <button (click)="onSubmit(job)" type="submit" class="mdc-button mdc-button--raised ">
+            <button (click)="onSubmit()" type="submit" class="mdc-button mdc-button--raised">
               {{ 'jobnew.submit' | translate}}
             </button>
           </div>

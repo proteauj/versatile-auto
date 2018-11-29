@@ -26,7 +26,7 @@ export class JobInspectComponent implements OnInit {
   private carAreas: Promise<CarArea[]>;
   private carAreasMap: Map<string, CarArea> = new Map<string, CarArea>();
   private tasks: Promise<Task[]>;
-  private jobTasks: JobTask[];
+  public jobTasks: JobTask[];
   private jobTasksMap: Map<string, JobTask[]> = new Map<string, JobTask[]>();
   private newStatus: Status;
   private idJob: number;
@@ -35,7 +35,7 @@ export class JobInspectComponent implements OnInit {
   private closeResult: string;
   private selectedCarArea: CarArea;
 
-  private config = {
+  public config = {
      "fade": false,
      "alwaysOn": false,
      "neverOn": false,

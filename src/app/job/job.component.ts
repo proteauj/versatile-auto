@@ -17,7 +17,7 @@ import { forkJoin } from "rxjs/observable/forkJoin";
 })
 export class JobComponent implements OnInit {
 
-  private jobs: Promise<Job[]>;
+  public jobs: Promise<Job[]>;
   private tasksMap: Map<number, JobTask[]> = new Map<number, JobTask[]>();
   private tasks: JobTask[] = [];
   private selectedJob: Job;
