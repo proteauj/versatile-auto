@@ -10,10 +10,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { MaphilightModule } from 'ng-maphilight';
 import { MdcCheckbox } from '@angular-mdc/web';
-import { MdcSliderChange } from '@angular-mdc/web';
-//import { MatSliderModule } from '@angular/material/slider';
-
-
 
 @Component({
   selector: 'app-job-inspect',
@@ -38,11 +34,6 @@ export class JobInspectComponent implements OnInit {
   protected modalTask;
   protected closeResult: string;
   protected selectedCarArea: CarArea;
-  protected selectedTasks: Task[];
-
-  protected markersInputEventValue: number;
-  protected markersChangeEventValue: number;
-
 
   protected config = {
      "fade": false,
@@ -105,11 +96,6 @@ export class JobInspectComponent implements OnInit {
     this.jobService.getStatusStr('NEW').then(data => {
       this.newStatus = data;
     });
-
-    //jQuery('#image').maphilight();
-    //document.getElementById('carMap').maphilight();
-    //$('.carMap').maphilight();
-
   }
 
   carPartSelected(event, content) {
@@ -134,37 +120,36 @@ export class JobInspectComponent implements OnInit {
     }
   }
 
-  onSubmit(selectedCarArea, selectedTasks) {
-    for (let task of selectedTasks) {
-      var jobTask: JobTask = {
-        id: -1,
-        name: task.name,
-        estimatedTime: task.avgTime,
-        job: this.job,
-        status: this.newStatus,
-        priority: 0,
-        role: task.role,
-        user: null,
-        task: task,
-        elapsedTime: 0,
-        carArea: selectedCarArea
-      }
-
-      this.jobTasks.push(jobTask);
-    }
-
-    this.taskService.createTask(this.jobTasks).subscribe(data => {
-      this.messageService.showSuccess(this.translate.instant('jobinspect.create.success'));
-    }, error => {
-      this.messageService.showError(this.translate.instant('jobinspect.create.error'));
-    });
+  getSelectedTasks(tasks: Task[]) {
+    return tasks.filter(task => task.checked);
   }
 
-  /*setSelectedCarArea(selectedCarArea:CarArea, $event) {
-       let selectedOptions = event.target['options'];
-       let selectedIndex = selectedOptions.selectedIndex;
-       let carAreaTextSelected:string = selectedOptions[selectedIndex].text;
+  onSubmit(selectedCarArea, tasks) {
+    this.tasks.then(data => {
+      var selectedTasks = this.getSelectedTasks(data);
+      for (let task of selectedTasks) {
+        var jobTask: JobTask = {
+          id: -1,
+          name: task.name,
+          estimatedTime: task.avgTime,
+          job: this.job,
+          status: this.newStatus,
+          priority: 0,
+          role: task.role,
+          user: null,
+          task: task,
+          elapsedTime: 0,
+          carArea: selectedCarArea
+        }
 
-       selectedCarArea = this.carAreasMap.get(carAreaTextSelected);
-     }*/
+        this.jobTasks.push(jobTask);
+      }
+
+      this.taskService.createTask(this.jobTasks).subscribe(data => {
+        this.messageService.showSuccess(this.translate.instant('jobinspect.create.success'));
+      }, error => {
+        this.messageService.showError(this.translate.instant('jobinspect.create.error'));
+      });
+    });
+  }
 }

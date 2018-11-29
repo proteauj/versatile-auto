@@ -92,29 +92,12 @@
           <div class="row">
             <mdc-list #checkboxes>
               <mdc-list-item *ngFor="let task of tasks | async">
-                <mdc-checkbox mdcListItemMeta style="width:10%"></mdc-checkbox>
+                <mdc-checkbox mdcListItemMeta style="width:10%"
+                              value="{{task.idTask}}"
+                              [(ngModel)]="task.checked"></mdc-checkbox>
                 <div style="width:35%">
                   {{ task.name }}
                 </div>
-                <!--<input type="range" name="points" min="15" max="300" step="15" value="task.avgTime">-->
-
-                <!--<div style="width:45%" class="mdc-slider mdc-slider&#45;&#45;discrete mdc-slider&#45;&#45;display-markers" tabindex="0" role="slider"-->
-                     <!--aria-valuemin="15" aria-valuemax="300" aria-valuenow="100" data-step="15">-->
-                  <!--<div class="mdc-slider__track-container">-->
-                    <!--<div class="mdc-slider__track"></div>-->
-                  <!--</div>-->
-                  <!--<div class="mdc-slider__thumb-container">-->
-                    <!--<div class="mdc-slider__pin">-->
-                      <!--<span class="mdc-slider__pin-value-marker"></span>-->
-                    <!--</div>-->
-                    <!--<svg class="mdc-slider__thumb" width="21" height="21">-->
-                      <!--<circle cx="10.5" cy="10.5" r="7.875"></circle>-->
-                    <!--</svg>-->
-                    <!--<div class="mdc-slider__focus-ring"></div>-->
-                  <!--</div>-->
-                <!--</div>-->
-
-                <!--<mat-slider style="width:45%" min="15" max="300" step="15" value="100"></mat-slider>-->
                 <mat-slider style="width:45%"
                   [max]="300"
                   [min]="15"
@@ -128,21 +111,6 @@
                 <i class="material-icons" style="width:10%">alarm</i>
               </mdc-list-item>
             </mdc-list>
-
-            <!--<div>-->
-              <!--<i class="material-icons">alarm</i>-->
-              <!--<input type="range" name="points" min="15" max="300" step="15" value="{{ task.name }}">-->
-              <!--<mdc-slider [discrete]="true" [markers]="true" class="mdc-slider mdc-slider&#45;&#45;discrete"-->
-                          <!--[min]="15" [max]="300" [step]="15" ngModel #demoMarkerModel="ngModel"-->
-                          <!--[value]="20" (input)="markersInputEventValue = $event.value"-->
-                          <!--(change)="markersChangeEventValue = $event.value"></mdc-slider>-->
-
-
-
-              <!--<p>{{}}</p>-->
-
-
-            <!--</div>-->
           </div>
           <div class="row">
             {{ selectedCarArea.name }}
@@ -163,7 +131,7 @@
               </div>
           </div>
           <div class="form text-left">
-            <button (click)="onSubmit(selectedCarArea, selectedTasks)" type="submit" class="mdc-button mdc-button--raised ">
+            <button (click)="onSubmit(selectedCarArea, tasks)" type="submit" class="mdc-button mdc-button--raised ">
               {{ 'jobinspect.submit' | translate}}
             </button>
           </div>

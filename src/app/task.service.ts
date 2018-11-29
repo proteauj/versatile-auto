@@ -48,7 +48,8 @@ export class TaskService {
       idTask: taskRess.idTask,
       name: taskRess.name,
       avgTime: taskRess.avgTime,
-      role: this.userService.getRoleFromRessource(taskRess.role)
+      role: this.userService.getRoleFromRessource(taskRess.role),
+      checked: false
     };
 
     return task;

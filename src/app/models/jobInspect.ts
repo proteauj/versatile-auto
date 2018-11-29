@@ -5,6 +5,7 @@ export class Task {
   name: string;
   avgTime: number;
   role: Role;
+  checked: boolean = false;
 }
 
 export class CarArea {
