@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/versatile-auto",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

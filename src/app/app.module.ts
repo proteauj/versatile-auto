@@ -39,7 +39,9 @@ import { JobInspectComponent } from './job-inspect/job-inspect.component';
 import { MaphilightModule } from 'ng-maphilight';
 import { MatSliderModule } from '@angular/material/slider';
 import 'hammerjs'
-
+import { AngularFireModule } from 'angularfire2';
+import { environment } from '../environments/environment';
+import { LocationStrategy, HashLocationStrategy} from '@angular/common';
 
 @NgModule({
     declarations: [
@@ -76,10 +78,11 @@ import 'hammerjs'
         ToastrModule.forRoot(), // ToastrModule added
         AppMaterialModule,
         MaphilightModule,
-        MatSliderModule
+        MatSliderModule,
+        AngularFireModule.initializeApp(environment.firebase)
     ],
     schemas: [ NO_ERRORS_SCHEMA ],
-    providers: [],
+    providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
