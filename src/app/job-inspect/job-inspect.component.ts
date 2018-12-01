@@ -8,7 +8,7 @@ import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-//import { MaphilightModule } from 'ng-maphilight';
+import { MaphilightModule } from 'ng-maphilight';
 import { MdcCheckbox } from '@angular-mdc/web';
 
 @Component({
