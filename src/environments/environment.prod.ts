@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'http://localhost:8080',
+  apiBaseUrl: 'https://ancient-inlet-21376.herokuapp.com',
 
   firebase: {
         apiKey: "AIzaSyBI0QwCt_Qik8Fim_W96SChVU-fK2y72zw",

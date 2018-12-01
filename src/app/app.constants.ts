@@ -34,7 +34,7 @@ export class AppConstants {
   public static CAR_AREAS_URL : string = AppConstants.API_BASE_URL + '/car-areas';
 
   //CAR IMAGERY
-  public static CAR_IMAGERY_URL: string = 'http://www.carimagery.com/api.asmx/GetImageUrl?searchTerm=';
+  public static CAR_IMAGERY_URL: string = 'https://www.carimagery.com/api.asmx/GetImageUrl?searchTerm=';
 
   //VIN DECODER
   public static VIN_BASE_URL:string = 'http://api.marketcheck.com/v1/vin/';
