@@ -45,6 +45,10 @@
   padding: 0px !important;
 }
 
+.mdc-card__action-icons {
+  justify-content: center !important;
+}
+
 .img-container .btn {
   position: absolute;
   background-color: transparent;

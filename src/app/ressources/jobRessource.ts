@@ -34,6 +34,6 @@ export class FileRessource {
   idFile: number;
   file: string;
   name: string;
-  type: string;
   job: JobRessource;
+  type: string;
 }

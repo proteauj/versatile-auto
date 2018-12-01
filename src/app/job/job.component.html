@@ -17,8 +17,7 @@
                   <span class="mdc-image-list__label">{{job.car.model.title}} {{job.car.year}}</span>
                 </div>
                 <div class="img-container">
-                  <button type="button" class="btn btn-primary" (click)="showJob(job)"></button>
-                  <img class="mdc-image-list__image img-job" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>
+                  <img class="mdc-image-list__image img-job" (click)="showJob(job)" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>
                 </div>
                 <div>
                   <mdc-card-actions>
