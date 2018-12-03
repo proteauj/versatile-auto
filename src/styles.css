@@ -13,12 +13,27 @@ $mdc-theme-secondary: #04A6E4;
   color:#04A6E4;
 }*/
 
-:root {
+/*:root {
   --mdc-theme-primary: #25317E !important;
   --mdc-theme-secondary: #04A6E4 !important;
   --mdc-theme-on-primary: white !important;
   --mdc-theme-on-secondary: black !important;
 }
+
+$my-theme-primary: mat-palette($mat-indigo, 700, 300, 900);
+$my-theme-accent: mat-palette($mat-light-blue);
+$my-theme-warn: mat-palette($mat-deep-orange, A200);
+
+// create theme (use mat-dark-theme for themes with dark backgrounds)
+$my-theme: mat-light-theme(
+    $my-theme-primary,
+    $my-theme-accent,
+    $my-theme-warn
+);
+
+.my-theme {
+  @include angular-material-theme($my-theme);
+}*/
 
 .container {
   padding-right: 0px !important;

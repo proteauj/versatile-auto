@@ -10,33 +10,59 @@
       <div class="row">
         <div style="width:5%"></div>
         <div style="width:90%" *ngIf="jobs">
-          <ul class="mdc-image-list my-image-list " >
-            <div *ngFor="let job of jobs | async">
-              <li class="mdc-image-list__item my-image-list-item">
-                <div class="mdc-image-list__supporting">
-                  <span class="mdc-image-list__label">{{job.car.model.title}} {{job.car.year}}</span>
-                </div>
-                <div class="img-container">
-                  <img class="mdc-image-list__image img-job" (click)="showJob(job)" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>
-                </div>
-                <div>
-                  <mdc-card-actions>
-                    <mdc-card-action-icons>
-                      <button mdcIconButton (click)="showSummary(job, content)">
-                          <mdc-icon>description</mdc-icon>
-                        </button>
-                      <button mdcIconButton (click)="showTask(job)">
-                        <mdc-icon>toc</mdc-icon>
-                      </button>
-                      <button mdcIconButton (click)="showDetails(job)">
-                        <mdc-icon>input</mdc-icon>
-                      </button>
-                    </mdc-card-action-icons>
-                  </mdc-card-actions>
-                </div>
-              </li>
-            </div>
-          </ul>
+          <mat-grid-list cols="2">
+              <mat-grid-tile *ngFor="let job of jobs | async">
+                <mat-card>
+                  <mat-card-header>
+                    <mat-card-title>{{job.car.model.title}} {{job.car.year}}</mat-card-title>
+                  </mat-card-header>
+                  <img mat-card-md-image class="img-job" (click)="showJob(job)" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>
+                  <mat-card-actions>
+                    <button mat-icon-button (click)="showSummary(job, content)">
+                      <mat-icon aria-label="Summary">description</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="showTask(job)">
+                      <mat-icon aria-label="Tasks">toc</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="showDetails(job)">
+                      <mat-icon aria-label="Upload">input</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="showInspect(job)">
+                      <mat-icon aria-label="Inspect">search</mat-icon>
+                    </button>
+                  </mat-card-actions>
+                </mat-card>
+              </mat-grid-tile>
+          </mat-grid-list>
+
+
+          <!--<ul class="mdc-image-list my-image-list " >-->
+            <!--<div *ngFor="let job of jobs | async">-->
+              <!--<li class="mdc-image-list__item my-image-list-item">-->
+                <!--<div class="mdc-image-list__supporting">-->
+                  <!--<span class="mdc-image-list__label">{{job.car.model.title}} {{job.car.year}}</span>-->
+                <!--</div>-->
+                <!--<div class="img-container">-->
+                  <!--<img class="mdc-image-list__image img-job" (click)="showJob(job)" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>-->
+                <!--</div>-->
+                <!--<div>-->
+                  <!--<mdc-card-actions>-->
+                    <!--<mdc-card-action-icons>-->
+                      <!--<button mdcIconButton (click)="showSummary(job, content)">-->
+                          <!--<mdc-icon>description</mdc-icon>-->
+                        <!--</button>-->
+                      <!--<button mdcIconButton (click)="showTask(job)">-->
+                        <!--<mdc-icon>toc</mdc-icon>-->
+                      <!--</button>-->
+                      <!--<button mdcIconButton (click)="showDetails(job)">-->
+                        <!--<mdc-icon>input</mdc-icon>-->
+                      <!--</button>-->
+                    <!--</mdc-card-action-icons>-->
+                  <!--</mdc-card-actions>-->
+                <!--</div>-->
+              <!--</li>-->
+            <!--</div>-->
+          <!--</ul>-->
 
           <ng-template #content let-modal>
             <div class="modal-header">

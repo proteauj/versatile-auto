@@ -7,6 +7,45 @@
   margin-right: auto;
 }
 
+.mat-icon-button {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+}
+
+.mat-icon-button .mat-icon, .mat-icon-button i {
+    line-height: 5px;
+}
+
+.mat-grid-list {
+    position: unset;
+}
+
+.mat-card>.mat-card-actions:last-child {
+     margin-bottom: unset;
+     padding-bottom: unset;
+}
+
+.mat-card-content>:last-child:not(.mat-card-footer), .mat-card>:last-child:not(.mat-card-footer) {
+     margin-bottom: unset;
+}
+
+.mat-card-actions {
+     margin-left: unset;
+     margin-right: unset;
+     padding: 0 18px;
+}
+
+.mat-card-actions, .mat-card-content, .mat-card-subtitle {
+    margin-bottom: 6px;
+}
+
+.mat-card {
+    padding: 0px;
+    width: 100%;
+    justify-content: center !important;
+}
+
 .job-container .btn {
   background: transparent;
   border: 0;
