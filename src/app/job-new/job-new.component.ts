@@ -145,7 +145,7 @@ export class JobNewComponent implements OnInit {
     this.job = {
       idJob: null,
       description: this.carForm.controls.description.value,
-      car: this.car,
+      car: this.carService.getCarRessourceFromModel(this.car),
       status: status,
       arrivalDate: this.getDateFromNgbDate(this.carForm.controls.arrivalDate.value),
       toDeliverDate: this.getDateFromNgbDate(this.carForm.controls.toDeliverDate.value),

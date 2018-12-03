@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, SecurityContext } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Car, Make, Model, VinDecoded } from './models/car';
 import { CarArea, CarSide } from './models/jobInspect';
@@ -26,9 +26,6 @@ export class CarService implements OnInit {
   ngOnInit() { }
 
   getCarFromVinRessource(vin:string): Observable<HttpResponse<CarRessource>> {
-    //var url:string = `${AppConstants.VIN_BASE_URL}${vin}${AppConstants.API_KEY_PARAM}`;
-    //return this.http.get<VinDecoded>(url, this.httpOptions);
-
     var url:string = `${AppConstants.CAR_URL}${AppConstants.VIN_URL}/${vin}`;
     return this.http.get<CarRessource>(url, { observe: 'response' });
   }
@@ -60,6 +57,18 @@ export class CarService implements OnInit {
 
   getModelsRessource(makeId: number): Observable<HttpResponse<ModelRessource[]>> {
     return this.http.get<ModelRessource[]>(`${AppConstants.MAKES_URL}/${makeId}${AppConstants.MODELS_URL}`, { observe: 'response' });
+  }
+
+  getCarRessourceFromModel(carModel: Car): CarRessource {
+    var carRess: CarRessource = {
+      id: carModel.id,
+      year: carModel.year,
+      vin: carModel.vin,
+      model: carModel.model,
+      imageUrl: this.sanitizer.sanitize(SecurityContext.URL, carModel.imageUrl)
+    };
+
+    return carRess;
   }
 
   getCarFromRessource(carRess: CarRessource): Car {
