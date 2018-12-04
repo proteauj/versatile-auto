@@ -30,7 +30,8 @@ import {
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatSelectModule } from '@angular/material/select';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   imports: [
@@ -38,7 +39,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatCheckboxModule,
     MatGridListModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule,
+    MatListModule
   ],
   exports: [
     MdcButtonModule,
@@ -66,7 +69,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatCheckboxModule,
     MatGridListModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule,
+    MatListModule
   ]
 })
 export class AppMaterialModule { }

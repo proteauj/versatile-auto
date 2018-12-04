@@ -1,16 +1,16 @@
 <div class="jumbotron content">
   <div class="container">
-    <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
+    <!--<div class="row">-->
+      <!--<div class="col-md-4"></div>-->
+      <!--<div class="col-md-4">-->
         <div class="logo">{{ 'job.title' | translate }}</div>
-      </div>
-      <div class="col-md-4"></div>
+      <!--</div>-->
+      <!--<div class="col-md-4"></div>-->
 
-      <div class="row">
-        <div style="width:5%"></div>
-        <div style="width:90%" *ngIf="jobs">
-          <mat-grid-list cols="2">
+      <!--<div class="row">-->
+        <!--<div style="width:5%"></div>-->
+        <!--<div style="width:90%" >-->
+          <mat-grid-list cols="2" *ngIf="jobs">
               <mat-grid-tile *ngFor="let job of jobs | async">
                 <mat-card>
                   <mat-card-header>
@@ -35,35 +35,6 @@
               </mat-grid-tile>
           </mat-grid-list>
 
-
-          <!--<ul class="mdc-image-list my-image-list " >-->
-            <!--<div *ngFor="let job of jobs | async">-->
-              <!--<li class="mdc-image-list__item my-image-list-item">-->
-                <!--<div class="mdc-image-list__supporting">-->
-                  <!--<span class="mdc-image-list__label">{{job.car.model.title}} {{job.car.year}}</span>-->
-                <!--</div>-->
-                <!--<div class="img-container">-->
-                  <!--<img class="mdc-image-list__image img-job" (click)="showJob(job)" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>-->
-                <!--</div>-->
-                <!--<div>-->
-                  <!--<mdc-card-actions>-->
-                    <!--<mdc-card-action-icons>-->
-                      <!--<button mdcIconButton (click)="showSummary(job, content)">-->
-                          <!--<mdc-icon>description</mdc-icon>-->
-                        <!--</button>-->
-                      <!--<button mdcIconButton (click)="showTask(job)">-->
-                        <!--<mdc-icon>toc</mdc-icon>-->
-                      <!--</button>-->
-                      <!--<button mdcIconButton (click)="showDetails(job)">-->
-                        <!--<mdc-icon>input</mdc-icon>-->
-                      <!--</button>-->
-                    <!--</mdc-card-action-icons>-->
-                  <!--</mdc-card-actions>-->
-                <!--</div>-->
-              <!--</li>-->
-            <!--</div>-->
-          <!--</ul>-->
-
           <ng-template #content let-modal>
             <div class="modal-header">
               <h4 class="modal-title" id="modal-basic-title">{{ 'job.summary.title' | translate }}</h4>
@@ -72,82 +43,117 @@
               </button>
             </div>
             <div class="modal-body">
-              <div class="row">
-                <div style="width:65%" class="mdc-list--dense">
-                  <mdc-list  #twoline twoLine>
-                    <mdc-list-item class="two-line-item">
-                      <mdc-list-item-text [secondaryText]="selectedJob.car.vin">
+              <mat-list>
+                <mat-list-item>
+                  <div class="mat-list-text" style="width:65%">
+                    <h5 matLine>
                       {{selectedJob.car.model.make.title}} {{selectedJob.car.model.title}} {{selectedJob.car.year}}
-                      </mdc-list-item-text>
-                    </mdc-list-item>
-                  </mdc-list>
-                </div>
-                <div class="status">
-                  <div class="mdc-select mdc-select--outlined demo-select-outline-shaped" #jobStatus>
-                    <i class="mdc-select__dropdown-icon"></i>
-                    <select class="mdc-select__native-control shaped outlined"
-                            [(ngModel)]="selectedJob.status.idStatus"
-                            (change)="setSelectedStatusJob(selectedJob, $event)">
-                        <option *ngFor="let status of statusArr | async" [ngValue]="status.idStatus">
-                          {{ status.status }}
-                        </option>
-                    </select>
-                    <div class="mdc-notched-outline">
-                      <svg>
-                        <path class="mdc-notched-outline__path"></path>
-                      </svg>
-                    </div>
-                    <div class="mdc-notched-outline__idle"></div>
+                    </h5>
+                    <p matLine><span>{{selectedJob.car.vin}}</span></p>
                   </div>
-                </div>
-              </div>
+                  <mat-select style="width:35%" [(ngModel)]="selectedJob.status.idStatus"
+                              (change)="setSelectedStatusJob(selectedJob, $event)">
+                    <mat-option *ngFor="let status of statusArr | async" [value]="status.idStatus">
+                      {{ status.status }}
+                    </mat-option>
+                  </mat-select>
+                </mat-list-item>
 
-              <div class="row" *ngFor="let task of tasks">
-                <div style="width:65%" class="mdc-list--dense">
-                <mdc-list #twoline twoLine>
-                    <mdc-list-item class="two-line-item" *ngIf="task.user">
-                      <!--TODO: elapsedTime/totalTime-->
-                      <mdc-list-item-text [secondaryText]="task.user.name">
-                      {{task.name}} {{task.time}}
-                      </mdc-list-item-text>
-                    </mdc-list-item>
-                    <mdc-list-item *ngIf="!task.user" class="one-line-item">
-                      {{task.name}} {{task.time}}
-                    </mdc-list-item>
-                </mdc-list>
-                </div>
-
-                <div class="status">
-                  <div class="mdc-select mdc-select--outlined demo-select-outline-shaped" #taskStatus>
-                    <i class="mdc-select__dropdown-icon"></i>
-                    <select class="mdc-select__native-control shaped outlined"
-                            [(ngModel)]="task.status.idStatus" (change)="setSelectedStatusTask(task, $event)">
-                      <option *ngFor="let status of statusArr | async" [ngValue]="status.idStatus">
-                        {{ status.status }}
-                      </option>
-                    </select>
-                    <div class="mdc-notched-outline">
-                      <svg>
-                        <path class="mdc-notched-outline__path"></path>
-                      </svg>
-                    </div>
-                    <div class="mdc-notched-outline__idle"></div>
+                <mat-list-item *ngFor="let task of tasks">
+                  <div class="mat-list-text" style="width:65%">
+                    <h5 matLine>{{task.name}} {{task.time}}</h5>
+                    <p matLine *ngIf="task.user"><span>{{task.user.name}}</span></p>
                   </div>
-                </div>
-              </div>
-              <div class="form text-left">
-                <button (click)="onSubmit(selectedJob, tasks)" type="submit" class="mdc-button mdc-button--raised ">
-                  {{ 'job.submit' | translate}}
-                </button>
-              </div>
+                  <mat-select style="width:35%" [(ngModel)]="task.status.idStatus"
+                              (change)="setSelectedStatusTask(task, $event)">
+                    <mat-option *ngFor="let status of statusArr | async" [value]="status.idStatus">
+                      {{ status.status }}
+                    </mat-option>
+                  </mat-select>
+                </mat-list-item>
+              </mat-list>
+
+              <button mat-button (click)="onSubmit(selectedJob, tasks)" type="submit">
+                {{ 'job.submit' | translate}}
+              </button>
             </div>
+
+              <!--<div class="row">-->
+                <!--<div style="width:65%" class="mdc-list&#45;&#45;dense">-->
+                  <!--<mdc-list  #twoline twoLine>-->
+                    <!--<mdc-list-item class="two-line-item">-->
+                      <!--<mdc-list-item-text [secondaryText]="selectedJob.car.vin">-->
+                      <!--{{selectedJob.car.model.make.title}} {{selectedJob.car.model.title}} {{selectedJob.car.year}}-->
+                      <!--</mdc-list-item-text>-->
+                    <!--</mdc-list-item>-->
+                  <!--</mdc-list>-->
+                <!--</div>-->
+                <!--<div class="status">-->
+                  <!--<div class="mdc-select mdc-select&#45;&#45;outlined demo-select-outline-shaped" #jobStatus>-->
+                    <!--<i class="mdc-select__dropdown-icon"></i>-->
+                    <!--<select class="mdc-select__native-control shaped outlined"-->
+                            <!--[(ngModel)]="selectedJob.status.idStatus"-->
+                            <!--(change)="setSelectedStatusJob(selectedJob, $event)">-->
+                        <!--<option *ngFor="let status of statusArr | async" [ngValue]="status.idStatus">-->
+                          <!--{{ status.status }}-->
+                        <!--</option>-->
+                    <!--</select>-->
+                    <!--<div class="mdc-notched-outline">-->
+                      <!--<svg>-->
+                        <!--<path class="mdc-notched-outline__path"></path>-->
+                      <!--</svg>-->
+                    <!--</div>-->
+                    <!--<div class="mdc-notched-outline__idle"></div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+
+              <!--<div class="row" *ngFor="let task of tasks">-->
+                <!--<div style="width:65%" class="mdc-list&#45;&#45;dense">-->
+                <!--<mdc-list #twoline twoLine>-->
+                    <!--<mdc-list-item class="two-line-item" *ngIf="task.user">-->
+                      <!--&lt;!&ndash;TODO: elapsedTime/totalTime&ndash;&gt;-->
+                      <!--<mdc-list-item-text [secondaryText]="task.user.name">-->
+                      <!--{{task.name}} {{task.time}}-->
+                      <!--</mdc-list-item-text>-->
+                    <!--</mdc-list-item>-->
+                    <!--<mdc-list-item *ngIf="!task.user" class="one-line-item">-->
+                      <!--{{task.name}} {{task.time}}-->
+                    <!--</mdc-list-item>-->
+                <!--</mdc-list>-->
+                <!--</div>-->
+
+                <!--<div class="status">-->
+                  <!--<div class="mdc-select mdc-select&#45;&#45;outlined demo-select-outline-shaped" #taskStatus>-->
+                    <!--<i class="mdc-select__dropdown-icon"></i>-->
+                    <!--<select class="mdc-select__native-control shaped outlined"-->
+                            <!--[(ngModel)]="task.status.idStatus" (change)="setSelectedStatusTask(task, $event)">-->
+                      <!--<option *ngFor="let status of statusArr | async" [ngValue]="status.idStatus">-->
+                        <!--{{ status.status }}-->
+                      <!--</option>-->
+                    <!--</select>-->
+                    <!--<div class="mdc-notched-outline">-->
+                      <!--<svg>-->
+                        <!--<path class="mdc-notched-outline__path"></path>-->
+                      <!--</svg>-->
+                    <!--</div>-->
+                    <!--<div class="mdc-notched-outline__idle"></div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="form text-left">-->
+                <!--<button (click)="onSubmit(selectedJob, tasks)" type="submit" class="mdc-button mdc-button&#45;&#45;raised ">-->
+                  <!--{{ 'job.submit' | translate}}-->
+                <!--</button>-->
+              <!--</div>-->
+            <!--</div>-->
             <div class="modal-footer">
             </div>
           </ng-template>
-        </div>
-        <div style="width:5%"></div>
-      </div>
-    </div>
+        <!--</div>-->
+        <!--<div style="width:5%"></div>-->
+      <!--</div>-->
+    <!--</div>-->
   </div>
 </div>
 
