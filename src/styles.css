@@ -21,38 +21,9 @@
     padding: unset !important;
 }
 
-/*$mdc-theme-primary: #25317E;
-$mdc-theme-secondary: #04A6E4;
-
-.mdc-theme--primary	{
-  color:#25317E;
+.mat-form-field {
+  width: 100% !important;
 }
-
-.mdc-theme--secondary {
-  color:#04A6E4;
-}*/
-
-/*:root {
-  --mdc-theme-primary: #25317E !important;
-  --mdc-theme-secondary: #04A6E4 !important;
-  --mdc-theme-on-primary: white !important;
-  --mdc-theme-on-secondary: black !important;
-}
-
-$my-theme-primary: mat-palette($mat-indigo, 700, 300, 900);
-$my-theme-accent: mat-palette($mat-light-blue);
-$my-theme-warn: mat-palette($mat-deep-orange, A200);
-
-// create theme (use mat-dark-theme for themes with dark backgrounds)
-$my-theme: mat-light-theme(
-    $my-theme-primary,
-    $my-theme-accent,
-    $my-theme-warn
-);
-
-.my-theme {
-  @include angular-material-theme($my-theme);
-}*/
 
 .container {
   padding-right: 0px !important;
@@ -76,11 +47,11 @@ table th {
   text-align: center;
 }
 
-table td {
+/*table td {
   padding: 0px !important;
   vertical-align: initial !important;
   border-top: 0px !important;
-}
+}*/
 
 .content {
   position: relative;
@@ -115,7 +86,7 @@ h2 {
   text-align: center;
 }
 
-.form .form-control {
+/*.form .form-control {
   border: 0;
   box-shadow: 0 0 0;
   border-radius: 0;
@@ -139,27 +110,16 @@ h2 {
   color: #999999;
   border-radius: 8px;
   padding: 10px 20px;
-}
+}*/
 
 /*=== 5. Login Button ===*/
 .submit-button {
   right: -25px;
   top: 50%;
-  /*background: #ffffff;
-  color: #6c757d;*/
   font-weight: bold;
-  /*border: 5px solid #B9B9B9;*/
   transition: all ease-in-out 500ms;
   margin-top: 10px;
 }
-
-/*.ng-valid[required], .ng-valid.required  {
-  border-left: 5px solid #42A948 !important;
-}
-
-.ng-invalid:not(form)  {
-  border-left: 5px solid #a94442 !important;
-}*/
 
 .mdc-card__media--square::before {
     margin-top: 65% !important;

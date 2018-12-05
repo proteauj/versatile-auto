@@ -36,6 +36,9 @@ import { MatListModule } from '@angular/material/list';
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter'
 
 @NgModule({
   imports: [
@@ -49,7 +52,10 @@ import { MatInputModule } from '@angular/material/input';
     MatListModule,
     FlexLayoutModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMomentDateModule
   ],
   exports: [
     MdcButtonModule,
@@ -83,7 +89,10 @@ import { MatInputModule } from '@angular/material/input';
     MatListModule,
     FlexLayoutModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMomentDateModule
   ]
 })
 export class AppMaterialModule { }

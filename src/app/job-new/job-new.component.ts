@@ -6,14 +6,9 @@ import { JobService } from '../job.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
-//GOOD
-import { FormControl, Validators } from '@angular/forms';
-//BAD
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgbDateStruct, NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-
-
 
 @Component({
   selector: 'app-job-new',
@@ -24,16 +19,19 @@ export class JobNewComponent implements OnInit {
     private validJob: Job;
     private validCar: Car;
     public submitted: boolean = false;
-    public carForm: FormGroup;
     private isValid: boolean = false;
-    public status: Promise<Status[]>;
+    public statusArr: Promise<Status[]>;
     private idJob: number;
     private jobToModify: Job;
     private isModify: boolean = false;
-    faCalendarAlt = faCalendarAlt;
 
-  description = new FormControl('', [Validators.required]);
-  vin = new FormControl('', [Validators.required, Validators.pattern("[0-9A-Z]{17}")]);
+    public description;
+    public vin;
+    public status;
+    public statusSel;
+    public arrivalDate;
+    public toDeliverDate;
+    public carForm: FormGroup;
 
 	job: Job = {
 	    idJob: null,
@@ -53,22 +51,15 @@ export class JobNewComponent implements OnInit {
 	    imageUrl: null
 	};
 
-  getTodayDate() {
-    return this.calendar.getToday();
-  }
-
 	creationTried: boolean = false;
 
   constructor(private carService: CarService, private messageService: MessageService,
               private translate: TranslateService, private jobService: JobService,
-              private router: Router, private formBuilder: FormBuilder,
-              private calendar: NgbCalendar, private route: ActivatedRoute) { }
-
-  // convenience getter for easy access to form fields
-  get f() { return this.carForm.controls; }
+              private router: Router, private route: ActivatedRoute,
+              private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.setCarFormGroup(null);
+    this.setForm(null);
 
     const routeParams = this.route.snapshot.params;
     var paramIdJob = routeParams.idJob;
@@ -79,22 +70,22 @@ export class JobNewComponent implements OnInit {
 
       this.jobService.getJob(this.idJob).then(data => {
         this.jobToModify = data;
-        this.setCarFormGroup(this.jobToModify);
+        this.setForm(this.jobToModify);
       });
     }
 
-    this.status = this.jobService.getStatus();
+    this.statusArr = this.jobService.getStatus();
   }
 
-  setCarFormGroup(job: Job) {
+  setForm(job: Job) {
     var description: string = '';
     var year: number = null;
     var make: Make = null;
     var model: Model = null;
     var vin: string = '';
     var status: Status = null;
-    var arrivalDate: NgbDateStruct = this.getTodayDate();
-    var toDeliverDate: NgbDateStruct = null;
+    var arrivalDate = new Date();
+    var toDeliverDate = null;
 
     if (job != null) {
       description = job.description;
@@ -103,32 +94,37 @@ export class JobNewComponent implements OnInit {
       status = job.status;
 
       if (job.arrivalDate != null) {
-        arrivalDate = {
-          year: job.arrivalDate.getFullYear(),
-          month: job.arrivalDate.getMonth() + 1,
-          day: job.arrivalDate.getDate()
-        };
+        arrivalDate = job.arrivalDate;
       }
 
       if (job.toDeliverDate != null) {
-        toDeliverDate = {
-          year: job.toDeliverDate.getFullYear(),
-          month: job.toDeliverDate.getMonth() + 1,
-          day: job.toDeliverDate.getDate()
-        };
+        toDeliverDate = job.toDeliverDate;
       }
     } else {
       //create state
       this.creationTried = false;
     }
 
+    this.description = new FormControl(description, [Validators.required]);
+    this.vin = new FormControl(vin, [Validators.required, Validators.pattern("[0-9A-Z]{17}")]);
+    this.status = new FormControl(status, [Validators.required]);
+    if (status != null) {
+      this.statusSel = status;
+    }
+    this.arrivalDate = new FormControl(arrivalDate, [Validators.required]);
+    this.toDeliverDate = new FormControl(toDeliverDate, [Validators.required]);
+
     this.carForm = this.formBuilder.group({
-      description: [description, [Validators.required]],
-      vin: [vin, [Validators.required, Validators.pattern("[0-9A-Z]{17}")]],
-      status: [status, [Validators.required]],
-      arrivalDate: [arrivalDate, [Validators.required]],
-      toDeliverDate: [toDeliverDate, [Validators.required]]
+      description: this.description,
+      vin: this.vin,
+      status: this.status,
+      arrivalDate: this.arrivalDate,
+      toDeliverDate: this.toDeliverDate
     });
+  }
+
+  compareStatus(s1: Status, s2: Status): boolean {
+      return s1 && s2 ? s1.idStatus === s2.idStatus : s1 === s2;
   }
 
   getDateFromNgbDate(ngbDate: NgbDate): Date {
@@ -153,8 +149,8 @@ export class JobNewComponent implements OnInit {
       description: this.carForm.controls.description.value,
       car: this.carService.getCarRessourceFromModel(this.car),
       status: status,
-      arrivalDate: this.getDateFromNgbDate(this.carForm.controls.arrivalDate.value),
-      toDeliverDate: this.getDateFromNgbDate(this.carForm.controls.toDeliverDate.value),
+      arrivalDate: this.carForm.controls.arrivalDate.value,
+      toDeliverDate: this.carForm.controls.toDeliverDate.value,
       carUrl: ''
     };
 
@@ -189,7 +185,7 @@ export class JobNewComponent implements OnInit {
   }
 
   getCarFromVin():void {
-    var vin = this.carForm.controls.vin.value;
+    var vin = this.vin.value;
 
     this.carService.getCarFromVin(vin).then(data => {
       this.car  = data;

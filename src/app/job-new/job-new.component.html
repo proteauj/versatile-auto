@@ -1,13 +1,15 @@
 <div class="content">
-  <mat-app-background fxLayout="column" fxLayoutAlign="center">
+  <mat-app-background>
     <h1 class="mat-headline">{{ 'jobnew.title' | translate }}</h1>
     <form [formGroup]="carForm" class="car-form">
       <mat-form-field>
         <input matInput placeholder="{{ 'jobnew.description.label' | translate  }}" [formControl]="description" required>
         <mat-error *ngIf="description.invalid">{{ 'jobnew.description.error' | translate  }}</mat-error>
       </mat-form-field>
+
       <mat-form-field>
-        <input matInput placeholder="{{ 'jobnew.vin.label' | translate  }}" [formControl]="vin" required>
+        <input matInput placeholder="{{ 'jobnew.vin.label' | translate  }}" [formControl]="vin" required minlength=17
+               (change)="getCarFromVin()">
         <mat-error *ngIf="vin.invalid">{{ 'jobnew.vin.required.error' | translate  }}</mat-error>
       </mat-form-field>
 
@@ -18,112 +20,36 @@
         </mat-card-header>
         <img class="img-job" [src]="car.imageUrl"/>
       </mat-card>
-      <!--<div class="mdc-card" *ngIf="car && car.model">-->
-      <!--<div class="mdc-card__media">-->
-      <!--<img class="mdc-image-list__image img-job" [src]="car.imageUrl"/>-->
-      <!--</div>-->
-      <!--<div class="demo-card__primary mdc-typography&#45;&#45;headline6">-->
-      <!--{{car.model.make.title}} {{car.model.title}}-->
-      <!--</div>-->
-      <!--<div class="demo-card__secondary mdc-typography&#45;&#45;subtitle2">-->
-      <!--{{car.year}} {{car.vin}}-->
-      <!--</div>-->
-      <!--</div>-->
 
+      <mat-form-field *ngIf="statusArr | async; let statusArr; else loadingStatus">
+        <!--[formControl]="status"-->
+        <mat-select placeholder="{{ 'jobnew.status.placeholder' | translate }}" [compareWith]="compareStatus"
+                    [formControl]="status" required>
+          <mat-option *ngFor="let statusObj of statusArr" [value]="statusObj">
+            {{statusObj.status}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="status.invalid">{{ 'jobnew.status.error' | translate }}</mat-error>
+      </mat-form-field>
+      <ng-template #loadingStatus>{{ 'jobnew.status.loading' | translate  }}</ng-template>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" [formControl]="arrivalDate"
+               placeholder="{{ 'jobnew.arrivalDate.placeholder' | translate }}">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput [matDatepicker]="pickerTo" [formControl]="toDeliverDate"
+               placeholder="{{ 'jobnew.toDeliverDate.placeholder' | translate }}">
+        <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+        <mat-datepicker #pickerTo></mat-datepicker>
+      </mat-form-field>
     </form>
+
+    <button mat-raised-button color="primary" (click)="onSubmit()">
+      {{ 'jobnew.submit' | translate }}
+    </button>
   </mat-app-background>
 </div>
-
-
-            <!--<div class="form-group">-->
-              <!--<label for="jobnewVin" class="sr-only">{{ 'jobnew.vin.label' | translate  }}</label>-->
-              <!--<input type="text" formControlName="vin" class="form-control" id="jobnewVin"-->
-                     <!--placeholder="{{ 'jobnew.vin.placeholder' | translate  }}"/>-->
-
-
-
-                <!--BAD-->
-
-                <!--<mdc-text-field dense class="mdc-text-field__bottom-line" #jobnewVin formControlName="vin"-->
-                                <!--label="{{ 'jobnew.vin.label' | translate  }}" outlined-->
-                                <!--[helperText]="demoformHelper" required minlength=17></mdc-text-field>-->
-                  <!--<mdc-text-field-helper-text *ngIf="f.vin.touched && f.vin.errors"-->
-                                              <!--#demoformHelper="mdcHelperText" validation>-->
-                    <!--<span *ngIf="f.vin.errors.required">{{ 'jobnew.vin.required.error' | translate  }}</span>-->
-                    <!--<span *ngIf="f.vin.errors.minlength">{{ 'jobnew.vin.length.error' | translate  }}</span>-->
-                  <!--</mdc-text-field-helper-text>-->
-
-
-<!--GOOD-->
-<!--<mdc-form-field>-->
-                <!--<div class="mdc-text-field">-->
-                  <!--<input formControlName="vin" type="text" id="vin" class="mdc-text-field__input"-->
-                         <!--required minlength=17 (change)="getCarFromVin()">-->
-                  <!--<label for="vin" class="mdc-floating-label">{{ 'jobnew.vin.label' | translate  }}</label>-->
-                  <!--<div class="mdc-line-ripple"></div>-->
-                <!--</div>-->
-              <!--</mdc-form-field>-->
-              <!--<div class="mdc-card" *ngIf="car && car.model">-->
-                <!--<div class="mdc-card__media">-->
-                  <!--<img class="mdc-image-list__image img-job" [src]="car.imageUrl"/>-->
-                <!--</div>-->
-                <!--<div class="demo-card__primary mdc-typography&#45;&#45;headline6">-->
-                  <!--{{car.model.make.title}} {{car.model.title}}-->
-                <!--</div>-->
-                <!--<div class="demo-card__secondary mdc-typography&#45;&#45;subtitle2">-->
-                  <!--{{car.year}} {{car.vin}}-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</div>-->
-
-              <!--<div class="form-group">-->
-                <!--<label for="jobnewStatus" class="sr-only">{{ 'jobnew.status.label' | translate  }}</label>-->
-                <!--<div *ngIf="status | async; let status; else loadingStatus">-->
-                  <!--<div class="form-group">-->
-                    <!--<ng-select formControlName="status" name="status" [items]="status" required-->
-                               <!--[placeholder]="'jobnew.status.placeholder' | translate"-->
-                               <!--bindLabel="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">-->
-                    <!--</ng-select>-->
-                  <!--</div>-->
-                  <!--<div *ngIf="submitted && f.status.errors" class="invalid-feedback">-->
-                    <!--<div *ngIf="f.status.errors.required">{{ 'jobnew.status.error' | translate  }}</div>-->
-                  <!--</div>-->
-                <!--</div>-->
-                <!--<ng-template #loadingStatus>{{ 'jobnew.status.loading' | translate  }}</ng-template>-->
-              <!--</div>-->
-              <!--<div class="form-group">-->
-                <!--<div class="input-group">-->
-                  <!--<input class="form-control" placeholder="yyyy-mm-dd" id="arrivalDate"-->
-                         <!--name="dp" formControlName="arrivalDate" ngbDatepicker #d1="ngbDatepicker"-->
-                         <!--placeholder="{{ 'jobnew.arrivalDate.placeholder' | translate  }}">-->
-                  <!--<div class="input-group-append">-->
-                    <!--<button class="btn btn-calendar" (click)="d1.toggle()" type="button">-->
-                      <!--<fa-icon [icon]="faCalendarAlt" class="fa-sm"></fa-icon>-->
-                    <!--</button>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="form-group">-->
-                <!--<div class="input-group">-->
-                  <!--<input class="form-control" placeholder="yyyy-mm-dd" id="toDeliverDate"-->
-                         <!--name="dp" formControlName="toDeliverDate" ngbDatepicker #d2="ngbDatepicker"-->
-                         <!--placeholder="{{ 'jobnew.toDeliverDate.placeholder' | translate  }}">-->
-                  <!--<div class="input-group-append">-->
-                    <!--<button class="btn btn-calendar" (click)="d2.toggle()" type="button">-->
-                      <!--<fa-icon [icon]="faCalendarAlt" class="fa-sm"></fa-icon>-->
-                    <!--</button>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-            <!--</form>-->
-          <!--</div>-->
-          <!--<div class="form text-left">-->
-            <!--<button (click)="onSubmit()" type="submit" class="mdc-button mdc-button&#45;&#45;raised">-->
-              <!--{{ 'jobnew.submit' | translate}}-->
-            <!--</button>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div class="col-md-4"></div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
