@@ -24,7 +24,8 @@ import {
 
 import {
   MatButtonModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatDialogModule
 } from '@angular/material';
 
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -32,16 +33,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 @NgModule({
   imports: [
     MatButtonModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatGridListModule,
     MatCardModule,
     MatIconModule,
     MatSelectModule,
-    MatListModule
+    MatListModule,
+    FlexLayoutModule
   ],
   exports: [
     MdcButtonModule,
@@ -67,11 +71,13 @@ import { MatListModule } from '@angular/material/list';
 
     MatButtonModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatGridListModule,
     MatCardModule,
     MatIconModule,
     MatSelectModule,
-    MatListModule
+    MatListModule,
+    FlexLayoutModule
   ]
 })
 export class AppMaterialModule { }

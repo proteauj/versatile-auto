@@ -1,159 +1,35 @@
-<div class="jumbotron content">
-  <div class="container">
-    <!--<div class="row">-->
-      <!--<div class="col-md-4"></div>-->
-      <!--<div class="col-md-4">-->
-        <div class="logo">{{ 'job.title' | translate }}</div>
-      <!--</div>-->
-      <!--<div class="col-md-4"></div>-->
-
-      <!--<div class="row">-->
-        <!--<div style="width:5%"></div>-->
-        <!--<div style="width:90%" >-->
-          <mat-grid-list cols="2" *ngIf="jobs">
-              <mat-grid-tile *ngFor="let job of jobs | async">
-                <mat-card>
-                  <mat-card-header>
-                    <mat-card-title>{{job.car.model.title}} {{job.car.year}}</mat-card-title>
-                  </mat-card-header>
-                  <img mat-card-md-image class="img-job" (click)="showJob(job)" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>
-                  <mat-card-actions>
-                    <button mat-icon-button (click)="showSummary(job, content)">
-                      <mat-icon aria-label="Summary">description</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="showTask(job)">
-                      <mat-icon aria-label="Tasks">toc</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="showDetails(job)">
-                      <mat-icon aria-label="Upload">input</mat-icon>
-                    </button>
-                    <button mat-icon-button (click)="showInspect(job)">
-                      <mat-icon aria-label="Inspect">search</mat-icon>
-                    </button>
-                  </mat-card-actions>
-                </mat-card>
-              </mat-grid-tile>
-          </mat-grid-list>
-
-          <ng-template #content let-modal>
-            <div class="modal-header">
-              <h4 class="modal-title" id="modal-basic-title">{{ 'job.summary.title' | translate }}</h4>
-              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                <span aria-hidden="true">&times;</span>
+<div class="content">
+  <!--<div class="container">-->
+    <mat-app-background fxLayout="column" fxLayoutAlign="center">
+      <h1 class="mat-headline">{{ 'job.title' | translate }}</h1>
+      <!--<mat-grid-list cols="2" *ngIf="jobs">-->
+        <!--<mat-grid-tile *ngFor="let job of jobs | async">-->
+        <div fxLayout="row wrap" fxLayoutGap="0.5%" fxLayoutAlign="center">
+          <!--flex-sm="25" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">-->
+          <mat-card class="card" *ngFor="let job of jobs | async">
+            <mat-card-header fxLayout="row" fxLayoutAlign="center">
+              <mat-card-title>{{job.car.model.title}} {{job.car.year}}</mat-card-title>
+            </mat-card-header>
+            <img mat-card-md-image class="img-job" (click)="showJob(job)" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="center">
+              <button mat-icon-button (click)="showSummary(job, content)">
+                <mat-icon aria-label="Summary">description</mat-icon>
               </button>
-            </div>
-            <div class="modal-body">
-              <mat-list>
-                <mat-list-item>
-                  <div class="mat-list-text" style="width:65%">
-                    <h5 matLine>
-                      {{selectedJob.car.model.make.title}} {{selectedJob.car.model.title}} {{selectedJob.car.year}}
-                    </h5>
-                    <p matLine><span>{{selectedJob.car.vin}}</span></p>
-                  </div>
-                  <mat-select style="width:35%" [(ngModel)]="selectedJob.status.idStatus"
-                              (change)="setSelectedStatusJob(selectedJob, $event)">
-                    <mat-option *ngFor="let status of statusArr | async" [value]="status.idStatus">
-                      {{ status.status }}
-                    </mat-option>
-                  </mat-select>
-                </mat-list-item>
-
-                <mat-list-item *ngFor="let task of tasks">
-                  <div class="mat-list-text" style="width:65%">
-                    <h5 matLine>{{task.name}} {{task.time}}</h5>
-                    <p matLine *ngIf="task.user"><span>{{task.user.name}}</span></p>
-                  </div>
-                  <mat-select style="width:35%" [(ngModel)]="task.status.idStatus"
-                              (change)="setSelectedStatusTask(task, $event)">
-                    <mat-option *ngFor="let status of statusArr | async" [value]="status.idStatus">
-                      {{ status.status }}
-                    </mat-option>
-                  </mat-select>
-                </mat-list-item>
-              </mat-list>
-
-              <button mat-button (click)="onSubmit(selectedJob, tasks)" type="submit">
-                {{ 'job.submit' | translate}}
+              <button mat-icon-button (click)="showTask(job)">
+                <mat-icon aria-label="Tasks">toc</mat-icon>
               </button>
-            </div>
-
-              <!--<div class="row">-->
-                <!--<div style="width:65%" class="mdc-list&#45;&#45;dense">-->
-                  <!--<mdc-list  #twoline twoLine>-->
-                    <!--<mdc-list-item class="two-line-item">-->
-                      <!--<mdc-list-item-text [secondaryText]="selectedJob.car.vin">-->
-                      <!--{{selectedJob.car.model.make.title}} {{selectedJob.car.model.title}} {{selectedJob.car.year}}-->
-                      <!--</mdc-list-item-text>-->
-                    <!--</mdc-list-item>-->
-                  <!--</mdc-list>-->
-                <!--</div>-->
-                <!--<div class="status">-->
-                  <!--<div class="mdc-select mdc-select&#45;&#45;outlined demo-select-outline-shaped" #jobStatus>-->
-                    <!--<i class="mdc-select__dropdown-icon"></i>-->
-                    <!--<select class="mdc-select__native-control shaped outlined"-->
-                            <!--[(ngModel)]="selectedJob.status.idStatus"-->
-                            <!--(change)="setSelectedStatusJob(selectedJob, $event)">-->
-                        <!--<option *ngFor="let status of statusArr | async" [ngValue]="status.idStatus">-->
-                          <!--{{ status.status }}-->
-                        <!--</option>-->
-                    <!--</select>-->
-                    <!--<div class="mdc-notched-outline">-->
-                      <!--<svg>-->
-                        <!--<path class="mdc-notched-outline__path"></path>-->
-                      <!--</svg>-->
-                    <!--</div>-->
-                    <!--<div class="mdc-notched-outline__idle"></div>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-
-              <!--<div class="row" *ngFor="let task of tasks">-->
-                <!--<div style="width:65%" class="mdc-list&#45;&#45;dense">-->
-                <!--<mdc-list #twoline twoLine>-->
-                    <!--<mdc-list-item class="two-line-item" *ngIf="task.user">-->
-                      <!--&lt;!&ndash;TODO: elapsedTime/totalTime&ndash;&gt;-->
-                      <!--<mdc-list-item-text [secondaryText]="task.user.name">-->
-                      <!--{{task.name}} {{task.time}}-->
-                      <!--</mdc-list-item-text>-->
-                    <!--</mdc-list-item>-->
-                    <!--<mdc-list-item *ngIf="!task.user" class="one-line-item">-->
-                      <!--{{task.name}} {{task.time}}-->
-                    <!--</mdc-list-item>-->
-                <!--</mdc-list>-->
-                <!--</div>-->
-
-                <!--<div class="status">-->
-                  <!--<div class="mdc-select mdc-select&#45;&#45;outlined demo-select-outline-shaped" #taskStatus>-->
-                    <!--<i class="mdc-select__dropdown-icon"></i>-->
-                    <!--<select class="mdc-select__native-control shaped outlined"-->
-                            <!--[(ngModel)]="task.status.idStatus" (change)="setSelectedStatusTask(task, $event)">-->
-                      <!--<option *ngFor="let status of statusArr | async" [ngValue]="status.idStatus">-->
-                        <!--{{ status.status }}-->
-                      <!--</option>-->
-                    <!--</select>-->
-                    <!--<div class="mdc-notched-outline">-->
-                      <!--<svg>-->
-                        <!--<path class="mdc-notched-outline__path"></path>-->
-                      <!--</svg>-->
-                    <!--</div>-->
-                    <!--<div class="mdc-notched-outline__idle"></div>-->
-                  <!--</div>-->
-                <!--</div>-->
-              <!--</div>-->
-              <!--<div class="form text-left">-->
-                <!--<button (click)="onSubmit(selectedJob, tasks)" type="submit" class="mdc-button mdc-button&#45;&#45;raised ">-->
-                  <!--{{ 'job.submit' | translate}}-->
-                <!--</button>-->
-              <!--</div>-->
-            <!--</div>-->
-            <div class="modal-footer">
-            </div>
-          </ng-template>
-        <!--</div>-->
-        <!--<div style="width:5%"></div>-->
-      <!--</div>-->
-    <!--</div>-->
-  </div>
+              <button mat-icon-button (click)="showDetails(job)">
+                <mat-icon aria-label="Upload">input</mat-icon>
+              </button>
+              <button mat-icon-button (click)="showInspect(job)">
+                <mat-icon aria-label="Inspect">search</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+        <!--</mat-grid-tile>-->
+      <!--</mat-grid-list>-->
+    </mat-app-background>
+  <!--</div>-->
 </div>
 

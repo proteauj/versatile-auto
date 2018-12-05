@@ -1,6 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@ng-select/ng-select/themes/default.theme.css";
-@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+/*@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+@import '~@angular/material/prebuilt-themes/purple-green.css';*/
+
+.cdk-overlay-container {
+    z-index: 99999 !important;
+}
+
+.mat-list-base .mat-list-item.mat-2-line, .mat-list-base .mat-list-option.mat-2-line {
+    height: unset !important;
+}
+
+.mat-list-base .mat-list-item, .mat-list-base .mat-list-option {
+    height: 40px !important;
+}
+
+.mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content {
+    padding: unset !important;
+}
 
 /*$mdc-theme-primary: #25317E;
 $mdc-theme-secondary: #04A6E4;
@@ -89,6 +108,10 @@ h2 {
   font-family: Courier, monospace;
   font-weight: bold;
   margin-left: 11px;
+  text-align: center;
+}
+
+.mat-h1, .mat-headline, .mat-typography h1 {
   text-align: center;
 }
 

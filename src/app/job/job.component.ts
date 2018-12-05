@@ -10,6 +10,15 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs/Observable';
 import { forkJoin } from "rxjs/observable/forkJoin";
 
+import { MatDialog } from '@angular/material';
+import { JobDialogComponent } from '../job-dialog/job-dialog.component';
+
+export interface DialogData {
+  selectedJob: Job;
+  tasks: JobTask[];
+  statusArr: Promise<Status[]>;
+}
+
 @Component({
   selector: 'app-job',
   templateUrl: './job.component.html',
@@ -27,7 +36,7 @@ export class JobComponent implements OnInit {
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private router: Router, private modalService: NgbModal,
-              private taskService: TaskService) { }
+              private taskService: TaskService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.jobs = this.jobService.getJobs();
@@ -67,58 +76,20 @@ export class JobComponent implements OnInit {
       this.tasks.push(task);
     }
 
-    this.modalSummary = this.modalService.open(content);
-    this.modalSummary.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    this.openDialog();
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(JobDialogComponent, {
+      data: {
+        selectedJob: this.selectedJob,
+        tasks: this.tasks,
+        statusArr: this.statusArr
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
   }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
-
-  onSubmit(selectedJob:Job, tasks:JobTask[]) {
-    var observables = [];
-    observables.push(this.jobService.updateJob(this.selectedJob));
-    for (let task of tasks) {
-      observables.push(this.taskService.updateTask(task));
-    }
-
-    forkJoin(observables).subscribe(results => {
-      this.messageService.showSuccess(this.translate.instant('job.success'));
-      this.modalSummary.close();
-      this.router.navigate(['/job']);
-    }, error => {
-      this.messageService.showError(this.translate.instant('job.error'));
-    });
-  }
-
-  getStatusFromEventOnChange(event: Event): Status {
-    let selectedOptions = event.target['options'];
-    let selectedIndex = selectedOptions.selectedIndex;
-    let idStatusSelected:number = +selectedOptions[selectedIndex].attributes['ng-reflect-ng-value'].value;
-    let statusSelected:string = selectedOptions[selectedIndex].text;
-
-    let status:Status = {
-      idStatus: idStatusSelected,
-      status: statusSelected
-    };
-    return status;
-  }
-
-  setSelectedStatusTask(task:JobTask, event: Event) {
-    task.status = this.getStatusFromEventOnChange(event);
-  }
-
-  setSelectedStatusJob(job:Job, event: Event) {
-      job.status = this.getStatusFromEventOnChange(event);
-    }
 }

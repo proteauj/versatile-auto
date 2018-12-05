@@ -1,0 +1,43 @@
+<mat-dialog #content>
+  <h2 mat-dialog-title>{{ 'job.summary.title' | translate }}</h2>
+  <mat-dialog-content>
+    <mat-list>
+      <mat-list-item>
+        <div class="mat-list-text" style="width:60%">
+          <h5 matLine>
+            {{data.selectedJob.car.model.make.title}} {{data.selectedJob.car.model.title}} {{data.selectedJob.car.year}}
+          </h5>
+          <p matLine><span>{{data.selectedJob.car.vin}}</span></p>
+        </div>
+        <mat-form-field style="width:40%">
+          <mat-select [(ngModel)]="data.selectedJob.status.idStatus"
+                      (change)="setSelectedStatusJob(data.selectedJob, $event)">
+            <mat-option *ngFor="let status of data.statusArr | async" [value]="status.idStatus">
+              {{ status.status }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-list-item>
+
+      <mat-list-item *ngFor="let task of data.tasks">
+        <div class="mat-list-text" style="width:60%">
+          <h5 matLine>{{task.name}} {{task.time}}</h5>
+          <p matLine *ngIf="task.user"><span>{{task.user.name}}</span></p>
+        </div>
+        <mat-form-field style="width:40%">
+          <mat-select [(ngModel)]="task.status.idStatus"
+                      (change)="setSelectedStatusTask(task, $event)">
+            <mat-option *ngFor="let status of data.statusArr | async" [value]="status.idStatus">
+              {{ status.status }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-list-item>
+    </mat-list>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" (click)="onSubmit(data.selectedJob, tasks)">
+      {{ 'job.submit' | translate}}
+    </button>
+  </mat-dialog-actions>
+</mat-dialog>

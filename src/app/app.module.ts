@@ -42,6 +42,7 @@ import 'hammerjs'
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { LocationStrategy, HashLocationStrategy} from '@angular/common';
+import { JobDialogComponent } from './job-dialog/job-dialog.component';
 
 @NgModule({
     declarations: [
@@ -52,7 +53,11 @@ import { LocationStrategy, HashLocationStrategy} from '@angular/common';
         JobTaskComponent,
         JobDetailsComponent,
         JobComponent,
-        JobInspectComponent
+        JobInspectComponent,
+        JobDialogComponent
+    ],
+    entryComponents: [
+        JobDialogComponent
     ],
     imports: [
         BrowserModule,
