@@ -1,7 +1,20 @@
+.img-job {
+  max-width: 223px;
+  height: 100px;
+  object-fit: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .car-form {
   max-width: 300px;
   border-radius: 5px;
-  display: inline-block;
+/*  display: inline-block;*/
+}
+
+.mat-form-field {
+  display: unset;
 }
 
 .btn-calendar {

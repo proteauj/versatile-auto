@@ -6,7 +6,10 @@ import { JobService } from '../job.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+//GOOD
+import { FormControl, Validators } from '@angular/forms';
+//BAD
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbDateStruct, NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -28,6 +31,9 @@ export class JobNewComponent implements OnInit {
     private jobToModify: Job;
     private isModify: boolean = false;
     faCalendarAlt = faCalendarAlt;
+
+  description = new FormControl('', [Validators.required]);
+  vin = new FormControl('', [Validators.required, Validators.pattern("[0-9A-Z]{17}")]);
 
 	job: Job = {
 	    idJob: null,

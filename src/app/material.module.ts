@@ -34,6 +34,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   imports: [
@@ -45,7 +47,9 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatIconModule,
     MatSelectModule,
     MatListModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports: [
     MdcButtonModule,
@@ -77,7 +81,9 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatIconModule,
     MatSelectModule,
     MatListModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class AppMaterialModule { }

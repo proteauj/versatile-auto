@@ -1,35 +1,28 @@
 <div class="content">
-  <!--<div class="container">-->
-    <mat-app-background fxLayout="column" fxLayoutAlign="center">
-      <h1 class="mat-headline">{{ 'job.title' | translate }}</h1>
-      <!--<mat-grid-list cols="2" *ngIf="jobs">-->
-        <!--<mat-grid-tile *ngFor="let job of jobs | async">-->
-        <div fxLayout="row wrap" fxLayoutGap="0.5%" fxLayoutAlign="center">
-          <!--flex-sm="25" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">-->
-          <mat-card class="card" *ngFor="let job of jobs | async">
-            <mat-card-header fxLayout="row" fxLayoutAlign="center">
-              <mat-card-title>{{job.car.model.title}} {{job.car.year}}</mat-card-title>
-            </mat-card-header>
-            <img mat-card-md-image class="img-job" (click)="showJob(job)" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>
-            <mat-card-actions fxLayout="row" fxLayoutAlign="center">
-              <button mat-icon-button (click)="showSummary(job, content)">
-                <mat-icon aria-label="Summary">description</mat-icon>
-              </button>
-              <button mat-icon-button (click)="showTask(job)">
-                <mat-icon aria-label="Tasks">toc</mat-icon>
-              </button>
-              <button mat-icon-button (click)="showDetails(job)">
-                <mat-icon aria-label="Upload">input</mat-icon>
-              </button>
-              <button mat-icon-button (click)="showInspect(job)">
-                <mat-icon aria-label="Inspect">search</mat-icon>
-              </button>
-            </mat-card-actions>
-          </mat-card>
-        </div>
-        <!--</mat-grid-tile>-->
-      <!--</mat-grid-list>-->
-    </mat-app-background>
-  <!--</div>-->
+  <mat-app-background fxLayout="column" fxLayoutAlign="center">
+    <h1 class="mat-headline">{{ 'job.title' | translate }}</h1>
+    <div fxLayout="row wrap" fxLayoutGap="0.5%" fxLayoutAlign="center">
+      <mat-card class="card" *ngFor="let job of jobs | async">
+        <mat-card-header fxLayout="row" fxLayoutAlign="center">
+          <mat-card-title>{{job.car.model.title}} {{job.car.year}}</mat-card-title>
+        </mat-card-header>
+        <img mat-card-md-image class="img-job" (click)="showJob(job)" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>
+        <mat-card-actions fxLayout="row" fxLayoutAlign="center">
+          <button mat-icon-button (click)="showSummary(job, content)">
+            <mat-icon aria-label="Summary">description</mat-icon>
+          </button>
+          <button mat-icon-button (click)="showTask(job)">
+            <mat-icon aria-label="Tasks">toc</mat-icon>
+          </button>
+          <button mat-icon-button (click)="showDetails(job)">
+            <mat-icon aria-label="Upload">input</mat-icon>
+          </button>
+          <button mat-icon-button (click)="showInspect(job)">
+            <mat-icon aria-label="Inspect">search</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </mat-app-background>
 </div>
 
