@@ -7,9 +7,8 @@ import { UserService } from '../user.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { DataTableModule } from 'angular-6-datatable';
-import { faPlusCircle, faEdit, faMinusCircle, faSave, faEraser, faArrowCircleRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-job-task',
@@ -20,10 +19,9 @@ export class JobTaskComponent implements OnInit {
 
   public categories: Promise<Role[]>;
   private employees: Promise<Employee[]>;
-  public status: Promise<Status[]>;
+  public statusArr: Promise<Status[]>;
   private tasks: Map<number, JobTask> = new Map<number, JobTask>();
   public submitted: boolean = false;
-  public taskForm: FormGroup;
   private isValid: boolean = false;
   private job: Job;
   private idTask: number = null;
@@ -32,12 +30,13 @@ export class JobTaskComponent implements OnInit {
   public isCategorySelected: boolean = false;
   private idJob: number;
 
-  faPlusCircle = faPlusCircle;
-  faEdit = faEdit;
-  faMinusCircle = faMinusCircle;
-  faSave = faSave;
-  faEraser = faEraser;
-  faArrowCircleRight = faArrowCircleRight;
+  public name;
+  public priority;
+  public category;
+  public assignation;
+  public time;
+  public status;
+  public taskForm: FormGroup;
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private userService: UserService, private router: Router,
@@ -49,7 +48,7 @@ export class JobTaskComponent implements OnInit {
 
   ngOnInit() {
     this.categories = this.userService.getRoles();
-    this.status = this.jobService.getStatus();
+    this.statusArr = this.jobService.getStatus();
 
     this.route.params.subscribe(params => {
       this.idJob = params['idJob'];
@@ -95,15 +94,34 @@ export class JobTaskComponent implements OnInit {
       this.isCategorySelected = false;
     }
 
+    this.name = new FormControl(name, [Validators.required]);
+    this.priority = new FormControl(priority, [Validators.required, Validators.min(1)]);
+    this.category = new FormControl(category, [Validators.required]);
+    this.assignation = new FormControl(assignation, []);
+    this.time = new FormControl(time, [Validators.min(1)]);
+    this.status = new FormControl(status, [Validators.required]);
+
     this.taskForm = this.formBuilder.group({
-      name: [name, [Validators.required]],
-      priority: [priority, [Validators.required, Validators.min(1)]],
-      category: [category, [Validators.required]],
-      assignation: [assignation, []],
-      time: [time, [Validators.min(1)]],
-      status: [status, [Validators.required]]
+      name: this.name,
+      priority: this.priority,
+      category: this.category,
+      assignation: this.assignation,
+      time: this.time,
+      status: this.status
     });
   }
+
+  compareStatus(s1: Status, s2: Status): boolean {
+    return s1 && s2 ? s1.idStatus === s2.idStatus : s1 === s2;
+  }
+
+  compareCategory(r1: Role, r2: Role): boolean {
+    return r1 && r2 ? r1.idRole === r1.idRole : r1 === r2;
+  }
+
+  compareEmployee(e1: Employee, e2: Employee): boolean {
+      return e1 && e2 ? e1.idUser === e2.idUser : e1 === e2;
+    }
 
   getTasksValues(): Array<JobTask> {
       return Array.from(this.tasks.values());
@@ -117,7 +135,6 @@ export class JobTaskComponent implements OnInit {
   }
 
   onCategorySelect() {
-
     this.taskForm.controls['assignation'].setValue(null);
     var category: Role = this.taskForm.controls.category.value;
     this.selectCategory(category);

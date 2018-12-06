@@ -1,170 +1,130 @@
-<div class="jumbotron content">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <div class="logo">{{ 'jobtask.title' | translate }}</div>
-      </div>
-      <div class="col-md-4"></div>
+<div class="content">
+  <mat-app-background fxLayout="column" fxLayoutAlign="center center">
+    <h2 mat-dialog-title>{{ 'jobtask.title' | translate }}</h2>
+    <form [formGroup]="taskForm" class="form">
+      <mat-form-field>
+        <input matInput placeholder="{{ 'jobtask.name.placeholder' | translate }}" [formControl]="name" required>
+        <mat-error *ngIf="name.invalid">{{ 'jobtask.name.error' | translate }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'jobtask.priority.placeholder' | translate }}" [formControl]="priority" required>
+        <mat-error *ngIf="priority.invalid">{{ 'jobtask.priority.error' | translate }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="categories | async; let categories; else loadingCategory">
+        <mat-select placeholder="{{ 'jobtask.category.placeholder' | translate }}" [compareWith]="compareCategory"
+                    [formControl]="category" [change]="onCategorySelect()" required>
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{category.description}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="category.invalid">{{ 'jobtask.category.error' | translate }}</mat-error>
+      </mat-form-field>
+      <ng-template #loadingCategory>{{ 'jobtask.category.loading' | translate }}</ng-template>
+
+      <mat-form-field *ngIf="employees | async; let employees; else loadingEmployee">
+        <mat-select placeholder="{{ 'jobtask.assignation.placeholder' | translate }}" [compareWith]="compareEmployee"
+                    [formControl]="assignation">
+          <mat-option *ngFor="let employee of employees" [value]="employee">
+            {{employee.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <ng-template #loadingEmployee>{{ 'jobtask.assignation.loading' | translate }}</ng-template>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'jobtask.time.placeholder' | translate }}" [formControl]="time" required>
+        <mat-error *ngIf="time.invalid">{{ 'jobtask.time.error' | translate }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="statusArr | async; let statusArr; else loadingStatus">
+        <mat-select placeholder="{{ 'jobtask.status.placeholder' | translate }}" [compareWith]="compareStatus"
+                    [formControl]="status" required>
+          <mat-option *ngFor="let statusObj of statusArr" [value]="statusObj">
+            {{statusObj.status}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="status.invalid">{{ 'jobtask.status.error' | translate }}</mat-error>
+      </mat-form-field>
+      <ng-template #loadingStatus>{{ 'jobtask.status.loading' | translate }}</ng-template>
+    </form>
+
+    <div fxLayout="row">
+      <button mat-icon-button (click)="onSubmit()">
+        <mat-icon *ngIf="isCreate" aria-label="Create">add_box</mat-icon>
+        <mat-icon *ngIf="isModify" aria-label="Update">save</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="onErase()">
+        <mat-icon aria-label="Reset">undo</mat-icon>
+      </button>
     </div>
 
-    <div class="row">
-      <div style="width:5%"></div>
-      <div style="width:90%">
-        <div class="group form text-center">
-          <form class="car-form text-left" [formGroup]="taskForm">
-            <div class="form-group">
-              <label for="jobtaskName" class="sr-only">{{ 'jobtask.name.label' | translate  }}</label>
-              <textarea type="text" formControlName="name" class="form-control" required
-                     [ngClass]="{ 'is-invalid': submitted && f.name.errors }" id="jobtaskName"
-                        placeholder="{{ 'jobtask.name.placeholder' | translate  }}"></textarea>
-
-              <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-                <div *ngIf="f.name.errors.required">{{ 'jobtask.name.error' | translate  }}</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="jobtaskPriority" class="sr-only">{{ 'jobtask.priority.label' | translate  }}</label>
-              <input type="number" formControlName="priority" class="form-control" required
-                     [ngClass]="{ 'is-invalid': submitted && f.priority.errors }" id="jobtaskPriority"
-                     placeholder="{{ 'jobtask.priority.placeholder' | translate  }}"/>
-
-              <div *ngIf="submitted && f.priority.errors" class="invalid-feedback">
-                <div *ngIf="f.priority.errors.required">{{ 'jobtask.priority.error' | translate  }}</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="jobtaskCategory" class="sr-only">{{ 'jobtask.category.label' | translate  }}</label>
-              <div *ngIf="categories | async; let categories; else loadingCategory">
-                <div class="form-group">
-                  <ng-select formControlName="category" (change)="onCategorySelect()"
-                             name="category" [items]="categories" required
-                             [placeholder]="'jobtask.category.placeholder' | translate"
-                             bindLabel="description" [ngClass]="{ 'is-invalid': submitted && f.category.errors }">
-                  </ng-select>
-                </div>
-                <div *ngIf="submitted && f.category.errors" class="invalid-feedback">
-                  <div *ngIf="f.category.errors.required">{{ 'jobtask.category.error' | translate  }}</div>
-                </div>
-              </div>
-              <ng-template #loadingCategory>{{ 'jobtask.category.loading' | translate  }}</ng-template>
-            </div>
-
-            <div class="form-group" *ngIf="isCategorySelected">
-              <label for="jobtaskAssignation" class="sr-only">{{ 'jobtask.assignation.label' | translate  }}</label>
-              <div *ngIf="employees | async; let employees; else loadingEmployee">
-                <div class="form-group">
-                  <ng-select formControlName="assignation"
-                             name="assignation" [items]="employees"
-                             [placeholder]="'jobtask.assignation.placeholder' | translate"
-                             bindLabel="name" [ngClass]="{ 'is-invalid': submitted && f.assignation.errors }">
-                  </ng-select>
-                </div>
-              </div>
-              <ng-template #loadingEmployee>{{ 'jobtask.assignation.loading' | translate  }}</ng-template>
-            </div>
-
-            <div class="form-group">
-              <label for="jobtaskTime" class="sr-only">{{ 'jobtask.time.label' | translate  }}</label>
-              <input type="number" formControlName="time" class="form-control"
-                     [ngClass]="{ 'is-invalid': submitted && f.time.errors }" id="jobtaskTime"
-                     placeholder="{{ 'jobtask.time.placeholder' | translate  }}"/>
-
-              <div *ngIf="submitted && f.time.errors" class="invalid-feedback">
-                <div *ngIf="f.time.errors.min">{{ 'jobtask.time.error' | translate  }}</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="jobtaskStatus" class="sr-only">{{ 'jobtask.status.label' | translate  }}</label>
-              <div *ngIf="status | async; let status; else loadingStatus">
-                <div class="form-group">
-                  <ng-select formControlName="status" name="status" [items]="status" required
-                             [placeholder]="'jobtask.status.placeholder' | translate"
-                             bindLabel="status" [ngClass]="{ 'is-invalid': submitted && f.status.errors }">
-                  </ng-select>
-                </div>
-                <div *ngIf="submitted && f.status.errors" class="invalid-feedback">
-                  <div *ngIf="f.status.errors.required">{{ 'jobtask.status.error' | translate  }}</div>
-                </div>
-              </div>
-              <ng-template #loadingStatus>{{ 'jobtask.status.loading' | translate  }}</ng-template>
-            </div>
-          </form>
-
-
-          <button (click)="onSubmit()" type="submit" class="submit-button">
-            <span>
-              <div *ngIf="isCreate">
-                <fa-icon [icon]="faPlusCircle" class="fa-lg"></fa-icon>
-              </div>
-              <div *ngIf="isModify">
-                <fa-icon [icon]="faSave" class="fa-lg"></fa-icon>
-              </div>
-            </span>
-          </button>
-
-          <button (click)="onErase()" type="submit" class="submit-button">
-            <span>
-              <fa-icon [icon]="faEraser" class="fa-lg"></fa-icon>
-            </span>
-          </button>
-
-        </div>
-      </div>
-      <div style="width:5%"></div>
-    </div>
-
-    <div class="row">
-      <div style="width:100%">
-        <table class="table table-striped table-task" [mfData]="getTasksValues()" #mf="mfDataTable">
-          <thead>
-            <tr>
-              <th>
-                <mfDefaultSorter by="priority">{{ 'jobtask.table.priority' | translate }}</mfDefaultSorter>
-              </th>
-              <th>
-                <mfDefaultSorter by="name">{{ 'jobtask.table.name' | translate }}</mfDefaultSorter>
-              </th>
-              <th>
-                <mfDefaultSorter by="status">{{ 'jobtask.table.status' | translate }}</mfDefaultSorter>
-              </th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let task of mf.data">
-              <td>
-                <button (click)="toUpdate(task.id)" type="submit" class="submit-button">
-                  <span>
-                    <fa-icon [icon]="faEdit" class="fa-sm"></fa-icon>
-                  </span>
-                </button>
-                {{task.priority}}
-              </td>
-              <td>{{task.name}}</td>
-              <td>
-                {{task.status.status}}
-              </td>
-              <td>
-                <button (click)="onDelete(task.id)" type="submit" class="submit-button" style="text:center;">
-                  <span>
-                    <fa-icon [icon]="faMinusCircle" class="fa-sm"></fa-icon>
-                  </span>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-        <button (click)="toJobDetails()" type="submit" class="submit-button btn-next">
-          <span>
-            <fa-icon [icon]="faArrowCircleRight" class="fa-lg"></fa-icon>
-          </span>
-        </button>
-      </div>
-    </div>
-  </div>
+    <!--<div fxLayout="row wrap" fxLayoutGap="0.5%" fxLayoutAlign="center">-->
+      <!--<mat-card class="card" *ngFor="let job of jobs | async">-->
+        <!--<mat-card-header fxLayout="row" fxLayoutAlign="center">-->
+          <!--<mat-card-title>{{job.car.model.title}} {{job.car.year}}</mat-card-title>-->
+        <!--</mat-card-header>-->
+        <!--<img mat-card-md-image class="img-job" (click)="showJob(job)" [src]="job.carUrl" onError="this.src='./assets/audi.jpg';"/>-->
+        <!--<mat-card-actions fxLayout="row" fxLayoutAlign="center">-->
+          <!--<button mat-icon-button (click)="showSummary(job, content)">-->
+            <!--<mat-icon aria-label="Summary">description</mat-icon>-->
+          <!--</button>-->
+        <!--</mat-card-actions>-->
+      <!--</mat-card>-->
+    <!--</div>-->
+  </mat-app-background>
 </div>
+
+    <!--<div class="row">-->
+      <!--<div style="width:100%">-->
+        <!--<table class="table table-striped table-task" [mfData]="getTasksValues()" #mf="mfDataTable">-->
+          <!--<thead>-->
+            <!--<tr>-->
+              <!--<th>-->
+                <!--<mfDefaultSorter by="priority">{{ 'jobtask.table.priority' | translate }}</mfDefaultSorter>-->
+              <!--</th>-->
+              <!--<th>-->
+                <!--<mfDefaultSorter by="name">{{ 'jobtask.table.name' | translate }}</mfDefaultSorter>-->
+              <!--</th>-->
+              <!--<th>-->
+                <!--<mfDefaultSorter by="status">{{ 'jobtask.table.status' | translate }}</mfDefaultSorter>-->
+              <!--</th>-->
+              <!--<th></th>-->
+            <!--</tr>-->
+          <!--</thead>-->
+          <!--<tbody>-->
+            <!--<tr *ngFor="let task of mf.data">-->
+              <!--<td>-->
+                <!--<button (click)="toUpdate(task.id)" type="submit" class="submit-button">-->
+                  <!--<span>-->
+                    <!--<fa-icon [icon]="faEdit" class="fa-sm"></fa-icon>-->
+                  <!--</span>-->
+                <!--</button>-->
+                <!--{{task.priority}}-->
+              <!--</td>-->
+              <!--<td>{{task.name}}</td>-->
+              <!--<td>-->
+                <!--{{task.status.status}}-->
+              <!--</td>-->
+              <!--<td>-->
+                <!--<button (click)="onDelete(task.id)" type="submit" class="submit-button" style="text:center;">-->
+                  <!--<span>-->
+                    <!--<fa-icon [icon]="faMinusCircle" class="fa-sm"></fa-icon>-->
+                  <!--</span>-->
+                <!--</button>-->
+              <!--</td>-->
+            <!--</tr>-->
+          <!--</tbody>-->
+          <!--<tfoot></tfoot>-->
+        <!--</table>-->
+        <!--<button (click)="toJobDetails()" type="submit" class="submit-button btn-next">-->
+          <!--<span>-->
+            <!--<fa-icon [icon]="faArrowCircleRight" class="fa-lg"></fa-icon>-->
+          <!--</span>-->
+        <!--</button>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->

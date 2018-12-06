@@ -7,8 +7,6 @@ import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { NgbDateStruct, NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-job-new',
@@ -125,10 +123,6 @@ export class JobNewComponent implements OnInit {
 
   compareStatus(s1: Status, s2: Status): boolean {
       return s1 && s2 ? s1.idStatus === s2.idStatus : s1 === s2;
-  }
-
-  getDateFromNgbDate(ngbDate: NgbDate): Date {
-    return new Date(ngbDate.year, ngbDate.month -1, ngbDate.day);
   }
 
   onSubmit(): void {
