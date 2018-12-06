@@ -1,6 +1,6 @@
 .img-details {
-  max-width: 50px;
-  max-height: 40px;
+  max-width: 75px;
+  max-height: 65px;
 }
 
 .table-details {
@@ -15,6 +15,7 @@
   color: black !important;
   padding: 12.5px;
   display: inline-block;
+  text-align: center;
 }
 
 .upload-input {

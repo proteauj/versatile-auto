@@ -43,6 +43,7 @@ import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { LocationStrategy, HashLocationStrategy} from '@angular/common';
 import { JobDialogComponent } from './job-dialog/job-dialog.component';
+import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
 
 @NgModule({
     declarations: [
@@ -54,10 +55,12 @@ import { JobDialogComponent } from './job-dialog/job-dialog.component';
         JobDetailsComponent,
         JobComponent,
         JobInspectComponent,
-        JobDialogComponent
+        JobDialogComponent,
+        ImagePreviewDialogComponent
     ],
     entryComponents: [
-        JobDialogComponent
+        JobDialogComponent,
+        ImagePreviewDialogComponent
     ],
     imports: [
         BrowserModule,

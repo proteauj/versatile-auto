@@ -1,6 +1,6 @@
 <div class="content">
-  <mat-app-background fxLayout="column" fxLayoutAlign="center">
-    <h1 class="mat-headline">{{ 'job.title' | translate }}</h1>
+  <mat-app-background fxLayout="column" fxLayoutAlign="center center">
+    <h2 mat-dialog-title>{{ 'job.title' | translate }}</h2>
     <div fxLayout="row wrap" fxLayoutGap="0.5%" fxLayoutAlign="center">
       <mat-card class="card" *ngFor="let job of jobs | async">
         <mat-card-header fxLayout="row" fxLayoutAlign="center">

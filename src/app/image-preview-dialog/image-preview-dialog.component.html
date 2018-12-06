@@ -1,0 +1,10 @@
+<mat-dialog #content>
+  <h2 mat-dialog-title>{{ 'jobdetails.preview.title' | translate }}</h2>
+  <mat-dialog-content>
+    <ngb-carousel *ngIf="data.images">
+      <ng-template ngbSlide class="slide" *ngFor="let file of data.images;">
+        <img [src]="'data:image/jpg;base64,'+file.file" (alt)="file.name" class="img-preview img-fluid">
+      </ng-template>
+    </ngb-carousel>
+  </mat-dialog-content>
+</mat-dialog>

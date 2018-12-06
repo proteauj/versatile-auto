@@ -1,7 +1,7 @@
 <div class="content">
-  <mat-app-background>
-    <h1 class="mat-headline">{{ 'jobnew.title' | translate }}</h1>
-    <form [formGroup]="carForm" class="car-form">
+  <mat-app-background fxLayout="column" fxLayoutAlign="center center">
+    <h2 mat-dialog-title>{{ 'jobnew.title' | translate }}</h2>
+    <form [formGroup]="carForm" class="form">
       <mat-form-field>
         <input matInput placeholder="{{ 'jobnew.description.label' | translate  }}" [formControl]="description" required>
         <mat-error *ngIf="description.invalid">{{ 'jobnew.description.error' | translate  }}</mat-error>

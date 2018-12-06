@@ -3,13 +3,13 @@
   <mat-dialog-content>
     <mat-list>
       <mat-list-item>
-        <div class="mat-list-text" style="width:60%">
+        <div class="mat-list-text" style="width:60% !important">
           <h5 matLine>
             {{data.selectedJob.car.model.make.title}} {{data.selectedJob.car.model.title}} {{data.selectedJob.car.year}}
           </h5>
           <p matLine><span>{{data.selectedJob.car.vin}}</span></p>
         </div>
-        <mat-form-field style="width:40%">
+        <mat-form-field style="width:40% !important">
           <mat-select [(ngModel)]="data.selectedJob.status.idStatus"
                       (change)="setSelectedStatusJob(data.selectedJob, $event)">
             <mat-option *ngFor="let status of data.statusArr | async" [value]="status.idStatus">
@@ -24,7 +24,7 @@
           <h5 matLine>{{task.name}} {{task.time}}</h5>
           <p matLine *ngIf="task.user"><span>{{task.user.name}}</span></p>
         </div>
-        <mat-form-field style="width:40%">
+        <mat-form-field style="width:40% !important">
           <mat-select [(ngModel)]="task.status.idStatus"
                       (change)="setSelectedStatusTask(task, $event)">
             <mat-option *ngFor="let status of data.statusArr | async" [value]="status.idStatus">
@@ -35,7 +35,7 @@
       </mat-list-item>
     </mat-list>
   </mat-dialog-content>
-  <mat-dialog-actions>
+  <mat-dialog-actions fxLayout="column" fxLayoutAlign="center center">
     <button mat-raised-button color="primary" (click)="onSubmit(data.selectedJob, tasks)">
       {{ 'job.submit' | translate}}
     </button>

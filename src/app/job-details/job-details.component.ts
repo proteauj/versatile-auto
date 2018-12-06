@@ -6,16 +6,20 @@ import { TranslateService } from '@ngx-translate/core';
 import { JobService } from '../job.service';
 import { Job, FileModel } from '../models/job';
 import { faSave, faMinusCircle, faFileUpload } from '@fortawesome/free-solid-svg-icons';
-import { NgbCarouselConfig, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 
+import { MatDialog } from '@angular/material';
+import { ImagePreviewDialogComponent } from '../image-preview-dialog/image-preview-dialog.component';
 
-import {HttpClient, HttpRequest, HttpEvent} from '@angular/common/http';
+export interface DialogData {
+  images: FileModel[];
+}
 
 @Component({
   selector: 'app-job-details',
   templateUrl: './job-details.component.html',
-  styleUrls: ['./job-details.component.css'],
-  providers: [NgbCarouselConfig]
+  styleUrls: ['./job-details.component.css']
 })
 export class JobDetailsComponent implements OnInit {
 
@@ -23,45 +27,30 @@ export class JobDetailsComponent implements OnInit {
   private filesSaved: Map<number, FileModel> = new Map<number, FileModel>();
   private filesToShow: File[] = [];
   private formData = new FormData();
-  private fileUploadConfig;
   private job: Job;
   private idJob: number;
   private imageFiles: FileModel[] = [];
 
-  faSave = faSave;
   faMinusCircle = faMinusCircle;
-  faFileUpload = faFileUpload;
-  closeResult: string;
+
+  displayedColumns = ['name', 'file', 'id'];
+  dataSource;
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private router: Router,
               private formBuilder: FormBuilder, private route: ActivatedRoute,
-              private config: NgbCarouselConfig, private modalService: NgbModal) { }
+              private config: NgbCarouselConfig, public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.fileUploadConfig = {
-        multiple: true,
-        formatsAllowed: ".jpg,.png,.docx,.doc,.xls,.xlsx,.pdf,.gif,.txt",
-        maxSize: "20",
-        uploadAPI:  {
-          url:"http://localhost:8080/jobs/files",
-          headers: {
-         "Content-Type" : "text/plain;charset=UTF-8"
-          }
-        },
-        theme: "dragNDrop",
-        hideProgressBar: true,
-        hideResetBtn: true,
-        hideSelectBtn: true,
-        hideUploadBtn: true
-    };
 
-    this.config.showNavigationArrows = false;
-    this.config.showNavigationIndicators = true;
-    this.config.interval = 1000;
-    this.config.wrap = false;
-    this.config.keyboard = false;
-    this.config.pauseOnHover = false;
+    this.config = {
+      showNavigationArrows: false,
+      showNavigationIndicators: true,
+      interval: 1000,
+      wrap: false,
+      keyboard: false,
+      pauseOnHover: false
+    }
 
     this.route.params.subscribe(params => {
       this.idJob = params['idJob'];
@@ -75,6 +64,8 @@ export class JobDetailsComponent implements OnInit {
         for (let file of files) {
           this.filesSaved.set(file.id, file);
         }
+
+        this.dataSource = this.getFilesValues();
       });
     });
   }
@@ -100,6 +91,7 @@ export class JobDetailsComponent implements OnInit {
     this.jobService.deleteFile(idFile).subscribe(data => {
       this.messageService.showSuccess(this.translate.instant('jobdetails.delete.success'));
       this.filesSaved.delete(idFile);
+      this.dataSource = this.getFilesValues();
     }, error => {
       this.messageService.showError(this.translate.instant('jobdetails.delete.error'));
     });
@@ -118,20 +110,19 @@ export class JobDetailsComponent implements OnInit {
       }
     }
 
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.openDialog();
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ImagePreviewDialogComponent, {
+      data: {
+        images: this.imageFiles,
+        config : this.config
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

@@ -25,6 +25,20 @@
   width: 100% !important;
 }
 
+.form {
+  border-radius: 5px;
+  background-color: white;
+  margin: 7px;
+}
+
+tr.mat-row {
+  height: unset;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+    padding-bottom: 1em;
+}
+
 .container {
   padding-right: 0px !important;
   padding-left: 0px !important;

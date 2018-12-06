@@ -1,79 +1,48 @@
-<div class="jumbotron content">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <div class="logo">{{ 'jobdetails.title' | translate }}</div>
+<div class="content">
+  <mat-app-background fxLayout="column" fxLayoutAlign="center center">
+    <h2 mat-dialog-title>{{ 'jobdetails.title' | translate }}</h2>
+    <form class="form" method="POST" enctype="multipart/form-data">
+      <div id="yourBtn" class="upload-btn" (click)="getFile()">
+        <mat-icon aria-label="Upload">save_alt</mat-icon>
+        <input id="upload" type="file" class="upload-input" (change)="onFileChanged($event)" multiple/>
       </div>
-      <div class="col-md-4"></div>
-    </div>
+    </form>
 
-    <div class="row">
-      <div style="width:5%"></div>
-      <div style="width:90%">
-        <div class="group form text-center">
-          <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-            <div id="yourBtn" class="upload-btn" (click)="getFile()">
-              <fa-icon [icon]="faFileUpload" class="fa-lg"></fa-icon>
-              <input id="upload" type="file" class="upload-input" (change)="onFileChanged($event)" multiple/>
+    <div class="example-container mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>{{ 'jobdetails.table.file' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <a [href]="element.url" download="{{element.name}}">{{element.name}}</a>
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="file">
+          <th mat-header-cell *matHeaderCellDef>{{ 'jobdetails.table.preview' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngIf="element && element.isImage && element.file" class="img-container">
+              <button type="button" class="btn btn-primary" (click)="showPreview(element, content)"></button>
+              <img class="img-details" [src]="'data:image/jpg;base64,'+element.file"/>
             </div>
-          </form>
-        </div>
-      </div>
-      <div style="width:5%"></div>
-    </div>
+          </td>
+        </ng-container>
 
-    <ng-template #content let-modal>
-      <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">{{ 'jobdetails.preview.title' | translate }}</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <ngb-carousel *ngIf="imageFiles">
-          <ng-template ngbSlide class="slide" *ngFor="let file of imageFiles;">
-            <img [src]="'data:image/jpg;base64,'+file.file" (alt)="file.name" class="img-preview img-fluid">
-          </ng-template>
-        </ngb-carousel>
-      </div>
-      <div class="modal-footer">
-      </div>
-    </ng-template>
+        <!-- Weight Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="onDelete(element.id)">
+              <mat-icon aria-label="Summary">delete_forever</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-    <div class="row">
-      <div style="width:100%">
-        <table class="table table-striped table-details" [mfData]="getFilesValues()" #mf="mfDataTable">
-          <thead>
-          <tr>
-            <th>{{ 'jobdetails.table.file' | translate }}</th>
-            <th>{{ 'jobdetails.table.preview' | translate }}</th>
-            <th></th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let file of mf.data">
-              <td>
-                <a [href]="file.url" download="{{file.name}}">{{file.name}}</a>
-              </td>
-              <td>
-                <div *ngIf="file && file.isImage && file.file" class="img-container">
-                  <button type="button" class="btn btn-primary" (click)="showPreview(file, content)"></button>
-                  <img class="img-details" [src]="'data:image/jpg;base64,'+file.file"/>
-                </div>
-              </td>
-              <td>
-                <button (click)="onDelete(file.id)" type="submit" class="submit-button">
-                  <span>
-                    <fa-icon [icon]="faMinusCircle" class="fa-sm"></fa-icon>
-                  </span>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-      </div>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
     </div>
-  </div>
+</mat-app-background>
 </div>
