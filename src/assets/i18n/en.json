@@ -56,7 +56,7 @@
   "jobtask.category.error": "Category required",
   "jobtask.assignation.label": "Assigned to",
   "jobtask.assignation.placeholder": "Assigned to",
-  "jobtask.assignation.loading": "Employees loading...",
+  "jobtask.assignation.not.found": "No employee for category",
   "jobtask.time.label": "Time",
   "jobtask.time.placeholder": "Time",
   "jobtask.time.error": "Time format numeric",

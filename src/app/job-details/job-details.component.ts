@@ -31,8 +31,6 @@ export class JobDetailsComponent implements OnInit {
   private idJob: number;
   private imageFiles: FileModel[] = [];
 
-  faMinusCircle = faMinusCircle;
-
   displayedColumns = ['name', 'file', 'id'];
   dataSource;
 

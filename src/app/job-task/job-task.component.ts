@@ -18,7 +18,8 @@ import { DataTableModule } from 'angular-6-datatable';
 export class JobTaskComponent implements OnInit {
 
   public categories: Promise<Role[]>;
-  private employees: Promise<Employee[]>;
+  private employees: Employee[];
+  private employeesByRole: Map<number, Employee[]> = new Map<number, Employee[]>();
   public statusArr: Promise<Status[]>;
   private tasks: Map<number, JobTask> = new Map<number, JobTask>();
   public submitted: boolean = false;
@@ -38,6 +39,9 @@ export class JobTaskComponent implements OnInit {
   public status;
   public taskForm: FormGroup;
 
+  displayedColumns = ['priority', 'name', 'status', 'id'];
+  dataSource;
+
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private userService: UserService, private router: Router,
               private formBuilder: FormBuilder, private route: ActivatedRoute,
@@ -50,6 +54,11 @@ export class JobTaskComponent implements OnInit {
     this.categories = this.userService.getRoles();
     this.statusArr = this.jobService.getStatus();
 
+    this.userService.getEmployees().then(data => {
+      this.employees = data;
+      this.setMapEmployeesByRole();
+    });
+
     this.route.params.subscribe(params => {
       this.idJob = params['idJob'];
       this.jobService.getJob(this.idJob).then(data => {
@@ -61,11 +70,25 @@ export class JobTaskComponent implements OnInit {
           for (let task of jobTasks) {
             this.tasks.set(task.id, task);
           }
+
+          this.dataSource = this.getTasksValues();
         });
       });
     });
 
     this.setTaskFormGroup(null);
+  }
+
+  setMapEmployeesByRole() {
+    for (let employee of this.employees) {
+      if (this.employeesByRole.get(employee.role.idRole) == null) {
+        var employees: Employee[] = [];
+        employees.push(employee);
+        this.employeesByRole.set(employee.role.idRole, employees);
+      } else {
+        this.employeesByRole.get(employee.role.idRole).push(employee);
+      }
+    }
   }
 
   setTaskFormGroup(task: JobTask) {
@@ -116,7 +139,7 @@ export class JobTaskComponent implements OnInit {
   }
 
   compareCategory(r1: Role, r2: Role): boolean {
-    return r1 && r2 ? r1.idRole === r1.idRole : r1 === r2;
+    return r1 && r2 ? r1.idRole === r2.idRole : r1 === r2;
   }
 
   compareEmployee(e1: Employee, e2: Employee): boolean {
@@ -129,7 +152,7 @@ export class JobTaskComponent implements OnInit {
 
   selectCategory(category: Role) {
     if (category != undefined) {
-      this.employees = this.userService.getEmployeesByRole(category);
+      this.employees = this.employeesByRole.get(category.idRole);
     }
     this.isCategorySelected = true;
   }
@@ -200,16 +223,20 @@ export class JobTaskComponent implements OnInit {
 
     if (this.idTask != null) {
       this.taskService.updateTask(task).subscribe(data => {
+        var taskModified = data.body;
+        this.tasks.set(taskModified.id, this.taskService.getJobTaskFromRessource(taskModified));
+        this.dataSource = this.getTasksValues();
         this.messageService.showSuccess(this.translate.instant('jobtask.update.success'));
       }, error => {
         this.messageService.showError(this.translate.instant('jobtask.update.error'));
       });
     } else {
-      var tasks: JobTask[];
+      var tasks: JobTask[] = [];
       tasks.push(task);
       this.taskService.createTask(tasks).subscribe(data => {
         var tasksCreated = data.body;
         this.tasks.set(tasksCreated[0].id, this.taskService.getJobTaskFromRessource(tasksCreated[0]));
+        this.dataSource = this.getTasksValues();
         this.messageService.showSuccess(this.translate.instant('jobtask.create.success'));
       }, error => {
         this.messageService.showError(this.translate.instant('jobtask.create.error'));
@@ -224,6 +251,7 @@ export class JobTaskComponent implements OnInit {
     this.taskService.deleteTask(id).subscribe(data => {
       this.messageService.showSuccess(this.translate.instant('jobtask.delete.success'));
       this.tasks.delete(id);
+      this.dataSource = this.getTasksValues();
     }, error => {
       this.messageService.showError(this.translate.instant('jobtask.delete.error'));
     });

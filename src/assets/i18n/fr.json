@@ -56,7 +56,7 @@
   "jobtask.category.error": "Catégorie obligatoire",
   "jobtask.assignation.label": "Assigné à",
   "jobtask.assignation.placeholder": "Assigné à",
-  "jobtask.assignation.loading": "Chargement employés...",
+  "jobtask.assignation.not.found": "Aucun employé pour la catégorie",
   "jobtask.time.label": "Temps",
   "jobtask.time.placeholder": "Temps",
   "jobtask.time.error": "Format numérique temps",

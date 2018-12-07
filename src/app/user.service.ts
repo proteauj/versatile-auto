@@ -89,11 +89,7 @@ export class UserService implements OnInit {
           rolesRessArray = resp.body;
 
           for (let roleRess of rolesRessArray) {
-            var role: Role = {
-              idRole: roleRess.idRole,
-              description: roleRess.description
-            };
-
+            var role: Role = this.getRoleFromRessource(roleRess);
             rolesArray.push(role);
           }
           resolve();
@@ -115,23 +111,29 @@ export class UserService implements OnInit {
           userRessArray = resp.body;
 
           for (let userRess of userRessArray) {
-            var role: Role = {
-              idRole: userRess.role.idRole,
-              description: userRess.role.description
-            }
+            var employee = this.getEmployeeFromRessource(userRess);
+            employeesArray.push(employee);
+          }
+          resolve();
+        });
+      });
+      return employeesArray;
+    }
 
-            var type: Type = {
-              idType: userRess.type.idType,
-              description: userRess.type.description
-            }
+    getEmployeesRessource(): Observable<HttpResponse<UserRessource[]>> {
+      return this.http.get<UserRessource[]>(`${AppConstants.USERS_URL}`, { observe: 'response' });
+    }
 
-            var employee: Employee = {
-              idUser: userRess.idUser,
-              name: userRess.name,
-              role: role,
-              type: type
-            };
+    async getEmployees(): Promise<Employee[]> {
+      var userRessArray: UserRessource[] = [];
+      var employeesArray: Employee[] = [];
 
+      await new Promise(resolve => {
+        this.getEmployeesRessource().subscribe(resp => {
+          userRessArray = resp.body;
+
+          for (let userRess of userRessArray) {
+            var employee = this.getEmployeeFromRessource(userRess);
             employeesArray.push(employee);
           }
           resolve();
