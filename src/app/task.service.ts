@@ -43,6 +43,14 @@ export class TaskService {
     return tasks;
   }
 
+  getJobTasksFromRessource(tasksRess: JobTaskRessource[]): JobTask[] {
+    var tasks: JobTask[] = [];
+    for (let taskRess of tasksRess) {
+      tasks.push(this.getJobTaskFromRessource(taskRess));
+    }
+    return tasks;
+  }
+
   getTaskFromRessource(taskRess: TaskRessource): Task {
     var task: Task = {
       idTask: taskRess.idTask,
@@ -76,6 +84,7 @@ export class TaskService {
 
     if (taskRess.task != undefined) {
       task.task = this.getTaskFromRessource(taskRess.task);
+      task.task.checked = true;
     }
 
     if (taskRess.carArea != undefined) {

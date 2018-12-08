@@ -7,9 +7,20 @@ import { JobService } from '../job.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { MaphilightModule } from 'ng-maphilight';
-import { MdcCheckbox } from '@angular-mdc/web';
+
+import { MatDialog, MatTableDataSource } from '@angular/material';
+import { JobInspectDialogComponent } from '../job-inspect-dialog/job-inspect-dialog.component';
+
+export interface DialogData {
+  selectedCarArea: CarArea;
+  tasks: Promise<Task[]>;
+  jobTasks: JobTask[];
+  job: Job;
+  newStatus: Status;
+  carAreas: Promise<CarArea[]>;
+  jobTasksMap: Map<string, JobTask[]>;
+}
 
 @Component({
   selector: 'app-job-inspect',
@@ -20,8 +31,8 @@ export class JobInspectComponent implements OnInit {
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobInspectService: JobInspectService, private router: Router,
-              private modalService: NgbModal, private route: ActivatedRoute,
-              private taskService: TaskService, private jobService: JobService) { }
+              private route: ActivatedRoute, private taskService: TaskService,
+              private jobService: JobService, public dialog: MatDialog) { }
 
   private carAreas: Promise<CarArea[]>;
   private carAreasMap: Map<string, CarArea> = new Map<string, CarArea>();
@@ -31,9 +42,10 @@ export class JobInspectComponent implements OnInit {
   private newStatus: Status;
   private idJob: number;
   private job: Job;
-  private modalTask;
-  private closeResult: string;
   private selectedCarArea: CarArea;
+
+  displayedColumns = ['carpart', 'name', 'time'];
+  dataSource: MatTableDataSource<JobTask>;
 
   public config = {
      "fade": false,
@@ -79,6 +91,8 @@ export class JobInspectComponent implements OnInit {
 
       this.jobInspectService.getJobTasksWithCarArea(this.idJob).then(data => {
         this.jobTasks = data;
+        this.dataSource = new MatTableDataSource<JobTask>(this.jobTasks);
+
         for (let jobTask of this.jobTasks) {
           var carAreaCode: string = jobTask.carArea.code;
 
@@ -102,54 +116,25 @@ export class JobInspectComponent implements OnInit {
     var carAreaCode = event.currentTarget.id;
     this.selectedCarArea = this.carAreasMap.get(carAreaCode);
 
-    this.modalTask = this.modalService.open(content);
-    this.modalTask.result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+    this.openDialog();
   }
 
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return  `with: ${reason}`;
-    }
-  }
-
-  getSelectedTasks(tasks: Task[]) {
-    return tasks.filter(task => task.checked);
-  }
-
-  onSubmit(selectedCarArea, tasks) {
-    this.tasks.then(data => {
-      var selectedTasks = this.getSelectedTasks(data);
-      for (let task of selectedTasks) {
-        var jobTask: JobTask = {
-          id: -1,
-          name: task.name,
-          estimatedTime: task.avgTime,
-          job: this.job,
-          status: this.newStatus,
-          priority: 0,
-          role: task.role,
-          user: null,
-          task: task,
-          elapsedTime: 0,
-          carArea: selectedCarArea
-        }
-
-        this.jobTasks.push(jobTask);
+  openDialog(): void {
+    const dialogRef = this.dialog.open(JobInspectDialogComponent, {
+      data: {
+        selectedCarArea: this.selectedCarArea,
+        tasks: this.tasks,
+        jobTasks: this.jobTasks,
+        job: this.job,
+        newStatus: this.newStatus,
+        carAreas: this.carAreas,
+        jobTasksMap: this.jobTasksMap
       }
+    });
 
-      this.taskService.createTask(this.jobTasks).subscribe(data => {
-        this.messageService.showSuccess(this.translate.instant('jobinspect.create.success'));
-      }, error => {
-        this.messageService.showError(this.translate.instant('jobinspect.create.error'));
-      });
+    dialogRef.afterClosed().subscribe(result => {
+      this.dataSource.data = this.jobTasks;
+      console.log('The dialog was closed');
     });
   }
 }

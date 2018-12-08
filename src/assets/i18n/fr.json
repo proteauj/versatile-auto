@@ -95,7 +95,7 @@
 
   "jobinspect.title": "Inspection job",
   "jobinspect.task.title": "Tâches",
-  "jobinspect.submit": "Ajouter",
+  "jobinspect.submit": "Enregistrer",
   "jobinspect.carpart.hood": "Capot",
   "jobinspect.carpart.fr_window": "Pare-brise",
   "jobinspect.carpart.roof": "Toit",
@@ -123,7 +123,11 @@
   "jobinspect.carpart.fr_l_window": "Fenêtre avant gauche",
   "jobinspect.carpart.re_r_window": "Fenêtre arrière droite",
   "jobinspect.carpart.re_l_window": "Fenêtre arrière gauche",
-
+  "jobinspect.table.carpart": "Partie voiture",
+  "jobinspect.table.name": "Tâche",
+  "jobinspect.table.time": "Temps",
+  "jobinspect.create.success": "Enregistrement réussi",
+  "jobinspect.create.error": "Enregistrement échoué",
 
   "menu.login": "Connexion",
   "menu.job": "Job"

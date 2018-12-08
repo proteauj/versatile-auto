@@ -1,143 +1,92 @@
-<div class="jumbotron content">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <div class="logo">{{ 'jobinspect.title' | translate }}</div>
-      </div>
-      <div class="col-md-4"></div>
+<div class="content">
+  <mat-app-background fxLayout="column" fxLayoutAlign="center center">
+    <h2 mat-dialog-title>{{ 'jobinspect.title' | translate }}</h2>
+    <maphilight id="carMap" [config]="config">
+      <img id="image" src="../assets/car-damage.png" width="300" height="432" usemap="#Map" >
+      <map name="Map">
+        <area id="hood" (click)="carPartSelected($event,content)" target="_blank" alt="Hood"
+              href="javascript:void(0)" coords="103,71,196,148" shape="rect">
+        <area id="fr_window" (click)="carPartSelected($event,content)" target="_blank" alt="Front window"
+              href="javascript:void(0)" coords="102,151,199,151,187,187,114,186" shape="poly">
+        <area id="roof" (click)="carPartSelected($event,content)" target="_blank" alt="Roof"
+              href="javascript:void(0)" coords="113,188,187,274" shape="rect">
+        <area id="ba_window" (click)="carPartSelected($event,content)" target="_blank" alt="Back window"
+              href="javascript:void(0)" coords="117,282,181,281,190,320,109,320" shape="poly">
+        <area id="trunk" (click)="carPartSelected($event,content)" target="_blank" alt="Trunk"
+              href="javascript:void(0)" coords="100,322,200,360" shape="rect">
+        <area id="ba_bumper" (click)="carPartSelected($event,content)" target="_blank" alt="Back bumper"
+              href="javascript:void(0)" coords="94,394,207,411" shape="rect">
+        <area id="ba_l_light" (click)="carPartSelected($event,content)" target="_blank" alt="Back left light"
+              href="javascript:void(0)" coords="90,372,119,393" shape="rect">
+        <area id="ba_r_light" (click)="carPartSelected($event,content)" target="_blank" alt="Back right light"
+              href="javascript:void(0)" coords="184,374,208,394" shape="rect">
+        <area id="fr_bumper" (click)="carPartSelected($event,content)" target="_blank" alt="Front bumper"
+              href="javascript:void(0)" coords="93,5,208,26" shape="rect">
+        <area id="fr_l_light" (click)="carPartSelected($event,content)" target="_blank" alt="Front left light"
+              href="javascript:void(0)" coords="98,27,120,41" shape="rect">
+        <area id="fr_r_light" (click)="carPartSelected($event,content)" target="_blank" alt="Front right light"
+              href="javascript:void(0)" coords="182,27,201,39" shape="rect">
+        <area id="fr_l_door" (click)="carPartSelected($event,content)" target="_blank" alt="Front left door"
+              href="javascript:void(0)" coords="32,149,79,222" shape="rect">
+        <area id="fr_r_door" (click)="carPartSelected($event,content)" target="_blank" alt="Front right door"
+              href="javascript:void(0)" coords="221,151,268,223" shape="rect">
+        <area id="re_l_door" (click)="carPartSelected($event,content)" target="_blank" alt="Rear left door"
+              href="javascript:void(0)" coords="32,224,81,225,80,289,58,277,32,261" shape="poly">
+        <area id="re_r_door" (click)="carPartSelected($event,content)" target="_blank" alt="Rear right door"
+              href="javascript:void(0)" coords="223,226,269,228,269,265,233,289,221,279" shape="poly">
+        <area id="fr_l_rocker" (click)="carPartSelected($event,content)" target="_blank" alt="Front left rocker"
+              href="javascript:void(0)" coords="43,64,59,115,37,146,83,148,73,80" shape="poly">
+        <area id="fr_r_rocker" (click)="carPartSelected($event,content)" target="_blank" alt="Front right rocker"
+              href="javascript:void(0)" coords="232,80,221,148,268,148,245,116,268,76" shape="poly">
+        <area id="re_l_rocker" (click)="carPartSelected($event,content)" target="_blank" alt="Rear left rocker"
+              href="javascript:void(0)" coords="33,269,59,301,33,340,73,357,78,293" shape="poly">
+        <area id="re_r_rocker" (click)="carPartSelected($event,content)" target="_blank" alt="Rear right rocker"
+              href="javascript:void(0)" coords="269,268,243,295,269,353,225,355,223,291" shape="poly">
+        <area id="fr_l_wheel" (click)="carPartSelected($event,content)" target="_top" alt="Front left wheel"
+              href="javascript:void(0)" coords="35,117,19" shape="circle">
+        <area id="fr_r_wheel" (click)="carPartSelected($event,content)" target="_top" alt="Front right wheel"
+              href="javascript:void(0)" coords="265,117,21" shape="circle">
+        <area id="re_l_wheel" (click)="carPartSelected($event,content)" target="_top" alt="Rear left wheel"
+              href="javascript:void(0)" coords="36,297,20" shape="circle">
+        <area id="re_r_wheel" (click)="carPartSelected($event,content)" target="_top" alt="Rear right wheel"
+              href="javascript:void(0)" coords="265,297,19" shape="circle">
+        <area id="fr_r_window" (click)="carPartSelected($event,content)" target="_blank" alt="Front right window"
+              href="javascript:void(0)" coords="219,157,196,194,195,223,220,221" shape="poly">
+        <area id="fr_l_window" (click)="carPartSelected($event,content)" target="_blank" alt="Front left window"
+              href="javascript:void(0)" coords="82,155,107,197,106,224,82,222" shape="poly">
+        <area id="re_r_window" (click)="carPartSelected($event,content)" target="_blank" alt="Rear right window"
+              href="javascript:void(0)" coords="196,230,221,228,221,283,197,264" shape="poly">
+        <area id="re_l_window" (click)="carPartSelected($event,content)" target="_blank" alt="Rear left window"
+              href="javascript:void(0)" coords="83,226,106,230,105,265,81,284" shape="poly">
+      </map>
+    </maphilight>
+
+    <div class="mat-elevation-z8" style="width:100% !important">
+      <table mat-table id="taskTable" [dataSource]="dataSource">
+        <ng-container matColumnDef="carpart">
+          <th mat-header-cell *matHeaderCellDef>{{ 'jobinspect.table.carpart' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <p>{{ ('jobinspect.carpart.' + element.carArea.code) | translate }}</p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>{{ 'jobinspect.table.name' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <p>{{element.name}}</p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="time">
+          <th mat-header-cell *matHeaderCellDef>{{ 'jobinspect.table.time' | translate }}</th>
+          <td mat-cell *matCellDef="let element">
+            <p>{{element.estimatedTime}}</p>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
     </div>
-
-    <div class="row">
-      <div>
-        <maphilight id="carMap" [config]="config">
-          <img id="image" src="../assets/car-damage.png" width="300" height="432" usemap="#Map" >
-          <map name="Map">
-            <area id="hood" (click)="carPartSelected($event,content)" target="_blank" alt="Hood"
-                  href="javascript:void(0)" coords="103,71,196,148" shape="rect">
-            <area id="fr_window" (click)="carPartSelected($event,content)" target="_blank" alt="Front window"
-                  href="javascript:void(0)" coords="102,151,199,151,187,187,114,186" shape="poly">
-            <area id="roof" (click)="carPartSelected($event,content)" target="_blank" alt="Roof"
-                  href="javascript:void(0)" coords="113,188,187,274" shape="rect">
-            <area id="ba_window" (click)="carPartSelected($event,content)" target="_blank" alt="Back window"
-                  href="javascript:void(0)" coords="117,282,181,281,190,320,109,320" shape="poly">
-            <area id="trunk" (click)="carPartSelected($event,content)" target="_blank" alt="Trunk"
-                  href="javascript:void(0)" coords="100,322,200,360" shape="rect">
-            <area id="ba_bumper" (click)="carPartSelected($event,content)" target="_blank" alt="Back bumper"
-                  href="javascript:void(0)" coords="94,394,207,411" shape="rect">
-            <area id="ba_l_light" (click)="carPartSelected($event,content)" target="_blank" alt="Back left light"
-                  href="javascript:void(0)" coords="90,372,119,393" shape="rect">
-            <area id="ba_r_light" (click)="carPartSelected($event,content)" target="_blank" alt="Back right light"
-                  href="javascript:void(0)" coords="184,374,208,394" shape="rect">
-            <area id="fr_bumper" (click)="carPartSelected($event,content)" target="_blank" alt="Front bumper"
-                  href="javascript:void(0)" coords="93,5,208,26" shape="rect">
-            <area id="fr_l_light" (click)="carPartSelected($event,content)" target="_blank" alt="Front left light"
-                  href="javascript:void(0)" coords="98,27,120,41" shape="rect">
-            <area id="fr_r_light" (click)="carPartSelected($event,content)" target="_blank" alt="Front right light"
-                  href="javascript:void(0)" coords="182,27,201,39" shape="rect">
-            <area id="fr_l_door" (click)="carPartSelected($event,content)" target="_blank" alt="Front left door"
-                  href="javascript:void(0)" coords="32,149,79,222" shape="rect">
-            <area id="fr_r_door" (click)="carPartSelected($event,content)" target="_blank" alt="Front right door"
-                  href="javascript:void(0)" coords="221,151,268,223" shape="rect">
-            <area id="re_l_door" (click)="carPartSelected($event,content)" target="_blank" alt="Rear left door"
-                  href="javascript:void(0)" coords="32,224,81,225,80,289,58,277,32,261" shape="poly">
-            <area id="re_r_door" (click)="carPartSelected($event,content)" target="_blank" alt="Rear right door"
-                  href="javascript:void(0)" coords="223,226,269,228,269,265,233,289,221,279" shape="poly">
-            <area id="fr_l_rocker" (click)="carPartSelected($event,content)" target="_blank" alt="Front left rocker"
-                  href="javascript:void(0)" coords="43,64,59,115,37,146,83,148,73,80" shape="poly">
-            <area id="fr_r_rocker" (click)="carPartSelected($event,content)" target="_blank" alt="Front right rocker"
-                  href="javascript:void(0)" coords="232,80,221,148,268,148,245,116,268,76" shape="poly">
-            <area id="re_l_rocker" (click)="carPartSelected($event,content)" target="_blank" alt="Rear left rocker"
-                  href="javascript:void(0)" coords="33,269,59,301,33,340,73,357,78,293" shape="poly">
-            <area id="re_r_rocker" (click)="carPartSelected($event,content)" target="_blank" alt="Rear right rocker"
-                  href="javascript:void(0)" coords="269,268,243,295,269,353,225,355,223,291" shape="poly">
-            <area id="fr_l_wheel" (click)="carPartSelected($event,content)" target="_top" alt="Front left wheel"
-                  href="javascript:void(0)" coords="35,117,19" shape="circle">
-            <area id="fr_r_wheel" (click)="carPartSelected($event,content)" target="_top" alt="Front right wheel"
-                  href="javascript:void(0)" coords="265,117,21" shape="circle">
-            <area id="re_l_wheel" (click)="carPartSelected($event,content)" target="_top" alt="Rear left wheel"
-                  href="javascript:void(0)" coords="36,297,20" shape="circle">
-            <area id="re_r_wheel" (click)="carPartSelected($event,content)" target="_top" alt="Rear right wheel"
-                  href="javascript:void(0)" coords="265,297,19" shape="circle">
-            <area id="fr_r_window" (click)="carPartSelected($event,content)" target="_blank" alt="Front right window"
-                  href="javascript:void(0)" coords="219,157,196,194,195,223,220,221" shape="poly">
-            <area id="fr_l_window" (click)="carPartSelected($event,content)" target="_blank" alt="Front left window"
-                  href="javascript:void(0)" coords="82,155,107,197,106,224,82,222" shape="poly">
-            <area id="re_r_window" (click)="carPartSelected($event,content)" target="_blank" alt="Rear right window"
-                  href="javascript:void(0)" coords="196,230,221,228,221,283,197,264" shape="poly">
-            <area id="re_l_window" (click)="carPartSelected($event,content)" target="_blank" alt="Rear left window"
-                  href="javascript:void(0)" coords="83,226,106,230,105,265,81,284" shape="poly">
-          </map>
-        </maphilight>
-      </div>
-
-      <div style="width:100%" class="mdc-list--dense">
-        <mdc-list #twoline twoLine>
-          <mdc-list-item class="two-line-item" *ngFor="let task of jobTasks">
-            <mdc-list-item-text [secondaryText]="task.name">
-              {{ ('jobinspect.carpart.' + task.carArea.code) | translate }}
-            </mdc-list-item-text>
-          </mdc-list-item>
-        </mdc-list>
-      </div>
-
-      <ng-template #content let-modal>
-        <div class="modal-header">
-          <h4 class="modal-title" id="modal-basic-title">{{ 'jobinspect.task.title' | translate }}</h4>
-          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <mdc-list #checkboxes>
-              <mdc-list-item *ngFor="let task of tasks | async">
-                <mdc-checkbox mdcListItemMeta style="width:10%"
-                              value="{{task.idTask}}"
-                              [(ngModel)]="task.checked"></mdc-checkbox>
-                <div style="width:35%">
-                  {{ task.name }}
-                </div>
-                <mat-slider style="width:45%"
-                  [max]="300"
-                  [min]="15"
-                  [step]="15"
-                  [thumbLabel]="true"
-                  [displayWith]="formatLabel"
-                  [tickInterval]="30"
-                  [(ngModel)]="task.avgTime">
-                </mat-slider>
-
-                <i class="material-icons" style="width:10%">alarm</i>
-              </mdc-list-item>
-            </mdc-list>
-          </div>
-          <div class="row">
-            {{ selectedCarArea.name }}
-              <div class="mdc-select mdc-select--outlined demo-select-outline-shaped" #partTask>
-                <i class="mdc-select__dropdown-icon"></i>
-                <select class="mdc-select__native-control shaped outlined"
-                        [(ngModel)]="selectedCarArea">
-                  <option *ngFor="let carArea of carAreas | async" [ngValue]="carArea">
-                    {{ ('jobinspect.carpart.' + carArea.code) | translate }}
-                  </option>
-                </select>
-                <div class="mdc-notched-outline">
-                  <svg>
-                    <path class="mdc-notched-outline__path"></path>
-                  </svg>
-                </div>
-                <div class="mdc-notched-outline__idle"></div>
-              </div>
-          </div>
-          <div class="form text-left">
-            <button (click)="onSubmit(selectedCarArea, tasks)" type="submit" class="mdc-button mdc-button--raised ">
-              {{ 'jobinspect.submit' | translate}}
-            </button>
-          </div>
-        </div>
-        <div class="modal-footer">
-        </div>
-      </ng-template>
-  </div>
+  </mat-app-background>
 </div>

@@ -30,9 +30,7 @@ export class JobComponent implements OnInit {
   private tasksMap: Map<number, JobTask[]> = new Map<number, JobTask[]>();
   private tasks: JobTask[] = [];
   private selectedJob: Job;
-  private closeResult: string;
   private statusArr: Promise<Status[]>;
-  private modalSummary;
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private router: Router, private modalService: NgbModal,

@@ -95,7 +95,7 @@
 
   "jobinspect.title": "Job inspection",
   "jobinspect.task.title": "Tasks",
-  "jobinspect.submit": "Add",
+  "jobinspect.submit": "Save",
   "jobinspect.carpart.hood": "Hood",
   "jobinspect.carpart.fr_window": "Front window",
   "jobinspect.carpart.roof": "Roof",
@@ -123,6 +123,11 @@
   "jobinspect.carpart.fr_l_window": "Front left window",
   "jobinspect.carpart.re_r_window": "Rear right window",
   "jobinspect.carpart.re_l_window": "Rear left window",
+  "jobinspect.table.carpart": "Car part",
+  "jobinspect.table.name": "Task",
+  "jobinspect.table.time": "Time",
+  "jobinspect.create.success": "Save succeeded",
+  "jobinspect.create.error": "Save failed",
 
   "menu.login": "Log in",
   "menu.job": "Job"

@@ -1,0 +1,37 @@
+<mat-dialog #content>
+  <h2 mat-dialog-title>{{ 'jobinspect.task.title' | translate }}</h2>
+  <mat-dialog-content>
+    <mat-list>
+      <mat-list-item *ngFor="let task of data.tasks | async">
+
+        <span *ngIf="jobTasksCarAreaSelByTaskId.get(task.idTask); let jobTask; else templateTask">
+          <mat-checkbox style="width:45%" [(ngModel)]="jobTask.task.checked" [labelPosition]="after">{{ jobTask.task.name }}</mat-checkbox>
+          <mat-slider style="width:45%" [max]="300" [min]="15" [step]="15" [thumbLabel]="true"
+                      [displayWith]="formatLabel" [tickInterval]="30" [(ngModel)]="jobTask.estimatedTime"></mat-slider>
+        </span>
+        <ng-template #templateTask>
+          <mat-checkbox style="width:45%" [(ngModel)]="task.checked" [labelPosition]="after">{{ task.name }}</mat-checkbox>
+          <mat-slider style="width:45%" [max]="300" [min]="15" [step]="15" [thumbLabel]="true"
+                      [displayWith]="formatLabel" [tickInterval]="30" [(ngModel)]="task.avgTime"></mat-slider>
+        </ng-template>
+        <mat-icon style="width:10%" aria-label="Time">access_time</mat-icon>
+      </mat-list-item>
+    </mat-list>
+
+    <mat-form-field>
+      <mat-select [(ngModel)]="data.selectedCarArea">
+        <mat-option *ngFor="let carArea of data.carAreas | async" [value]="carArea">
+          {{ ('jobinspect.carpart.' + carArea.code) | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions fxLayout="column" fxLayoutAlign="center center">
+    <button mat-raised-button color="primary" (click)="onSubmit(data.selectedCarArea, data.tasks)">
+      {{ 'jobinspect.submit' | translate}}
+    </button>
+  </mat-dialog-actions>
+</mat-dialog>
+
+
+

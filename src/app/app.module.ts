@@ -44,6 +44,7 @@ import { environment } from '../environments/environment';
 import { LocationStrategy, HashLocationStrategy} from '@angular/common';
 import { JobDialogComponent } from './job-dialog/job-dialog.component';
 import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
+import { JobInspectDialogComponent } from './job-inspect-dialog/job-inspect-dialog.component';
 
 @NgModule({
     declarations: [
@@ -56,11 +57,13 @@ import { ImagePreviewDialogComponent } from './image-preview-dialog/image-previe
         JobComponent,
         JobInspectComponent,
         JobDialogComponent,
-        ImagePreviewDialogComponent
+        ImagePreviewDialogComponent,
+        JobInspectDialogComponent
     ],
     entryComponents: [
         JobDialogComponent,
-        ImagePreviewDialogComponent
+        ImagePreviewDialogComponent,
+        JobInspectDialogComponent
     ],
     imports: [
         BrowserModule,
