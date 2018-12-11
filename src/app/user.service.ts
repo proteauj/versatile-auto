@@ -18,6 +18,10 @@ export class UserService implements OnInit {
 
   ngOnInit() { }
 
+  isUserAuthenticated(): boolean {
+    return true;
+  }
+
   async validateUserLogIn(user: User): Promise<boolean> {
     await new Promise(resolve => {
       this.getUser(user.email).subscribe(resp => {

@@ -47,6 +47,9 @@ import { ImagePreviewDialogComponent } from './image-preview-dialog/image-previe
 import { JobInspectDialogComponent } from './job-inspect-dialog/job-inspect-dialog.component';
 import { LoginRegisterComponent } from './login-register/login-register.component';
 
+import { CanActivateRouteGuard } from './can-activate-route.guard';
+import { AuthService } from './auth.service';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -95,7 +98,7 @@ import { LoginRegisterComponent } from './login-register/login-register.componen
         AngularFireModule.initializeApp(environment.firebase)
     ],
     schemas: [ NO_ERRORS_SCHEMA ],
-    providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+    providers: [ AuthService, CanActivateRouteGuard ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

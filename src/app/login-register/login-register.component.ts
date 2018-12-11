@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User, Role, Type, Employee } from '../models/user';
 import { UserService } from '../user.service';
+import { AuthService } from '../auth.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -24,7 +25,8 @@ export class LoginRegisterComponent implements OnInit {
   public password;
 
   constructor(private userService: UserService, private messageService: MessageService,
-              private translate: TranslateService, private router: Router, private formBuilder: FormBuilder) { }
+              private translate: TranslateService, private router: Router, private formBuilder: FormBuilder,
+              private auth: AuthService) { }
 
   ngOnInit() {
     this.categories = this.userService.getRoles();
@@ -83,6 +85,7 @@ export class LoginRegisterComponent implements OnInit {
     this.userService.createLogIn(employee).subscribe(data => {
       console.log("POST LogIn is successful ", data);
       this.messageService.showSuccess(this.translate.instant('login.register.success'));
+      this.auth.sendToken(employee.user.email);
       this.router.navigate(['/job']);
     }, error => {
       this.messageService.showError(this.translate.instant('login.register.error'));

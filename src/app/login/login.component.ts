@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user';
 import { UserService } from '../user.service';
+import { AuthService } from '../auth.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
   public password;
 
   constructor(private userService: UserService, private messageService: MessageService,
-              private translate: TranslateService, private router: Router, private formBuilder: FormBuilder) { }
+              private translate: TranslateService, private router: Router, private formBuilder: FormBuilder,
+              private auth: AuthService) { }
 
   ngOnInit() {
     this.email = new FormControl('', [Validators.required, Validators.email]);
@@ -48,7 +50,8 @@ export class LoginComponent implements OnInit {
       this.isValid = value;
 
       if (this.isValid) {
-        this.messageService.showSuccess(this.translate.instant('login.success'));//, user.email);
+        this.messageService.showSuccess(this.translate.instant('login.success'));
+        this.auth.sendToken(user.email);
         this.router.navigate(['/job-new']);
       } else {
         this.messageService.showError(this.translate.instant('login.fail'));

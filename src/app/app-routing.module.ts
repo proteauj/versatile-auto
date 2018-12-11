@@ -11,16 +11,18 @@ import { JobInspectComponent } from './job-inspect/job-inspect.component';
 
 import { Job } from './models/job';
 
+import { CanActivateRouteGuard } from './can-activate-route.guard';
+
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'login-register', component: LoginRegisterComponent },
-  { path: 'job', component: JobComponent },
-  { path: 'job-new', component: JobNewComponent },
-  { path: 'job-new/:idJob', component: JobNewComponent },
-  { path: 'job-task/:idJob', component: JobTaskComponent },
-  { path: 'job-details/:idJob', component: JobDetailsComponent },
-  { path: 'job-inspect/:idJob', component: JobInspectComponent }
+  { path: 'job', component: JobComponent, canActivate: [CanActivateRouteGuard] },
+  { path: 'job-new', component: JobNewComponent, canActivate: [CanActivateRouteGuard] },
+  { path: 'job-new/:idJob', component: JobNewComponent, canActivate: [CanActivateRouteGuard] },
+  { path: 'job-task/:idJob', component: JobTaskComponent, canActivate: [CanActivateRouteGuard] },
+  { path: 'job-details/:idJob', component: JobDetailsComponent, canActivate: [CanActivateRouteGuard] },
+  { path: 'job-inspect/:idJob', component: JobInspectComponent, canActivate: [CanActivateRouteGuard] }
 ];
 
 @NgModule({
