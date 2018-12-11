@@ -137,4 +137,8 @@ export class JobInspectComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+
+  toJobDetails() {
+    this.router.navigate(['/job-details', this.idJob]);
+  }
 }

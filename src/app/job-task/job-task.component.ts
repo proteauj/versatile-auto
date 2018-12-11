@@ -143,7 +143,7 @@ export class JobTaskComponent implements OnInit {
   }
 
   compareEmployee(e1: Employee, e2: Employee): boolean {
-      return e1 && e2 ? e1.idUser === e2.idUser : e1 === e2;
+      return e1 && e2 ? e1.user.idUser === e2.user.idUser : e1 === e2;
     }
 
   getTasksValues(): Array<JobTask> {
@@ -172,7 +172,7 @@ export class JobTaskComponent implements OnInit {
     var assignation: Employee;
     if (this.taskForm.controls.assignation.value != undefined) {
       assignation = {
-        idUser: this.taskForm.controls.assignation.value.idUser,
+        user: this.taskForm.controls.assignation.value.user,
         name: this.taskForm.controls.assignation.value.name,
         role: this.taskForm.controls.assignation.value.role,
         type: this.taskForm.controls.assignation.value.type

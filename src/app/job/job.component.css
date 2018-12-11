@@ -13,6 +13,8 @@
     background-color: transparent;
 }
 
+.md-36 { font-size: 36px !important; }
+
 .mat-icon-button .mat-icon, .mat-icon-button i {
     line-height: 5px;
 }

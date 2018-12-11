@@ -1,50 +1,26 @@
-<div class="jumbotron content">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <div class="logo">{{ 'login.title' | translate }}</div>
-      </div>
-      <div class="col-md-4"></div>
+<div class="content">
+  <mat-app-background fxLayout="column" fxLayoutAlign="center center">
+    <h2 mat-dialog-title>{{ 'login.title' | translate }}</h2>
+    <form [formGroup]="loginForm" class="form">
+      <mat-form-field>
+        <input matInput placeholder="{{ 'login.email.placeholder' | translate }}" [formControl]="email" required>
+        <mat-error *ngIf="email.invalid">{{ 'login.email.error' | translate  }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="password" placeholder="{{ 'login.password.placeholder' | translate }}"
+               [formControl]="password" required>
+        <mat-error *ngIf="password.invalid">{{ 'login.password.error' | translate  }}</mat-error>
+      </mat-form-field>
+    </form>
+
+    <div fxLayout="row">
+      <button mat-raised-button color="primary" (click)="onLogIn()">
+        {{ 'login.submit' | translate }}
+      </button>
+      <button mat-raised-button color="secondary" routerLink="/login-register">
+        {{ 'login.register' | translate }}
+      </button>
     </div>
-
-    <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4">
-        <div class="group form text-center">
-          <form class="login-form text-left" [formGroup]="loginForm" (ngSubmit)="onLogIn()">
-            <div class="form-group">
-              <label for="loginEmail" class="sr-only">{{ 'login.email.label' | translate  }}</label>
-              <input type="text" formControlName="email" class="form-control"
-                     [ngClass]="{ 'is-invalid': submitted && f.email.errors }" id="loginEmail"
-                     placeholder="{{ 'login.email.placeholder' | translate  }}"/>
-
-              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                <div *ngIf="f.email.errors.required">{{ 'login.email.error' | translate  }}</div>
-                <div *ngIf="f.email.errors.email">{{ 'login.email.error.format' | translate  }}</div>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="loginPassword" class="sr-only">{{ 'login.password.label' | translate  }}</label>
-              <input type="password" formControlName="password" class="form-control"
-                     [ngClass]="{ 'is-invalid': submitted && f.password.errors }" id="loginPassword"
-                     placeholder="{{ 'login.password.placeholder' | translate  }}"/>
-
-              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                <div *ngIf="f.password.errors.required">{{ 'login.password.error' | translate  }}</div>
-                <div *ngIf="f.password.errors.minlength">{{ 'login.password.error.length' | translate  }}</div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="form text-left">
-          <button (click)="onLogIn()" type="submit" class="btn btn-primary submit-button">
-            {{ 'login.submit' | translate}}
-          </button>
-        </div>
-      </div>
-      <div class="col-md-4"></div>
-    </div>
-  </div>
+  </mat-app-background>
 </div>

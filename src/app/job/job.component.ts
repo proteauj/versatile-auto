@@ -90,4 +90,8 @@ export class JobComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+
+  toJobNew() {
+    this.router.navigate(['/job-new']);
+  }
 }

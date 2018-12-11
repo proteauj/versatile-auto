@@ -5,7 +5,7 @@ import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Observable } from "rxjs";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -13,36 +13,36 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-	public submitted: boolean = false;
 	private isValid;
   public loginForm: FormGroup;
 
+  public email;
+  public password;
+
   constructor(private userService: UserService, private messageService: MessageService,
-    private translate: TranslateService, private router: Router, private formBuilder: FormBuilder) { }
+              private translate: TranslateService, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.email = new FormControl('', [Validators.required, Validators.email]);
+    this.password = new FormControl('', [Validators.required, Validators.minLength(6)]);
+
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      email: this.email,
+      password: this.password
     });
   }
 
-  // convenience getter for easy access to form fields
-  get f() { return this.loginForm.controls; }
-
   onLogIn(): void {
-    this.submitted = true;
-
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
 
     var user: User = {
-    	    idUser: null,
-          email: this.loginForm.controls.email.value,
-          password: this.loginForm.controls.password.value
-    	};
+      idUser: null,
+      email: this.loginForm.controls.email.value,
+      password: this.loginForm.controls.password.value
+    };
 
     this.userService.validateUserLogIn(user).then(value => {
       this.isValid = value;

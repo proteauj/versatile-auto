@@ -5,7 +5,7 @@ export class User {
 }
 
 export class Employee {
-  idUser: number;
+  user: User;
   name: string;
   role: Role;
   type: Type;

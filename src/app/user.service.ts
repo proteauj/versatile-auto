@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { User, Role, Type, Employee } from './models/user';
 import { UserRessource, LogInRessource, RoleRessource, TypeRessource } from './ressources/userRessource';
@@ -69,9 +69,20 @@ export class UserService implements OnInit {
       return type;
     }
 
+    getUserFromRessource(userRess: UserRessource): User {
+      var user: User = {
+        idUser: userRess.idUser,
+        email: userRess.email,
+        //Email is only in logInRessource and not required in employee
+        password: null
+      };
+
+      return user;
+    }
+
     getEmployeeFromRessource(userRess: UserRessource): Employee {
       var employee: Employee = {
-        idUser: userRess.idUser,
+        user: this.getUserFromRessource(userRess),
         name: userRess.name,
         role: this.getRoleFromRessource(userRess.role),
         type: this.getTypeFromRessource(userRess.type)
@@ -141,4 +152,53 @@ export class UserService implements OnInit {
       });
       return employeesArray;
     }
+
+  getTypeRessourceFromType(type: Type): TypeRessource {
+    var typeRessource: TypeRessource = {
+      idType: type.idType,
+      description: type.description
+    }
+
+    return typeRessource;
+  }
+
+  getRoleRessourceFromRole(role: Role): RoleRessource {
+    var roleRessource: RoleRessource = {
+      idRole: role.idRole,
+      description: role.description
+    }
+
+    return roleRessource;
+  }
+
+  getUserRessourceFromEmployee(employee: Employee): UserRessource {
+    var userRessource: UserRessource = {
+      idUser: null,
+      email: employee.user.email,
+      name: employee.name,
+      role: this.getRoleRessourceFromRole(employee.role),
+      type: this.getTypeRessourceFromType(employee.type)
+    }
+
+    return userRessource;
+  }
+
+  getLogInRessourceFromEmployee(employee: Employee): LogInRessource {
+    var logInRess: LogInRessource = {
+      id: null,
+      password: employee.user.password,
+      nbFailedLogin: 0,
+      user: this.getUserRessourceFromEmployee(employee)
+    }
+
+    return logInRess;
+  }
+
+  createLogIn(employee: Employee): Observable<HttpResponse<LogInRessource>> {
+    var logInRess = this.getLogInRessourceFromEmployee(employee);
+    var body = JSON.stringify(logInRess);
+    var url = AppConstants.API_BASE_URL + AppConstants.LOG_INS_URL;
+    return this.http.post<LogInRessource>(url, body,
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
+  }
 }

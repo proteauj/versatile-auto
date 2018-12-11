@@ -1,0 +1,50 @@
+<div class="content">
+  <mat-app-background fxLayout="column" fxLayoutAlign="center center">
+    <h2 mat-dialog-title>{{ 'login.register.title' | translate }}</h2>
+    <form [formGroup]="registerForm" class="form">
+      <mat-form-field>
+        <input matInput placeholder="{{ 'login.register.firstname.placeholder' | translate }}"
+               [formControl]="firstname" required>
+        <mat-error *ngIf="firstname.invalid">{{ 'login.register.firstname.error' | translate  }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'login.register.lastname.placeholder' | translate }}"
+               [formControl]="lastname" required>
+        <mat-error *ngIf="lastname.invalid">{{ 'login.register.lastname.error' | translate  }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="categories | async; let categories; else loadingCategory">
+        <mat-select placeholder="{{ 'login.register.category.placeholder' | translate }}"
+                    [compareWith]="compareCategory" [formControl]="category" required>
+          <mat-option *ngFor="let category of categories" [value]="category">
+            {{category.description}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="category.invalid">{{ 'login.register.category.error' | translate }}</mat-error>
+      </mat-form-field>
+      <ng-template #loadingCategory>{{ 'login.register.category.loading' | translate }}</ng-template>
+
+      <mat-form-field>
+        <input matInput type="email" placeholder="{{ 'login.register.email.placeholder' | translate }}"
+               [formControl]="email" required>
+        <mat-error *ngIf="email.invalid">{{ 'login.register.email.error' | translate  }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput type="password" placeholder="{{ 'login.register.password.placeholder' | translate }}"
+               [formControl]="password" required>
+        <mat-error *ngIf="password.invalid">{{ 'login.register.password.error' | translate  }}</mat-error>
+      </mat-form-field>
+    </form>
+
+    <div fxLayout="row">
+      <button mat-raised-button color="primary" (click)="onRegister()">
+        {{ 'login.register.submit' | translate }}
+      </button>
+      <button mat-raised-button color="secondary" routerLink="/login">
+        {{ 'login.register.cancel' | translate }}
+      </button>
+    </div>
+  </mat-app-background>
+</div>

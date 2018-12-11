@@ -45,6 +45,7 @@ import { LocationStrategy, HashLocationStrategy} from '@angular/common';
 import { JobDialogComponent } from './job-dialog/job-dialog.component';
 import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
 import { JobInspectDialogComponent } from './job-inspect-dialog/job-inspect-dialog.component';
+import { LoginRegisterComponent } from './login-register/login-register.component';
 
 @NgModule({
     declarations: [
@@ -58,7 +59,8 @@ import { JobInspectDialogComponent } from './job-inspect-dialog/job-inspect-dial
         JobInspectComponent,
         JobDialogComponent,
         ImagePreviewDialogComponent,
-        JobInspectDialogComponent
+        JobInspectDialogComponent,
+        LoginRegisterComponent
     ],
     entryComponents: [
         JobDialogComponent,
