@@ -4,6 +4,7 @@ export class UserRessource {
   name: string;
   role: RoleRessource;
   type: TypeRessource;
+  image: string;
 }
 
 export class LogInRessource {

@@ -79,7 +79,8 @@ export class LoginRegisterComponent implements OnInit {
       user: user,
       name: firstname + ' ' + lastname,
       role: category,
-      type: type
+      type: type,
+      image: null
     }
 
     this.userService.createLogIn(employee).subscribe(data => {
@@ -91,4 +92,6 @@ export class LoginRegisterComponent implements OnInit {
       this.messageService.showError(this.translate.instant('login.register.error'));
     });
   }
+
+
 }

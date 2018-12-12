@@ -35,20 +35,22 @@ import { JobDetailsComponent } from './job-details/job-details.component';
 import { JobComponent } from './job/job.component';
 import { AppMaterialModule } from './material.module';
 import { JobInspectComponent } from './job-inspect/job-inspect.component';
+import { JobDialogComponent } from './job-dialog/job-dialog.component';
+import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
+import { JobInspectDialogComponent } from './job-inspect-dialog/job-inspect-dialog.component';
+import { LoginRegisterComponent } from './login-register/login-register.component';
+import { UserComponent } from './user/user.component';
 
 import { MaphilightModule } from 'ng-maphilight';
 import { MatSliderModule } from '@angular/material/slider';
 import 'hammerjs'
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
-import { LocationStrategy, HashLocationStrategy} from '@angular/common';
-import { JobDialogComponent } from './job-dialog/job-dialog.component';
-import { ImagePreviewDialogComponent } from './image-preview-dialog/image-preview-dialog.component';
-import { JobInspectDialogComponent } from './job-inspect-dialog/job-inspect-dialog.component';
-import { LoginRegisterComponent } from './login-register/login-register.component';
+import { AvatarModule } from 'ngx-avatar';
 
 import { CanActivateRouteGuard } from './can-activate-route.guard';
 import { AuthService } from './auth.service';
+import { GlobalService } from './global.service';
 
 @NgModule({
     declarations: [
@@ -63,7 +65,8 @@ import { AuthService } from './auth.service';
         JobDialogComponent,
         ImagePreviewDialogComponent,
         JobInspectDialogComponent,
-        LoginRegisterComponent
+        LoginRegisterComponent,
+        UserComponent
     ],
     entryComponents: [
         JobDialogComponent,
@@ -95,10 +98,11 @@ import { AuthService } from './auth.service';
         AppMaterialModule,
         MaphilightModule,
         MatSliderModule,
-        AngularFireModule.initializeApp(environment.firebase)
+        AngularFireModule.initializeApp(environment.firebase),
+        AvatarModule
     ],
     schemas: [ NO_ERRORS_SCHEMA ],
-    providers: [ AuthService, CanActivateRouteGuard ],
+    providers: [ AuthService, CanActivateRouteGuard, GlobalService ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

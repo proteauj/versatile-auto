@@ -150,6 +150,15 @@
   "jobinspect.create.success": "Save succeeded",
   "jobinspect.create.error": "Save failed",
 
+  "user.title": "User",
+  "user.email.placeholder": "Email",
+  "user.email.error": "Email required",
+  "user.name.placeholder": "Name",
+  "user.name.error": "Name required",
+  "user.role.placeholder": "Role",
+  "user.role.error": "Role required",
+  "user.role.loading": "Roles loading",
+
   "menu.login": "Log in",
   "menu.job": "Job"
 }

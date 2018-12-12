@@ -89,7 +89,8 @@ export class UserService implements OnInit {
         user: this.getUserFromRessource(userRess),
         name: userRess.name,
         role: this.getRoleFromRessource(userRess.role),
-        type: this.getTypeFromRessource(userRess.type)
+        type: this.getTypeFromRessource(userRess.type),
+        image: userRess.image
       };
 
       return employee;
@@ -181,7 +182,8 @@ export class UserService implements OnInit {
       email: employee.user.email,
       name: employee.name,
       role: this.getRoleRessourceFromRole(employee.role),
-      type: this.getTypeRessourceFromType(employee.type)
+      type: this.getTypeRessourceFromType(employee.type),
+      image: employee.image
     }
 
     return userRessource;

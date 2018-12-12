@@ -175,7 +175,8 @@ export class JobTaskComponent implements OnInit {
         user: this.taskForm.controls.assignation.value.user,
         name: this.taskForm.controls.assignation.value.name,
         role: this.taskForm.controls.assignation.value.role,
-        type: this.taskForm.controls.assignation.value.type
+        type: this.taskForm.controls.assignation.value.type,
+        image: this.taskForm.controls.assignation.value.image
       }
     }
 

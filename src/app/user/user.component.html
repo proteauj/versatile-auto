@@ -1,0 +1,39 @@
+<div class="content">
+  <mat-app-background fxLayout="column" fxLayoutAlign="center center">
+    <h2 mat-dialog-title>{{ 'user.title' | translate }}</h2>
+    <form [formGroup]="userForm" class="form" method="POST" enctype="multipart/form-data">
+      <mat-form-field>
+        <input matInput type="email" placeholder="{{ 'user.email.placeholder' | translate }}"
+               [formControl]="email" required>
+        <mat-error *ngIf="email.invalid">{{ 'user.email.error' | translate  }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'user.name.placeholder' | translate }}"
+               [formControl]="name" required>
+        <mat-error *ngIf="name.invalid">{{ 'user.name.error' | translate  }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="roles | async; let roles; else loadingRole">
+        <mat-select placeholder="{{ 'user.role.placeholder' | translate }}"
+                    [compareWith]="compareRole" [formControl]="role" required>
+          <mat-option *ngFor="let role of roles" [value]="role">
+            {{role.description}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="role.invalid">{{ 'user.role.error' | translate }}</mat-error>
+      </mat-form-field>
+      <ng-template #loadingRole>{{ 'user.role.loading' | translate }}</ng-template>
+    </form>
+
+    <!--<img *ngIf="user && user.image" class="img-details" [src]="'data:image/jpg;base64,'+user.image"/>-->
+    <!--<div>-->
+      <!--<button mat-icon-button (click)="fileInput.click()">-->
+        <!--<mat-icon aria-label="Inspect">save_alt</mat-icon>-->
+      <!--</button>-->
+      <!--<input hidden type="file" (change)="onFileChanged($event)" #fileInput/>-->
+    <!--</div>-->
+
+
+  </mat-app-background>
+</div>

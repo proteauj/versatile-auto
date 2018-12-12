@@ -26,12 +26,18 @@
 <div class="dark_overlay">
   <div class="container">
 
-<div style="text-align:center" class="header">
-  <!--<h1>-->
-    <!--{{ 'title' | translate }}-->
-  <!--</h1>-->
-  <img style="width:75%; max-width:250px" alt="Versatile Auto Logo" src="../assets/versatile.png">
+<div style="text-align:center" class="header" fxLayout="row" fxLayoutAlign="space-between center">
   <app-menu></app-menu>
+  <img style="width:70%; max-width:250px" alt="Versatile Auto Logo" src="../assets/versatile.png">
+
+  <ngx-avatar *ngIf="user && user.image;else no_image" (click)="onUserClick()" [name]="user.name"
+              [src]="'data:image/jpg;base64,'+user.image" size="40" [round]="true"></ngx-avatar>
+  <ng-template #no_image>
+    <ngx-avatar *ngIf="user" (click)="onUserClick()" [name]="user.name"
+                size="40" [round]="true"></ngx-avatar>
+  </ng-template>
+</div>
+<div fxLayout="column" fxLayoutAlign="center center">
   <app-messages></app-messages>
 </div>
 

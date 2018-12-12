@@ -9,6 +9,7 @@ export class Employee {
   name: string;
   role: Role;
   type: Type;
+  image: string;
 }
 
 export class Role {

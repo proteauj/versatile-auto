@@ -150,6 +150,15 @@
   "jobinspect.create.success": "Enregistrement réussi",
   "jobinspect.create.error": "Enregistrement échoué",
 
+  "user.title": "Utilisateur",
+  "user.email.placeholder": "Courriel",
+  "user.email.error": "Courriel obligatoire",
+  "user.name.placeholder": "Nom",
+  "user.name.error": "Nom obligatoire",
+  "user.role.placeholder": "Rôle",
+  "user.role.error": "Rôle obligatoire",
+  "user.role.loading": "Chargement des rôles",
+
   "menu.login": "Connexion",
   "menu.job": "Job"
 }
