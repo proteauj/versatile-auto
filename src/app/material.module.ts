@@ -40,6 +40,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatTableModule } from '@angular/material/table';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import { MatTableModule } from '@angular/material/table';
     MatDatepickerModule,
     MatNativeDateModule,
     MatMomentDateModule,
-    MatTableModule
+    MatTableModule,
+    MatChipsModule
   ],
   exports: [
     MdcButtonModule,
@@ -95,7 +97,8 @@ import { MatTableModule } from '@angular/material/table';
     MatDatepickerModule,
     MatNativeDateModule,
     MatMomentDateModule,
-    MatTableModule
+    MatTableModule,
+    MatChipsModule
   ]
 })
 export class AppMaterialModule { }

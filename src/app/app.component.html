@@ -30,15 +30,19 @@
   <app-menu></app-menu>
   <img style="width:70%; max-width:250px" alt="Versatile Auto Logo" src="../assets/versatile.png">
 
-  <ngx-avatar *ngIf="user && user.image;else no_image" (click)="onUserClick()" [name]="user.name"
-              [src]="'data:image/jpg;base64,'+user.image" size="40" [round]="true"></ngx-avatar>
-  <ng-template #no_image>
-    <ngx-avatar *ngIf="user;else no_user" (click)="onUserClick()" [name]="user.name"
-                size="40" [round]="true"></ngx-avatar>
-  </ng-template>
-  <ng-template #no_user>
-    <ngx-avatar name="N A" bgColor="red" size="40" [round]="true"></ngx-avatar>
-  </ng-template>
+  <!--<ngx-avatar *ngIf="user && user.image;else no_image" (click)="onUserClick()" [name]="user.name"-->
+              <!--[src]="'data:image/jpg;base64,'+user.image" size="40" [round]="true"></ngx-avatar>-->
+  <!--<ng-template #no_image>-->
+    <!--<ngx-avatar *ngIf="user;else no_user" (click)="onUserClick()" [name]="user.name"-->
+                <!--size="40" [round]="true"></ngx-avatar>-->
+  <!--</ng-template>-->
+  <!--<ng-template #no_user>-->
+    <!--<ngx-avatar name="N A" bgColor="red" size="40" [round]="true"></ngx-avatar>-->
+  <!--</ng-template>-->
+  <mat-chip color="primary" (click)="onUserClick()" selected>
+    <mat-chip-avatar *ngIf="user && user.image"><img [src]="'data:image/jpg;base64,'+user.image"></mat-chip-avatar>
+    {{initials}}
+  </mat-chip>
 </div>
 <div fxLayout="column" fxLayoutAlign="center center">
   <app-messages></app-messages>

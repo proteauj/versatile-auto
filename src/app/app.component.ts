@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
 
   public user: Employee;
   public email: string;
+  public initials: string = '';
 
   constructor(private userService: UserService, private translate: TranslateService, private auth: AuthService,
               private global: GlobalService, private router: Router) {}
@@ -30,28 +31,24 @@ export class AppComponent implements OnInit {
     this.auth.sendToken(email);
     this.auth.getUser().subscribe(data => {
       this.user = data;
+      if (this.user != null) {
+        this.initials = this.getInitials(this.user.name);
+      }
     });
+  }
 
-    /*this.userService.getUser(email).subscribe(data => {
-      this.user = this.userService.getEmployeeFromRessource(data.body[0]);
-      this.global.setUser(this.user);
-    });*/
+  getInitials(name: string) {
+    var initials: string = '';
+    var words: string[] = name.split(" ");
 
-    /*this.tokenSubscribe = this.auth.getToken().subscribe(data => {
-      this.email = data;
-      this.globalSubscribe = this.global.getUser().subscribe(data2 => {
-        this.user = data2;
-      });
-    });*/
+    for (let word of words) {
+      initials = initials + word.charAt(0);
+    }
 
-
+    return initials;
   }
 
   onUserClick() {
     this.router.navigate(['/user']);
   }
-
-  /*ngOnDestroy() {
-    this.tokenSubscribe.unsubscribe();
-  }*/
 }

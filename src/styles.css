@@ -51,6 +51,14 @@ td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
   width: 100%;
 }
 
+.mat-chip.mat-standard-chip {
+    font-size: 20px;
+    border-radius: 100%;
+    width: 45px;
+    height: 45px;
+    padding: 12px 0px;
+}
+
 .container {
   padding-right: 0px !important;
   padding-left: 0px !important;
