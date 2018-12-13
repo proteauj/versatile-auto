@@ -33,8 +33,11 @@
   <ngx-avatar *ngIf="user && user.image;else no_image" (click)="onUserClick()" [name]="user.name"
               [src]="'data:image/jpg;base64,'+user.image" size="40" [round]="true"></ngx-avatar>
   <ng-template #no_image>
-    <ngx-avatar *ngIf="user" (click)="onUserClick()" [name]="user.name"
+    <ngx-avatar *ngIf="user;else no_user" (click)="onUserClick()" [name]="user.name"
                 size="40" [round]="true"></ngx-avatar>
+  </ng-template>
+  <ng-template #no_user>
+    <ngx-avatar name="N A" bgColor="red" size="40" [round]="true"></ngx-avatar>
   </ng-template>
 </div>
 <div fxLayout="column" fxLayoutAlign="center center">

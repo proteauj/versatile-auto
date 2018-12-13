@@ -158,6 +158,9 @@
   "user.role.placeholder": "Rôle",
   "user.role.error": "Rôle obligatoire",
   "user.role.loading": "Chargement des rôles",
+  "user.submit": "Enregistrer",
+  "user.update.success": "Modification réussie",
+  "user.update.error": "Modification échouée",
 
   "menu.login": "Connexion",
   "menu.job": "Job"

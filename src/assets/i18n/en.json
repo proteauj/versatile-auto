@@ -158,6 +158,9 @@
   "user.role.placeholder": "Role",
   "user.role.error": "Role required",
   "user.role.loading": "Roles loading",
+  "user.submit": "Save",
+  "user.update.success": "Update succeeded",
+  "user.update.error": "Update failed",
 
   "menu.login": "Log in",
   "menu.job": "Job"

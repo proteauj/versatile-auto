@@ -18,10 +18,6 @@ export class UserService implements OnInit {
 
   ngOnInit() { }
 
-  isUserAuthenticated(): boolean {
-    return true;
-  }
-
   async validateUserLogIn(user: User): Promise<boolean> {
     await new Promise(resolve => {
       this.getUser(user.email).subscribe(resp => {
@@ -74,24 +70,32 @@ export class UserService implements OnInit {
     }
 
     getUserFromRessource(userRess: UserRessource): User {
-      var user: User = {
-        idUser: userRess.idUser,
-        email: userRess.email,
-        //Email is only in logInRessource and not required in employee
-        password: null
-      };
+      var user: User;
+
+       if (userRess != null) {
+        user = {
+          idUser: userRess.idUser,
+          email: userRess.email,
+          //Email is only in logInRessource and not required in employee
+          password: null
+        };
+      }
 
       return user;
     }
 
     getEmployeeFromRessource(userRess: UserRessource): Employee {
-      var employee: Employee = {
-        user: this.getUserFromRessource(userRess),
-        name: userRess.name,
-        role: this.getRoleFromRessource(userRess.role),
-        type: this.getTypeFromRessource(userRess.type),
-        image: userRess.image
-      };
+      var employee: Employee;
+
+      if (userRess != null) {
+        employee = {
+          user: this.getUserFromRessource(userRess),
+          name: userRess.name,
+          role: this.getRoleFromRessource(userRess.role),
+          type: this.getTypeFromRessource(userRess.type),
+          image: userRess.image
+        };
+      }
 
       return employee;
     }
@@ -178,7 +182,7 @@ export class UserService implements OnInit {
 
   getUserRessourceFromEmployee(employee: Employee): UserRessource {
     var userRessource: UserRessource = {
-      idUser: null,
+      idUser: employee.user.idUser,
       email: employee.user.email,
       name: employee.name,
       role: this.getRoleRessourceFromRole(employee.role),
@@ -206,5 +210,13 @@ export class UserService implements OnInit {
     var url = AppConstants.API_BASE_URL + AppConstants.LOG_INS_URL;
     return this.http.post<LogInRessource>(url, body,
       { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
+  }
+
+  modifyUser(employee: Employee): Observable<HttpResponse<UserRessource>> {
+    var userRess = this.getUserRessourceFromEmployee(employee);
+    var body = JSON.stringify(userRess);
+    var url = AppConstants.USERS_URL + '/' + userRess.idUser;
+    return this.http.put<UserRessource>(url, body, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
   }
 }

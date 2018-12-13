@@ -5,7 +5,7 @@ import { Employee } from './models/user';
   providedIn: 'root'
 })
 export class GlobalService {
-  user: Employee;
+  user;
 
   constructor() { }
 
