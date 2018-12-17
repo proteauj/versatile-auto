@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { Employee, Role, User } from '../models/user';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user',
@@ -16,13 +16,16 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 export class UserComponent implements OnInit {
 
   user: Employee;
-  public roles: Promise<Role[]>;
+  public roles: Role[] = [];
   public userForm: FormGroup;
+  public userRolesForm;
 
   public email;
   public name;
-  public role;
+  public userRoles;
   public image;
+
+  userRoleSelByRoleId: Map<number, Role> = new Map<number, Role>();
 
   constructor(private global: GlobalService, private formBuilder: FormBuilder, private userService: UserService,
               private messageService: MessageService, private translate: TranslateService, private router: Router,
@@ -31,12 +34,8 @@ export class UserComponent implements OnInit {
   ngOnInit() {
     var email: string = '';
     var name: string = '';
-    var role: Role;
+    var userRoles: Role[];
     var image: string = '';
-
-    this.roles = this.userService.getRoles();
-
-    //this.user = this.global.getUser();
 
     this.auth.getUser().subscribe(data => {
       this.user = data;
@@ -46,24 +45,44 @@ export class UserComponent implements OnInit {
           email = this.user.user.email;
         }
         name = this.user.name;
-        role = this.user.role;
+        userRoles = this.user.roles;
         image = this.user.image;
+
+        for (let role of userRoles) {
+          this.userRoleSelByRoleId.set(role.idRole, role);
+        }
       }
 
+      this.email = new FormControl(email, [Validators.required, Validators.email]);
+      this.name = new FormControl(name, [Validators.required]);
 
+      this.userForm = this.formBuilder.group({
+        email: this.email,
+        name: this.name,
+        userRoles: new FormControl('', [])
 
-    this.email = new FormControl(email, [Validators.required, Validators.email]);
-    this.name = new FormControl(name, [Validators.required]);
-    this.role = new FormControl(role, [Validators.required]);
-    //this.image = new FormControl(image, []);
+      });
 
-    this.userForm = this.formBuilder.group({
-      email: this.email,
-      name: this.name,
-      role: this.role,
-      //image: this.image
+      this.userService.getRoles().then(data => {
+        this.roles = data;
+        this.userRolesForm = this.buildRoles();
+        this.userForm.controls.userRoles = this.formBuilder.group(this.userRolesForm);
+      });
     });
-    });
+  }
+
+  buildRoles() {
+    var userRoles = {};
+
+    for (let role of this.roles) {
+      if (this.userRoleSelByRoleId.get(role.idRole) != null) {
+        userRoles[role.idRole] = new FormControl(true);
+      } else {
+        userRoles[role.idRole] = new FormControl(false);
+      }
+    }
+
+    return userRoles;
   }
 
   compareRole(r1: Role, r2: Role): boolean {
@@ -88,17 +107,23 @@ export class UserComponent implements OnInit {
       password: this.user.user.password
     }
 
-    var role: Role = {
-      idRole: this.userForm.controls.role.value.idRole,
-      description: this.userForm.controls.role.value.description
+    const val = (<any>Object).assign({}, this.userForm.controls.userRoles);
+    const chosenRoles = [];
+    for (const idRole in val.controls) {
+
+      if (val.controls[idRole].value) {
+        var idRoleNumb = parseInt(idRole, 10);
+        var role = this.userRoleSelByRoleId.get(idRoleNumb);
+        chosenRoles.push(role);
+      };
     }
 
     var employee: Employee = {
       user: user,
       name: this.userForm.controls.name.value,
-      role: role,
       type: this.user.type,
-      image: null
+      image: null,
+      roles: chosenRoles
     }
 
     this.userService.modifyUser(employee).subscribe(data => {

@@ -14,25 +14,17 @@
         <mat-error *ngIf="name.invalid">{{ 'user.name.error' | translate  }}</mat-error>
       </mat-form-field>
 
-      <mat-form-field *ngIf="roles | async; let roles; else loadingRole">
-        <mat-select placeholder="{{ 'user.role.placeholder' | translate }}"
-                    [compareWith]="compareRole" [formControl]="role" required>
-          <mat-option *ngFor="let role of roles" [value]="role">
-            {{role.description}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="role.invalid">{{ 'user.role.error' | translate }}</mat-error>
-      </mat-form-field>
-      <ng-template #loadingRole>{{ 'user.role.loading' | translate }}</ng-template>
+      <div *ngIf="userRolesForm">
+      <mat-list formGroupName="userRoles">
+        <mat-list-item *ngFor="let userRole of roles">
+          <span>
+            <mat-checkbox style="width:45%" [labelPosition]="after" [compareWith]="compareRole"
+                          [formControlName]="userRole.idRole">{{ userRole.description }}</mat-checkbox>
+          </span>
+        </mat-list-item>
+      </mat-list>
+      </div>
     </form>
-
-    <!--<img *ngIf="user && user.image" class="img-details" [src]="'data:image/jpg;base64,'+user.image"/>-->
-    <!--<div>-->
-      <!--<button mat-icon-button (click)="fileInput.click()">-->
-        <!--<mat-icon aria-label="Inspect">save_alt</mat-icon>-->
-      <!--</button>-->
-      <!--<input hidden type="file" (change)="onFileChanged($event)" #fileInput/>-->
-    <!--</div>-->
 
     <button mat-raised-button color="primary" (click)="onSubmit()">
       {{ 'user.submit' | translate }}

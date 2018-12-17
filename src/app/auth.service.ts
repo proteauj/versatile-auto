@@ -26,7 +26,8 @@ export class AuthService {
   }
 
   getToken() {
-    return localStorage.getItem("LoggedInUser");
+    var token: string = localStorage.getItem("LoggedInUser");
+    return token;
   }
 
   getUser() {

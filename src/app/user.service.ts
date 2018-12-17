@@ -54,7 +54,8 @@ export class UserService implements OnInit {
     getRoleFromRessource(roleRess: RoleRessource): Role {
       var role: Role = {
         idRole: roleRess.idRole,
-        description: roleRess.description
+        description: roleRess.description,
+        checked: false
       };
 
       return role;
@@ -84,6 +85,15 @@ export class UserService implements OnInit {
       return user;
     }
 
+    getRolesFromRolesRessource(rolesRess: RoleRessource[]): Role[] {
+      var roles: Role[] = [];
+      for (let roleRess of rolesRess) {
+        var role: Role = this.getRoleFromRessource(roleRess);
+        roles.push(role);
+      }
+      return roles;
+    }
+
     getEmployeeFromRessource(userRess: UserRessource): Employee {
       var employee: Employee;
 
@@ -91,10 +101,14 @@ export class UserService implements OnInit {
         employee = {
           user: this.getUserFromRessource(userRess),
           name: userRess.name,
-          role: this.getRoleFromRessource(userRess.role),
           type: this.getTypeFromRessource(userRess.type),
-          image: userRess.image
+          image: userRess.image,
+          roles: this.getRolesFromRolesRessource(userRess.roles)
         };
+
+        for (let role of employee.roles) {
+          role.checked = true;
+        }
       }
 
       return employee;
@@ -107,11 +121,12 @@ export class UserService implements OnInit {
       await new Promise(resolve => {
         this.getRoleRessource().subscribe(resp => {
           rolesRessArray = resp.body;
+          rolesArray = this.getRolesFromRolesRessource(rolesRessArray);
 
-          for (let roleRess of rolesRessArray) {
+          /*for (let roleRess of rolesRessArray) {
             var role: Role = this.getRoleFromRessource(roleRess);
             rolesArray.push(role);
-          }
+          }*/
           resolve();
         });
       });
@@ -185,9 +200,9 @@ export class UserService implements OnInit {
       idUser: employee.user.idUser,
       email: employee.user.email,
       name: employee.name,
-      role: this.getRoleRessourceFromRole(employee.role),
       type: this.getTypeRessourceFromType(employee.type),
-      image: employee.image
+      image: employee.image,
+      roles: this.getRolesFromRolesRessource(employee.roles)
     }
 
     return userRessource;

@@ -2,9 +2,9 @@ export class UserRessource {
   idUser: number;
   email: string;
   name: string;
-  role: RoleRessource;
   type: TypeRessource;
   image: string;
+  roles: RoleRessource[];
 }
 
 export class LogInRessource {

@@ -81,12 +81,14 @@ export class JobTaskComponent implements OnInit {
 
   setMapEmployeesByRole() {
     for (let employee of this.employees) {
-      if (this.employeesByRole.get(employee.role.idRole) == null) {
-        var employees: Employee[] = [];
-        employees.push(employee);
-        this.employeesByRole.set(employee.role.idRole, employees);
-      } else {
-        this.employeesByRole.get(employee.role.idRole).push(employee);
+      for (let role of employee.roles) {
+        if (this.employeesByRole.get(role.idRole) == null) {
+          var employees: Employee[] = [];
+          employees.push(employee);
+          this.employeesByRole.set(role.idRole, employees);
+        } else {
+          this.employeesByRole.get(role.idRole).push(employee);
+        }
       }
     }
   }
@@ -166,7 +168,8 @@ export class JobTaskComponent implements OnInit {
   getTaskFromTaskForm(): JobTask {
     var category: Role = {
       idRole: this.taskForm.controls.category.value.idRole,
-      description: this.taskForm.controls.category.value.description
+      description: this.taskForm.controls.category.value.description,
+      checked: false
     }
 
     var assignation: Employee;
@@ -174,9 +177,9 @@ export class JobTaskComponent implements OnInit {
       assignation = {
         user: this.taskForm.controls.assignation.value.user,
         name: this.taskForm.controls.assignation.value.name,
-        role: this.taskForm.controls.assignation.value.role,
         type: this.taskForm.controls.assignation.value.type,
-        image: this.taskForm.controls.assignation.value.image
+        image: this.taskForm.controls.assignation.value.image,
+        roles: this.taskForm.controls.assignation.value.roles
       }
     }
 

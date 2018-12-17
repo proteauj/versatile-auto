@@ -69,8 +69,12 @@ export class LoginRegisterComponent implements OnInit {
 
     var category: Role = {
       idRole: this.registerForm.controls.category.value.idRole,
-      description: this.registerForm.controls.category.value.description
+      description: this.registerForm.controls.category.value.description,
+      checked: false
     }
+
+    var categories: Role[];
+    categories.push(category);
 
     var firstname = this.registerForm.controls.firstname.value;
     var lastname = this.registerForm.controls.lastname.value;
@@ -78,9 +82,9 @@ export class LoginRegisterComponent implements OnInit {
     var employee: Employee = {
       user: user,
       name: firstname + ' ' + lastname,
-      role: category,
       type: type,
-      image: null
+      image: null,
+      roles: categories,
     }
 
     this.userService.createLogIn(employee).subscribe(data => {

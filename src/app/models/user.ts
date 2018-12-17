@@ -7,14 +7,15 @@ export class User {
 export class Employee {
   user: User;
   name: string;
-  role: Role;
   type: Type;
   image: string;
+  roles: Role[];
 }
 
 export class Role {
   idRole: number;
   description: string;
+  checked: boolean = false;
 }
 
 export class Type {
