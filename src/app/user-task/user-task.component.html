@@ -4,29 +4,38 @@
 
     <mat-accordion class="example-headers-align">
       <!--<mat-expansion-panel *ngFor="let job of userJobs" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>-->
-      <mat-expansion-panel *ngFor="let job of userJobs" [opened]="setCurrentJob(job.idJob)" hideToggle>
+      <mat-expansion-panel *ngFor="let jobModel of jobModels" hideToggle>
         <mat-expansion-panel-header>
-          <mat-panel-title>{{job.car.model.title}} {{job.car.year}}</mat-panel-title>
+          <mat-panel-title>{{jobModel.job.car.model.title}} {{jobModel.job.car.year}}</mat-panel-title>
           <mat-panel-description>
-            {{job.arrivalDate | date:'d/M/y'}} - {{job.toDeliverDate | date:'d/M/y'}}
+            {{jobModel.job.arrivalDate | date:'dd/MM/yy'}} - {{jobModel.job.toDeliverDate | date:'dd/MM/yy'}}
             <!--<mat-chip-avatar *ngIf="job.carUrl"><img [src]="job.carUrl"></mat-chip-avatar>-->
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table-striped">
+        <table mat-table [dataSource]="jobModel.jobTasks" class="mat-elevation-z8 table-striped">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>{{ 'usertask.table.name' | translate }}</th>
             <td mat-cell *matCellDef="let element">{{element.name}}</td>
           </ng-container>
 
+          <ng-container matColumnDef="part">
+            <th mat-header-cell *matHeaderCellDef>{{ 'usertask.table.part' | translate }}</th>
+            <td mat-cell *matCellDef="let element">
+              <span *ngIf="element.carArea">
+                {{ ('jobinspect.carpart.' + element.carArea.code) | translate }}
+              </span>
+            </td>
+          </ng-container>
+
           <ng-container matColumnDef="time">
             <th mat-header-cell *matHeaderCellDef>{{ 'usertask.table.time' | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{element.elapsedTime}} / {{element.estimatedTime}}</td>
+            <td mat-cell *matCellDef="let element">{{element.elapsedTime}}/{{element.estimatedTime}}</td>
           </ng-container>
 
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let element">
+            <td mat-cell *matCellDef="let element" style="min-width: 75px;">
               <button mat-icon-button (click)="onPlay(element.id, job.idJob)">
                 <mat-icon aria-label="Play">play_arrow</mat-icon>
               </button>

@@ -164,7 +164,8 @@
 
   "usertask.mytask.title": "Mes tâches",
   "usertask.table.name": "Nom",
-  "usertask.table.time": "Temps (passé/prévu)",
+  "usertask.table.time": "Temps",
+  "usertask.table.part": "Partie",
 
   "menu.login": "Connexion",
   "menu.job": "Job"

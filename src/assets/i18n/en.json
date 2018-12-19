@@ -164,7 +164,8 @@
 
   "usertask.mytask.title": "My tasks",
   "usertask.table.name": "Name",
-  "usertask.table.time": "Time (elapse/estimate)",
+  "usertask.table.time": "Time",
+  "usertask.table.part": "Part",
 
   "menu.login": "Log in",
   "menu.job": "Job"

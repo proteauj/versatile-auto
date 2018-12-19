@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Job, JobTask } from '../models/job';
+import { Job, JobTask, JobModel } from '../models/job';
 import { Employee } from '../models/user';
 import { TaskService } from '../task.service';
 import { MessageService } from '../message.service';
@@ -19,8 +19,12 @@ export class UserTaskComponent implements OnInit {
   private userJobsMap: Map<number, Job> = new Map<number, Job>();
   private jobTasksMap: Map<number, JobTask[]> = new Map<number, JobTask[]>();
 
-  displayedColumns = ['name', 'time', 'action'];
+  displayedColumns = ['name', 'part', 'time', 'action'];
   dataSource;
+
+  private jobModels: JobModel[] = [];
+
+
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private router: Router, private taskService: TaskService, private auth: AuthService) { }
@@ -56,7 +60,17 @@ export class UserTaskComponent implements OnInit {
           }
 
           this.userJobs = this.getJobsValues();
+
+          for (let job of this.userJobs) {
+            var jobModel = {
+              job: job,
+              jobTasks: this.jobTasksMap.get(job.idJob)
+            }
+            this.jobModels.push(jobModel);
+          }
         });
+
+
       }
     });
 

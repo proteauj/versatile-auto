@@ -41,3 +41,8 @@ export class FileModel {
   url: SafeResourceUrl;
   isImage: boolean;
 }
+
+export class JobModel {
+  job: Job;
+  jobTasks: JobTask[];
+}
