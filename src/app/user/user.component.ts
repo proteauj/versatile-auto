@@ -129,7 +129,7 @@ export class UserComponent implements OnInit {
     this.userService.modifyUser(employee).subscribe(data => {
       console.log("POST Modify user is successful ", data);
       this.messageService.showSuccess(this.translate.instant('user.update.success'));
-      this.router.navigate(['/my-task']);
+      this.router.navigate(['/user-task']);
     }, error => {
       this.messageService.showError(this.translate.instant('user.update.error'));
     });

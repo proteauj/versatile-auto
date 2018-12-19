@@ -162,6 +162,10 @@
   "user.update.success": "Modification réussie",
   "user.update.error": "Modification échouée",
 
+  "usertask.mytask.title": "Mes tâches",
+  "usertask.table.name": "Nom",
+  "usertask.table.time": "Temps (passé/prévu)",
+
   "menu.login": "Connexion",
   "menu.job": "Job"
 }

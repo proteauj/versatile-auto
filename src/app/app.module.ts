@@ -40,6 +40,7 @@ import { ImagePreviewDialogComponent } from './image-preview-dialog/image-previe
 import { JobInspectDialogComponent } from './job-inspect-dialog/job-inspect-dialog.component';
 import { LoginRegisterComponent } from './login-register/login-register.component';
 import { UserComponent } from './user/user.component';
+import { UserTaskComponent } from './user-task/user-task.component';
 
 import { MaphilightModule } from 'ng-maphilight';
 import { MatSliderModule } from '@angular/material/slider';
@@ -66,7 +67,8 @@ import { GlobalService } from './global.service';
         ImagePreviewDialogComponent,
         JobInspectDialogComponent,
         LoginRegisterComponent,
-        UserComponent
+        UserComponent,
+        UserTaskComponent
     ],
     entryComponents: [
         JobDialogComponent,

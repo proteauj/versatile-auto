@@ -94,6 +94,31 @@ export class TaskService {
     return task;
   }
 
+  getUserTasksRessource(idUser: number): Observable<HttpResponse<JobTaskRessource[]>> {
+    return this.http.get<JobTaskRessource[]>(`${AppConstants.USERS_URL}/${idUser}${AppConstants.TASK_URL}`,
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
+  }
+
+  async getUserTasks(idUser: number): Promise<JobTask[]> {
+    var tasksRessArray: JobTaskRessource[] = [];
+    var tasksArray: JobTask[] = [];
+
+    await new Promise(resolve => {
+      this.getUserTasksRessource(idUser).subscribe(resp => {
+        tasksRessArray = resp.body;
+
+        for (let taskRess of tasksRessArray) {
+          var task: JobTask = this.getJobTaskFromRessource(taskRess);
+          tasksArray.push(task);
+        }
+        resolve();
+      });
+    });
+
+    console.log(tasksArray);
+    return tasksArray;
+  }
+
   getJobTasksRessource(idJob: number): Observable<HttpResponse<JobTaskRessource[]>> {
     return this.http.get<JobTaskRessource[]>(`${AppConstants.JOB_BASE_URL}/${idJob}${AppConstants.TASK_URL}`,
       { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });

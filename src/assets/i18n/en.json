@@ -162,6 +162,10 @@
   "user.update.success": "Update succeeded",
   "user.update.error": "Update failed",
 
+  "usertask.mytask.title": "My tasks",
+  "usertask.table.name": "Name",
+  "usertask.table.time": "Time (elapse/estimate)",
+
   "menu.login": "Log in",
   "menu.job": "Job"
 }
