@@ -28,6 +28,15 @@ export class JobService implements OnInit {
     return status;
   }
 
+  getStatusRessourceFromModel(status: Status): StatusRessource {
+    var statusRess: StatusRessource = {
+      idStatus: status.idStatus,
+      status: status.status
+    };
+
+    return statusRess;
+  }
+
   getJobFromRessource(jobRess: JobRessource): Job {
     var job: Job = {
       idJob: jobRess.idJob,
@@ -44,6 +53,19 @@ export class JobService implements OnInit {
     });
 
     return job;
+  }
+
+  getJobRessourceFromModel(job: Job): JobRessource {
+    var jobRess: JobRessource = {
+      idJob: job.idJob,
+      description: job.description,
+      car: this.carService.getCarRessourceFromModel(job.car),
+      status: this.getStatusRessourceFromModel(job.status),
+      arrivalDate: new Date(job.arrivalDate),
+      toDeliverDate: new Date(job.toDeliverDate)
+    };
+
+    return jobRess;
   }
 
  base64ToArrayBuffer(base64): Uint8Array {

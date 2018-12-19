@@ -23,16 +23,16 @@
     position: unset;
 }
 
-.mat-card>.mat-card-actions:last-child {
+/*.mat-card>.mat-card-actions:last-child {
      margin-bottom: unset;
      padding-bottom: unset;
-}
+}*/
 
 .mat-card-content>:last-child:not(.mat-card-footer), .mat-card>:last-child:not(.mat-card-footer) {
      margin-bottom: unset;
 }
 
-.mat-card-actions {
+/*.mat-card-actions {
      margin-left: unset;
      margin-right: unset;
      padding: 0 4px;
@@ -40,7 +40,7 @@
 
 .mat-card-actions, .mat-card-content, .mat-card-subtitle {
     margin-bottom: 6px;
-}
+}*/
 
 .mat-card {
     padding: 0px;

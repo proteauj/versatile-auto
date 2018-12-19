@@ -17,6 +17,7 @@ export class UserComponent implements OnInit {
 
   user: Employee;
   public roles: Role[] = [];
+  public rolesById: Map<number, Role> = new Map<number, Role>();
   public userForm: FormGroup;
   public userRolesForm;
 
@@ -67,6 +68,10 @@ export class UserComponent implements OnInit {
         this.roles = data;
         this.userRolesForm = this.buildRoles();
         this.userForm.controls.userRoles = this.formBuilder.group(this.userRolesForm);
+
+        for (let role of this.roles) {
+          this.rolesById.set(role.idRole, role);
+        }
       });
     });
   }
@@ -113,7 +118,7 @@ export class UserComponent implements OnInit {
 
       if (val.controls[idRole].value) {
         var idRoleNumb = parseInt(idRole, 10);
-        var role = this.userRoleSelByRoleId.get(idRoleNumb);
+        var role = this.rolesById.get(idRoleNumb);
         chosenRoles.push(role);
       };
     }

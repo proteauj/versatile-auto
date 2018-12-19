@@ -63,6 +63,17 @@ export class TaskService {
     return task;
   }
 
+  getTaskRessourceFromModel(task: Task): TaskRessource {
+    var taskRess: TaskRessource = {
+      idTask: task.idTask,
+      name: task.name,
+      avgTime: task.avgTime,
+      role: this.userService.getRoleRessourceFromRole(task.role)
+    };
+
+    return taskRess;
+  }
+
   getJobTaskFromRessource(taskRess: JobTaskRessource): JobTask {
     var task: JobTask = {
       id: taskRess.id,
@@ -92,6 +103,36 @@ export class TaskService {
     }
 
     return task;
+  }
+
+  getJobTaskRessourceFromJobTask(jobTask: JobTask): JobTaskRessource {
+    var jobTaskRess: JobTaskRessource = {
+      id: jobTask.id,
+      name: jobTask.name,
+      estimatedTime: jobTask.estimatedTime,
+      job: this.jobService.getJobRessourceFromModel(jobTask.job),
+      status: this.jobService.getStatusRessourceFromModel(jobTask.status),
+      user: null,
+      priority: jobTask.priority,
+      role: this.userService.getRoleRessourceFromRole(jobTask.role),
+      elapsedTime: jobTask.elapsedTime,
+      task: null,
+      carArea: null
+    };
+
+    if (jobTask.user != null) {
+      jobTaskRess.user = this.userService.getUserRessourceFromEmployee(jobTask.user);
+    }
+
+    if (jobTask.task != null) {
+      jobTaskRess.task = this.getTaskRessourceFromModel(jobTask.task);
+    }
+
+    if (jobTask.carArea != null) {
+      jobTaskRess.carArea = this.carService.getCarAreaRessourceFromModel(jobTask.carArea);
+    }
+
+    return jobTaskRess;
   }
 
   getUserTasksRessource(idUser: number): Observable<HttpResponse<JobTaskRessource[]>> {

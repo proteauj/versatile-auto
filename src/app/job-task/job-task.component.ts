@@ -224,9 +224,10 @@ export class JobTaskComponent implements OnInit {
 
     this.isValid = true;
     var task: JobTask = this.getTaskFromTaskForm();
+    var taskRess: JobTaskRessource = this.taskService.getJobTaskRessourceFromJobTask(task);
 
     if (this.idTask != null) {
-      this.taskService.updateTask(task).subscribe(data => {
+      this.taskService.updateTask(taskRess).subscribe(data => {
         var taskModified = data.body;
         this.tasks.set(taskModified.id, this.taskService.getJobTaskFromRessource(taskModified));
         this.dataSource = this.getTasksValues();
@@ -235,9 +236,9 @@ export class JobTaskComponent implements OnInit {
         this.messageService.showError(this.translate.instant('jobtask.update.error'));
       });
     } else {
-      var tasks: JobTask[] = [];
-      tasks.push(task);
-      this.taskService.createTask(tasks).subscribe(data => {
+      var tasksRess: JobTaskRessource[] = [];
+      tasksRess.push(taskRess);
+      this.taskService.createTask(tasksRess).subscribe(data => {
         var tasksCreated = data.body;
         this.tasks.set(tasksCreated[0].id, this.taskService.getJobTaskFromRessource(tasksCreated[0]));
         this.dataSource = this.getTasksValues();

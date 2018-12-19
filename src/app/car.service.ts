@@ -152,6 +152,16 @@ export class CarService implements OnInit {
       return carArea;
     }
 
+    getCarAreaRessourceFromModel(carArea: CarArea): CarAreaRessource {
+      var carAreaRess: CarAreaRessource = {
+        idCarArea: carArea.idCarArea,
+        code: carArea.code,
+        carSide: this.getCarSideRessourceFromModel(carArea.carSide)
+      };
+
+      return carAreaRess;
+    }
+
     getCarSideFromRessource(carSideRess: CarSideRessource): CarSide {
       var carSide: CarSide = {
         idCarSide: carSideRess.idCarSide,
@@ -159,5 +169,14 @@ export class CarService implements OnInit {
       };
 
       return carSide;
+    }
+
+    getCarSideRessourceFromModel(carSide: CarSide): CarSideRessource {
+      var carSideRess: CarSideRessource = {
+        idCarSide: carSide.idCarSide,
+        name: carSide.name
+      };
+
+      return carSideRess;
     }
 }
