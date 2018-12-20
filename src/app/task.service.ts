@@ -105,6 +105,16 @@ export class TaskService {
     return task;
   }
 
+  getJobTasksRessourceFromJobTasks(jobTasks: JobTask[]): JobTaskRessource[] {
+    var jobTasksRess: JobTaskRessource[] = [];
+
+    for (let jobTask of jobTasks) {
+      jobTasksRess.push(this.getJobTaskRessourceFromJobTask(jobTask));
+    }
+
+    return jobTasksRess;
+  }
+
   getJobTaskRessourceFromJobTask(jobTask: JobTask): JobTaskRessource {
     var jobTaskRess: JobTaskRessource = {
       id: jobTask.id,
@@ -186,7 +196,8 @@ export class TaskService {
   }
 
   updateTask(task: JobTask): Observable<HttpResponse<JobTaskRessource>> {
-    var body = JSON.stringify(task);
+    var taskRess: JobTaskRessource = this.getJobTaskRessourceFromJobTask(task);
+    var body = JSON.stringify(taskRess);
     var url = `${AppConstants.JOB_BASE_URL}${AppConstants.TASK_URL}/${task.id}`;
     return this.http.put<JobTaskRessource>(url, body,
       { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
@@ -198,7 +209,8 @@ export class TaskService {
   }
 
   createTask(tasks: JobTask[]): Observable<HttpResponse<JobTaskRessource[]>> {
-    var body = JSON.stringify(tasks);
+    var tasksRess: JobTaskRessource[] = this.getJobTasksRessourceFromJobTasks(tasks);
+    var body = JSON.stringify(tasksRess);
     var url = `${AppConstants.JOB_BASE_URL}${AppConstants.TASK_URL}`;
     return this.http.post<JobTaskRessource[]>(url, body,
       { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });

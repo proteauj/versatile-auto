@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Job, JobTask, Status } from '../models/job';
 import { Employee, Role } from '../models/user';
+import { JobTaskRessource } from '../ressources/jobRessource';
 import { JobService } from '../job.service';
 import { TaskService } from '../task.service';
 import { UserService } from '../user.service';
@@ -224,10 +225,10 @@ export class JobTaskComponent implements OnInit {
 
     this.isValid = true;
     var task: JobTask = this.getTaskFromTaskForm();
-    var taskRess: JobTaskRessource = this.taskService.getJobTaskRessourceFromJobTask(task);
+
 
     if (this.idTask != null) {
-      this.taskService.updateTask(taskRess).subscribe(data => {
+      this.taskService.updateTask(task).subscribe(data => {
         var taskModified = data.body;
         this.tasks.set(taskModified.id, this.taskService.getJobTaskFromRessource(taskModified));
         this.dataSource = this.getTasksValues();
@@ -236,9 +237,9 @@ export class JobTaskComponent implements OnInit {
         this.messageService.showError(this.translate.instant('jobtask.update.error'));
       });
     } else {
-      var tasksRess: JobTaskRessource[] = [];
-      tasksRess.push(taskRess);
-      this.taskService.createTask(tasksRess).subscribe(data => {
+      var tasks: JobTask[] = [];
+      tasks.push(task);
+      this.taskService.createTask(tasks).subscribe(data => {
         var tasksCreated = data.body;
         this.tasks.set(tasksCreated[0].id, this.taskService.getJobTaskFromRessource(tasksCreated[0]));
         this.dataSource = this.getTasksValues();
