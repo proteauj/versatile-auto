@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Job, JobTask, JobModel } from '../models/job';
+import { Job, JobTask } from '../models/job';
+import { JobTaskActivity, JobTaskModel, JobModel} from '../models/jobTaskActivity';
 import { Employee } from '../models/user';
 import { TaskService } from '../task.service';
+import { TaskActivityService } from '../task-activity.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import * as q from 'q';
 
 @Component({
   selector: 'app-user-task',
@@ -16,8 +19,12 @@ export class UserTaskComponent implements OnInit {
   private employee: Employee;
   private userTasks: Promise<JobTask[]>;
   private userJobs: Job[] = [];
+  //Key : idJob
   private userJobsMap: Map<number, Job> = new Map<number, Job>();
+  //Key : idJob
   private jobTasksMap: Map<number, JobTask[]> = new Map<number, JobTask[]>();
+  //Key : idJobTask
+  private jobTasksModelMap: Map<number, JobTaskModel> = new Map<number, JobTaskModel>();
 
   displayedColumns = ['name', 'part', 'time', 'action'];
   dataSource;
@@ -27,7 +34,8 @@ export class UserTaskComponent implements OnInit {
 
 
   constructor(private messageService: MessageService, private translate: TranslateService,
-              private router: Router, private taskService: TaskService, private auth: AuthService) { }
+              private router: Router, private taskService: TaskService, private auth: AuthService,
+              private taskActivityService : TaskActivityService) { }
 
   ngOnInit() {
 
@@ -44,6 +52,7 @@ export class UserTaskComponent implements OnInit {
           for (let userTask of userTasks) {
             var job = userTask.job;
             var idJob = job.idJob;
+            var idJobTask = userTask.id;
             var jobTasks: JobTask[] = this.jobTasksMap.get(idJob);
 
             if (this.userJobsMap.get(idJob) == null) {
@@ -62,18 +71,32 @@ export class UserTaskComponent implements OnInit {
           this.userJobs = this.getJobsValues();
 
           for (let job of this.userJobs) {
-            var jobModel = {
-              job: job,
-              jobTasks: this.jobTasksMap.get(job.idJob)
+            var jobTasks = this.jobTasksMap.get(job.idJob);
+            var jobTasksModel: JobTaskModel[] = [];
+
+            var promises = [];
+            for (let jobTask of jobTasks) {
+              var promise = this.taskActivityService.getJobTaskActivities(jobTask);
+              promises.push(promise);
             }
-            this.jobModels.push(jobModel);
+
+            q.all(promises).then(data => {
+              for (let jobTaskModel of data) {
+                if (jobTaskModel != null) {
+                  jobTasksModel.push(jobTaskModel);
+                }
+              }
+
+              var jobModel = {
+                job: job,
+                jobTasksModel: jobTasksModel
+              }
+              this.jobModels.push(jobModel);
+            });
           }
         });
-
-
       }
     });
-
   }
 
   setCurrentJob(idJob: number) {

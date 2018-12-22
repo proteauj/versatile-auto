@@ -44,7 +44,7 @@ import { UserTaskComponent } from './user-task/user-task.component';
 
 import { MaphilightModule } from 'ng-maphilight';
 import { MatSliderModule } from '@angular/material/slider';
-import 'hammerjs'
+import 'hammerjs';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 import { AvatarModule } from 'ngx-avatar';
@@ -52,6 +52,8 @@ import { AvatarModule } from 'ngx-avatar';
 import { CanActivateRouteGuard } from './can-activate-route.guard';
 import { AuthService } from './auth.service';
 import { GlobalService } from './global.service';
+
+
 
 @NgModule({
     declarations: [

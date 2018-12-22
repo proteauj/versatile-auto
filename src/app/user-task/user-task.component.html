@@ -13,38 +13,43 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
 
-        <table mat-table [dataSource]="jobModel.jobTasks" class="mat-elevation-z8 table-striped">
+        <table mat-table [dataSource]="jobModel.jobTasksModel" class="mat-elevation-z8 table-striped">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>{{ 'usertask.table.name' | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            <td mat-cell *matCellDef="let element">{{element.jobTask.name}}</td>
           </ng-container>
 
           <ng-container matColumnDef="part">
             <th mat-header-cell *matHeaderCellDef>{{ 'usertask.table.part' | translate }}</th>
             <td mat-cell *matCellDef="let element">
               <span *ngIf="element.carArea">
-                {{ ('jobinspect.carpart.' + element.carArea.code) | translate }}
+                {{ ('jobinspect.carpart.' + element.jobTask.carArea.code) | translate }}
               </span>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="time">
             <th mat-header-cell *matHeaderCellDef>{{ 'usertask.table.time' | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{element.elapsedTime}}/{{element.estimatedTime}}</td>
+            <td mat-cell *matCellDef="let element">{{element.elapsedTime}}/{{element.jobTask.estimatedTime}}</td>
           </ng-container>
 
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef></th>
-            <td mat-cell *matCellDef="let element" style="min-width: 75px;">
-              <button mat-icon-button (click)="onPlay(element.id, job.idJob)">
-                <mat-icon aria-label="Play">play_arrow</mat-icon>
-              </button>
-              <button mat-icon-button (click)="onPause(element.id, job.idJob)">
-                <mat-icon aria-label="Pause">pause</mat-icon>
-              </button>
-              <button mat-icon-button (click)="onFinish(element.id, job.idJob)">
-                <mat-icon aria-label="Done">done</mat-icon>
-              </button>
+            <td mat-cell *matCellDef="let element" style="min-width: 25px;">
+              <span *ngIf="!element.isCompleted">
+                <button mat-icon-button *ngIf="!element.isStarted" (click)="onPlay(element.jobTask.id, job.idJob)">
+                  <mat-icon aria-label="Play">play_arrow</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="element.isStarted" (click)="onPause(element.jobTask.id, job.idJob)">
+                  <mat-icon aria-label="Pause">pause</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="element.isStarted" (click)="onFinish(element.jobTask.id, job.idJob)">
+                  <mat-icon aria-label="Done">done</mat-icon>
+                </button>
+              </span>
+              <span *ngIf="element.isCompleted">
+                <mat-icon aria-label="Completed">check_box</mat-icon>
+              </span>
             </td>
           </ng-container>
 

@@ -12,6 +12,7 @@ export class AppConstants {
   public static API_BASE_URL: string = environment.apiBaseUrl;
   public static JOB_BASE_URL : string = AppConstants.API_BASE_URL + '/jobs';
   public static TASK_URL : string = '/tasks';
+  public static JOB_TASK_URL : string = AppConstants.JOB_BASE_URL + AppConstants.TASK_URL;
   public static STATUS_BASE_URL : string = AppConstants.API_BASE_URL + '/status';
   public static STATUS_PARAM : string = '?status=';
   public static FILES_URL: string = '/files';
@@ -28,10 +29,15 @@ export class AppConstants {
   public static LOG_INS_URL : string = '/logIns';
   public static ROLES_URL : string = '/roles';
 
-  //JOBINSPECT service
+  //JOB-INSPECT service
   public static TASKS_URL : string = AppConstants.API_BASE_URL + '/tasks';
   public static CAR_AREA_ONLY_PARAM : string = '?carAreaOnly=';
   public static CAR_AREAS_URL : string = AppConstants.API_BASE_URL + '/car-areas';
+
+  //TASK-ACTIVITY service
+  public static ACTIVITY_URL : string = '/activities';
+  public static JOB_TASK_ACTIVITY_URL : string = AppConstants.JOB_TASK_URL + AppConstants.ACTIVITY_URL;
+  public static TASK_ACTIVITY_URL : string = AppConstants.TASK_URL + AppConstants.ACTIVITY_URL;
 
   //CAR IMAGERY
   public static CAR_IMAGERY_URL: string = 'https://www.carimagery.com/api.asmx/GetImageUrl?searchTerm=';

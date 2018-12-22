@@ -169,14 +169,9 @@ h2 {
   margin-top: 10px;
 }
 
-/*.mdc-card__media--square::before {
-    margin-top: 65% !important;
+.mat-accordion {
+  width: 95%;
 }
-
-.mdc-card__actions {
-  padding:0px !important;
-  min-height: auto !important;
-}*/
 
 .mdc-icon-button {
   height: 35px !important;
