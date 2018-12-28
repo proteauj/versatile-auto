@@ -15,6 +15,7 @@ export class JobTaskModel {
   isStarted: boolean;
   isCompleted: boolean;
   elapsedTime: number;
+  startTime: Date;
 }
 
 export class JobModel {

@@ -1,17 +1,17 @@
-<nav class="navbar navbar-inverse navbar-fixed-top menu">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed btn-menu" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span>
-          <fa-icon [icon]="faBars"></fa-icon>
-        </span>
-      </button>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a class="nav-link menu-lien" routerLink="/login">{{ 'menu.login' | translate}}</a></li>
-        <li><a class="nav-link" routerLink="/job">{{ 'menu.job' | translate}}</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<button [matMenuTriggerFor]="menu">
+  <mat-icon aria-label="Menu" class="material-icons md-36">menu</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item [matMenuTriggerFor]="user">{{'menu.user' | translate}}</button>
+  <button mat-menu-item [matMenuTriggerFor]="job">{{'menu.job' | translate}}</button>
+</mat-menu>
+
+<mat-menu #user="matMenu">
+  <button mat-menu-item routerLink="/login">{{'menu.user.login' | translate}}</button>
+  <button mat-menu-item routerLink="/user-task">{{'menu.user.task' | translate}}</button>
+</mat-menu>
+
+<mat-menu #job="matMenu">
+  <button mat-menu-item routerLink="/job">{{'menu.job.list'| translate}}</button>
+  <button mat-menu-item routerLink="/job-new">{{'menu.job.new'| translate}}</button>
+</mat-menu>

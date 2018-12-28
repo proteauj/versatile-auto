@@ -4,11 +4,15 @@ import { JobTaskActivity, JobTaskModel, JobModel} from '../models/jobTaskActivit
 import { Employee } from '../models/user';
 import { TaskService } from '../task.service';
 import { TaskActivityService } from '../task-activity.service';
+import { JobService } from '../job.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import * as q from 'q';
+import { Observable } from 'rxjs/Observable';
+import { forkJoin } from "rxjs/observable/forkJoin";
+import { TimerService } from '../timer.service';
 
 @Component({
   selector: 'app-user-task',
@@ -31,14 +35,18 @@ export class UserTaskComponent implements OnInit {
 
   private jobModels: JobModel[] = [];
 
+  //An employee can works only on one job task at a time
+  private jobTaskStarted: JobTask;
 
+  timer:Observable<number>;
 
   constructor(private messageService: MessageService, private translate: TranslateService,
               private router: Router, private taskService: TaskService, private auth: AuthService,
-              private taskActivityService : TaskActivityService) { }
+              private taskActivityService: TaskActivityService, private jobService: JobService,
+              private timerService: TimerService) { }
 
   ngOnInit() {
-
+    this.timerService.setInterval(60000);
 
     this.auth.getUser().subscribe(data => {
       this.employee = data;
@@ -72,7 +80,7 @@ export class UserTaskComponent implements OnInit {
 
           for (let job of this.userJobs) {
             var jobTasks = this.jobTasksMap.get(job.idJob);
-            var jobTasksModel: JobTaskModel[] = [];
+
 
             var promises = [];
             for (let jobTask of jobTasks) {
@@ -81,6 +89,8 @@ export class UserTaskComponent implements OnInit {
             }
 
             q.all(promises).then(data => {
+              var jobTasksModel: JobTaskModel[] = [];
+
               for (let jobTaskModel of data) {
                 if (jobTaskModel != null) {
                   jobTasksModel.push(jobTaskModel);
@@ -92,11 +102,44 @@ export class UserTaskComponent implements OnInit {
                 jobTasksModel: jobTasksModel
               }
               this.jobModels.push(jobModel);
+
+              /*var jobTasksModel = this.jobModels.map(value =>
+                value.jobTasksModel.map(jobTaskModel => Object.assign({ parentId: value.job }, jobTasksModel))
+              ).reduce((l, n) => l.concat(n), []);*/
+
+              this.jobTaskStarted = jobTasksModel.filter(jobTaskModel => jobTaskModel.isStarted)[0].jobTask;
+              this.setTimerJobTaskStarted();
             });
           }
         });
       }
     });
+  }
+
+  setTimerJobTaskStarted() {
+    var jobModelIndex = this.jobModels.findIndex(j => j.job.idJob == this.jobTaskStarted.job.idJob);
+    var jobTaskModelIndex = this.jobModels[jobModelIndex].jobTasksModel.findIndex(t => t.jobTask.id == this.jobTaskStarted.id);
+
+    var jobTaskModel = this.jobModels[jobModelIndex].jobTasksModel[jobTaskModelIndex];
+    var jobTaskActivityIndex = jobTaskModel.activities.findIndex(a => a.endTime.toJSON() == null);
+    var startTime = this.jobModels[jobModelIndex].jobTasksModel[jobTaskModelIndex].activities[jobTaskActivityIndex].startTime;
+
+    //Mettre à jour le elapsedTime à partir de la startTime pour la tâche en cours. Ensuite c'est le timer qui l'incrémente
+    var minutesDiff = this.timerService.getMinutesDifferenceDate(startTime, new Date());
+    jobTaskModel.elapsedTime += minutesDiff;
+
+    this.timerService.setTimeOut(startTime, this.getEndTime())
+    this.timer = this.timerService.getObservableTimer();
+    this.timer.subscribe(val => {
+      jobTaskModel.elapsedTime += 1;
+    });
+  }
+
+  getEndTime(): Date {
+    var endTime = new Date();
+    //TODO: Changer pour l'heure habituelle de fin de l'employé
+    endTime.setHours(16, 30, 0, 0);
+    return endTime;
   }
 
   setCurrentJob(idJob: number) {
@@ -107,16 +150,93 @@ export class UserTaskComponent implements OnInit {
     return Array.from(this.userJobsMap.values());
   }
 
-  onPlay(idTask: number, idJob: number) {
+  updateJobTask(jobTask: JobTask, status: string) {
+    var jobModelIndex = this.jobModels.findIndex(j => j.job.idJob == jobTask.job.idJob);
+    var jobTaskModelIndex = this.jobModels[jobModelIndex].jobTasksModel.findIndex(t => t.jobTask.id == jobTask.id);
 
+    var jobTaskModel = this.jobModels[jobModelIndex].jobTasksModel[jobTaskModelIndex];
+    var jobTaskActivityIndex = jobTaskModel.activities.findIndex(a => a.endTime.toJSON() == null);
+    this.jobModels[jobModelIndex].jobTasksModel[jobTaskModelIndex].activities[jobTaskActivityIndex].endTime = new Date();
+
+    var jobTaskActivity = this.jobModels[jobModelIndex].jobTasksModel[jobTaskModelIndex].activities[jobTaskActivityIndex];
+
+    jobTaskModel = this.taskActivityService.updateElapsedTime(jobTaskActivity, jobTaskModel);
+    this.jobService.getStatusStr(status).then(data => {
+      jobTaskModel.jobTask.status = data;
+
+      var observables = [];
+      observables.push(this.taskActivityService.updateJobTaskActivity(jobTaskActivity));
+      observables.push(this.taskService.updateTask(jobTaskModel.jobTask));
+
+      forkJoin(observables).subscribe(results => {
+        this.jobTaskStarted = null;
+        //Le timer doit arrêter de compter les minutes de l'employé
+        this.timer = null;
+        jobTaskModel.isStarted = false;
+        if (status == 'FINISHED') {
+          jobTaskModel.isCompleted = true;
+        }
+
+        this.jobModels[jobModelIndex].jobTasksModel[jobTaskModelIndex] = jobTaskModel;
+
+        this.messageService.showSuccess(this.translate.instant('usertask.update.success'));
+      }, error => {
+        this.messageService.showError(this.translate.instant('usertask.update.error'));
+      });
+    })
   }
 
-  onPause(idTask: number, idJob: number) {
+  onPlay(jobTaskModel: JobTaskModel) {
+    if (this.jobTaskStarted != null) {
+      this.updateJobTask(this.jobTaskStarted, 'PAUSED');
+    }
 
+    var newJobTaskActivity: JobTaskActivity = {
+      id: -1,
+      jobTask: jobTaskModel.jobTask,
+      user: jobTaskModel.jobTask.user,
+      startTime: new Date(),
+      endTime: null
+    };
+
+    this.taskActivityService.createJobTaskActivity(newJobTaskActivity).subscribe(data => {
+      var jobTaskActivityCreated = this.taskActivityService.getJobTaskActivityFromRessource(data.body);
+      jobTaskModel.activities.push(jobTaskActivityCreated);
+      jobTaskModel.isStarted = true;
+      this.jobTaskStarted = jobTaskModel.jobTask;
+      this.messageService.showSuccess(this.translate.instant('usertask.create.success'));
+    }, error => {
+      this.messageService.showError(this.translate.instant('usertask.create.error'));
+    });
   }
 
-  onFinish(idTask: number, idJob: number) {
+  /*export class JobModel {
+      job: Job;
+      jobTasksModel: JobTaskModel[];
+    }
+  export class JobTaskModel {
+      jobTask: JobTask;
+      activities: JobTaskActivity[];
+      isStarted: boolean;
+      isCompleted: boolean;
+      elapsedTime: number;
+    }
+  export class JobTaskActivity {
+      id: number;
+      jobTask: JobTask;
+      user: Employee;
+      startTime: Date;
+      endTime: Date;
+  }*/
 
+  onPause(jobTaskModel: JobTaskModel) {
+    var jobTask = jobTaskModel.jobTask;
+    this.updateJobTask(jobTask, 'PAUSED');
+  }
+
+  onFinish(jobTaskModel: JobTaskModel) {
+    var jobTask = jobTaskModel.jobTask;
+    this.updateJobTask(jobTask, 'FINISHED');
   }
 
 }

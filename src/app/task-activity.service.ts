@@ -7,6 +7,7 @@ import { UserService } from './user.service';
 import { TaskService } from './task.service';
 import { Observable } from "rxjs";
 import { AppConstants} from './app.constants';
+import { TimerService } from './timer.service';
 import * as moment from 'moment';
 
 @Injectable({
@@ -31,7 +32,8 @@ export class TaskActivityService {
   //USERS_URL + id + TASK_ACTIVITY_URL
   //@GetMapping("/users/{id}/tasks/activities")
 
-  constructor(private http: HttpClient, private taskService: TaskService, private userService: UserService) { }
+  constructor(private http: HttpClient, private taskService: TaskService, private userService: UserService,
+              private timerService: TimerService) { }
 
   getJobTaskActivitiesRessource(idJobTask: number): Observable<HttpResponse<JobTaskActivityRessource[]>> {
     var url = `${AppConstants.JOB_TASK_URL}/${idJobTask}/${AppConstants.ACTIVITY_URL}`;
@@ -67,11 +69,33 @@ export class TaskActivityService {
       id: jobTaskActivityRess.id,
       jobTask: this.taskService.getJobTaskFromRessource(jobTaskActivityRess.jobTask),
       user: this.userService.getEmployeeFromRessource(jobTaskActivityRess.user),
-      startTime: jobTaskActivityRess.startTime,
-      endTime: jobTaskActivityRess.endTime
+      startTime: moment.utc(jobTaskActivityRess.startTime).local().toDate(),
+      endTime: moment.utc(jobTaskActivityRess.endTime).local().toDate()
     };
 
-    return jobTaskActivity
+    return jobTaskActivity;
+  }
+
+  getJobTaskActivityRessourceFromModel(jobTaskActivity: JobTaskActivity): JobTaskActivityRessource {
+    var jobTaskActivityRessource: JobTaskActivityRessource = {
+      id: jobTaskActivity.id,
+      jobTask: this.taskService.getJobTaskRessourceFromJobTask(jobTaskActivity.jobTask),
+      user: this.userService.getUserRessourceFromEmployee(jobTaskActivity.user),
+      startTime: jobTaskActivity.startTime,
+      endTime: jobTaskActivity.endTime
+    };
+
+    return jobTaskActivityRessource;
+  }
+
+  updateElapsedTime(jobTaskActivity: JobTaskActivity, jobTaskModel: JobTaskModel): JobTaskModel {
+    var difference = this.timerService.getMinutesDifferenceDate(jobTaskActivity.startTime, jobTaskActivity.endTime);
+
+    if (difference > 0) {
+      jobTaskModel.jobTask.elapsedTime = jobTaskModel.jobTask.elapsedTime + difference;
+    }
+
+    return jobTaskModel;
   }
 
   getJobTaskModel(jobTaskActivities: JobTaskActivity[], jobTask: JobTask): JobTaskModel {
@@ -82,7 +106,8 @@ export class TaskActivityService {
         activities: jobTaskActivities,
         isStarted: false,
         isCompleted: false,
-        elapsedTime: 0
+        elapsedTime: jobTask.elapsedTime,
+        startTime: null
       };
 
       if (jobTask.status.status == 'FINISHED') {
@@ -90,18 +115,28 @@ export class TaskActivityService {
       }
 
       for (let jobTaskActivity of jobTaskActivities) {
-        if (jobTaskActivity.endTime == null) {
+        if (jobTaskActivity.endTime.toJSON() == null) {
           jobTaskModel.isStarted = true;
-        }
-
-        if (jobTaskActivity.startTime != null && jobTaskActivity.endTime != null) {
-          var momentStart = moment(jobTaskActivity.startTime);
-          var momentEnd = moment(jobTaskActivity.endTime);
-          var difference = momentEnd.diff(momentStart, 'minutes');
-          jobTaskModel.elapsedTime = jobTaskModel.elapsedTime + difference;
+          jobTaskModel.startTime = jobTaskActivity.startTime;
         }
       }
 
     return jobTaskModel;
+  }
+
+  createJobTaskActivity(jobTaskActivity: JobTaskActivity): Observable<HttpResponse<JobTaskActivityRessource>> {
+    var jobTaskActivityRessource: JobTaskActivityRessource = this.getJobTaskActivityRessourceFromModel(jobTaskActivity);
+    var body = JSON.stringify(jobTaskActivityRessource);
+    var url = AppConstants.JOB_TASK_ACTIVITY_URL;
+    return this.http.post<JobTaskActivityRessource>(url, body,
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
+  }
+
+  updateJobTaskActivity(jobTaskActivity: JobTaskActivity): Observable<HttpResponse<JobTaskActivityRessource>> {
+    var jobTaskActivityRessource: JobTaskActivityRessource = this.getJobTaskActivityRessourceFromModel(jobTaskActivity);
+    var body = JSON.stringify(jobTaskActivityRessource);
+    var url = `${AppConstants.JOB_TASK_ACTIVITY_URL}/${jobTaskActivity.id}`;
+    return this.http.put<JobTaskActivityRessource>(url, body,
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json; charset=utf-8' }), observe: 'response' });
   }
 }

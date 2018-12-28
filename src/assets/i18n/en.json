@@ -166,7 +166,15 @@
   "usertask.table.name": "Name",
   "usertask.table.time": "Time",
   "usertask.table.part": "Part",
+  "usertask.create.success": "Activity creation succeeded",
+  "usertask.create.error": "Activity creation failed",
+  "usertask.update.success": "Activity update succeeded",
+  "usertask.update.error": "Activity update failed",
 
-  "menu.login": "Log in",
-  "menu.job": "Job"
+  "menu.job": "Jobs",
+  "menu.job.list": "List",
+  "menu.job.new": "New",
+  "menu.user": "User",
+  "menu.user.login": "Log in",
+  "menu.user.task": "Tasks"
 }

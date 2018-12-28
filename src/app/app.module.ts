@@ -53,7 +53,8 @@ import { CanActivateRouteGuard } from './can-activate-route.guard';
 import { AuthService } from './auth.service';
 import { GlobalService } from './global.service';
 
-
+import * as moment from 'moment';
+import { FromNowPipe } from './fromnow.pipe';
 
 @NgModule({
     declarations: [
@@ -70,7 +71,8 @@ import { GlobalService } from './global.service';
         JobInspectDialogComponent,
         LoginRegisterComponent,
         UserComponent,
-        UserTaskComponent
+        UserTaskComponent,
+        FromNowPipe
     ],
     entryComponents: [
         JobDialogComponent,

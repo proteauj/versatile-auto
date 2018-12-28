@@ -42,6 +42,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatMomentDateModule,
     MatTableModule,
     MatChipsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatMenuModule
   ],
   exports: [
     MdcButtonModule,
@@ -102,7 +104,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatMomentDateModule,
     MatTableModule,
     MatChipsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatMenuModule
   ]
 })
 export class AppMaterialModule { }

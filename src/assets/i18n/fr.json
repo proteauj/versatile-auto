@@ -166,7 +166,15 @@
   "usertask.table.name": "Nom",
   "usertask.table.time": "Temps",
   "usertask.table.part": "Partie",
+  "usertask.create.success": "Création activité réussie",
+  "usertask.create.error": "Création activité échouée",
+  "usertask.update.success": "Modification activité réussie",
+  "usertask.update.error": "Modification activité échouée",
 
-  "menu.login": "Connexion",
-  "menu.job": "Job"
+  "menu.job": "Jobs",
+  "menu.job.list": "Liste",
+  "menu.job.new": "Nouvelle",
+  "menu.user": "Utilisateur",
+  "menu.user.login": "Connexion",
+  "menu.user.task": "Tâches"
 }
