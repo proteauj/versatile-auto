@@ -5,8 +5,8 @@
     <mat-accordion class="example-headers-align">
       <mat-expansion-panel *ngFor="let jobModel of jobModels" hideToggle>
         <mat-expansion-panel-header>
-          <mat-panel-title>{{jobModel.job.car.model.title}} {{jobModel.job.car.year}}</mat-panel-title>
-          <mat-panel-description>
+          <mat-panel-title style="width:30%">{{jobModel.job.car.model.title}} {{jobModel.job.car.year}}</mat-panel-title>
+          <mat-panel-description style="width:70%">
             {{jobModel.job.arrivalDate | date:'dd/MM/yy'}} - {{jobModel.job.toDeliverDate | date:'dd/MM/yy'}}
             <!--<mat-chip-avatar *ngIf="job.carUrl"><img [src]="job.carUrl"></mat-chip-avatar>-->
           </mat-panel-description>
