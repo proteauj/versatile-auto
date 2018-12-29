@@ -8,6 +8,7 @@ import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MaphilightModule } from 'ng-maphilight';
+import { MatDialogRef } from '@angular/material';
 
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { JobInspectDialogComponent } from '../job-inspect-dialog/job-inspect-dialog.component';
@@ -47,7 +48,7 @@ export class JobInspectComponent implements OnInit {
   displayedColumns = ['carpart', 'name', 'time'];
   dataSource: MatTableDataSource<JobTask>;
 
-  dialogRef: MatDialogRef<JosInspectDialogComponent>;
+  dialogRef: MatDialogRef<JobInspectDialogComponent>;
 
   public config = {
      "fade": false,
