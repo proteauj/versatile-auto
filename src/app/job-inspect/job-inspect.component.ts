@@ -47,6 +47,8 @@ export class JobInspectComponent implements OnInit {
   displayedColumns = ['carpart', 'name', 'time'];
   dataSource: MatTableDataSource<JobTask>;
 
+  dialogRef: MatDialogRef<JosInspectDialogComponent>;
+
   public config = {
      "fade": false,
      "alwaysOn": false,
@@ -67,8 +69,24 @@ export class JobInspectComponent implements OnInit {
   isPartSelected(partCode:string): string {
     if (this.jobTasksMap.get(partCode) != null) {
       return 'data-maphilight={"alwaysOn":true}';
+      //return '{"alwaysOn":true}';
     } else {
       return 'data-maphilight={"alwaysOn":false}';
+      //return '{"alwaysOn":false}';
+    }
+  }
+
+  setTaskByCarAreaAndHilight() {
+    for (let jobTask of this.jobTasks) {
+      var carAreaCode: string = jobTask.carArea.code;
+
+      if (this.jobTasksMap.get(carAreaCode) == null) {
+        this.jobTasksMap.set(carAreaCode, []);
+
+        var element = document.getElementById(carAreaCode);
+        element.setAttribute('data-maphilight', '{"alwaysOn":true}');
+      }
+      this.jobTasksMap.get(carAreaCode).push(jobTask);
     }
   }
 
@@ -92,18 +110,7 @@ export class JobInspectComponent implements OnInit {
       this.jobInspectService.getJobTasksWithCarArea(this.idJob).then(data => {
         this.jobTasks = data;
         this.dataSource = new MatTableDataSource<JobTask>(this.jobTasks);
-
-        for (let jobTask of this.jobTasks) {
-          var carAreaCode: string = jobTask.carArea.code;
-
-          if (this.jobTasksMap.get(carAreaCode) == null) {
-            this.jobTasksMap.set(carAreaCode, []);
-
-            var element = document.getElementById(carAreaCode);
-            element.setAttribute('data-maphilight', '{"alwaysOn":true}');
-          }
-          this.jobTasksMap.get(carAreaCode).push(jobTask);
-        }
+        this.setTaskByCarAreaAndHilight();
       });
     });
 
@@ -120,21 +127,27 @@ export class JobInspectComponent implements OnInit {
   }
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(JobInspectDialogComponent, {
+    this.dialogRef = this.dialog.open(JobInspectDialogComponent, {
       data: {
-        selectedCarArea: this.selectedCarArea,
-        tasks: this.tasks,
-        jobTasks: this.jobTasks,
-        job: this.job,
-        newStatus: this.newStatus,
-        carAreas: this.carAreas,
-        jobTasksMap: this.jobTasksMap
+       selectedCarArea: this.selectedCarArea,
+       tasks: this.tasks,
+       jobTasks: this.jobTasks,
+       job: this.job,
+       newStatus: this.newStatus,
+       carAreas: this.carAreas,
+       jobTasksMap: this.jobTasksMap
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.dataSource.data = this.jobTasks;
-      console.log('The dialog was closed');
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result != null) {
+        this.jobInspectService.getJobTasksWithCarArea(this.idJob).then(data => {
+          this.jobTasks = data;
+          this.dataSource = new MatTableDataSource<JobTask>(this.jobTasks);
+          this.setTaskByCarAreaAndHilight();
+        });
+      }
+      console.log('The dialog was closed' + result);
     });
   }
 

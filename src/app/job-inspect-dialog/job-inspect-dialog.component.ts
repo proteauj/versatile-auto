@@ -75,7 +75,7 @@ export class JobInspectDialogComponent implements OnInit {
         estimatedTime: task.avgTime,
         job: this.data.job,
         status: this.data.newStatus,
-        priority: 0,
+        priority: 1,
         role: task.role,
         user: null,
         task: task,
@@ -137,7 +137,8 @@ export class JobInspectDialogComponent implements OnInit {
 
     forkJoin(observables).subscribe(results => {
       this.messageService.showSuccess(this.translate.instant('jobinspect.create.success'));
-      this.router.navigate(['/job-inspect', this.data.job.idJob]);
+
+      //this.router.navigate(['/job-inspect', this.data.job.idJob]);
  //      this.dialogRef.close();
     }, error => {
       this.messageService.showError(this.translate.instant('jobinspect.create.error'));
@@ -157,7 +158,7 @@ export class JobInspectDialogComponent implements OnInit {
         this.modifySelectedTasks(selectedTasks);
       }
 
-      this.dialogRef.close();
+      this.dialogRef.close('test');
     });
   }
 }

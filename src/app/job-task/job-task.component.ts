@@ -189,6 +189,8 @@ export class JobTaskComponent implements OnInit {
       status: this.taskForm.controls.status.value.status
     }
 
+    var jobTaskOriginal = this.tasks.get(this.idTask);
+
     var task: JobTask = {
       id: this.idTask,
       name: this.taskForm.controls.name.value,
@@ -198,9 +200,9 @@ export class JobTaskComponent implements OnInit {
       priority: this.taskForm.controls.priority.value,
       role: category,
       user: assignation,
-      task: null,
+      task: jobTaskOriginal.task,
       elapsedTime: 0,
-      carArea: null
+      carArea: jobTaskOriginal.carArea
     }
 
     return task;
