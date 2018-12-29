@@ -40,7 +40,7 @@ export class JobTaskComponent implements OnInit {
   public status;
   public taskForm: FormGroup;
 
-  displayedColumns = ['priority', 'name', 'status', 'id'];
+  displayedColumns = ['name', 'cararea', 'status', 'id'];
   dataSource;
 
   constructor(private messageService: MessageService, private translate: TranslateService,

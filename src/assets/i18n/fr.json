@@ -89,7 +89,7 @@
   "jobtask.status.loading": "Chargement des statuts...",
   "jobtask.status.error": "Statut obligatoire",
   "jobtask.submit": "Créer",
-  "jobtask.table.priority": "Priorité",
+  "jobtask.table.cararea": "Partie auto",
   "jobtask.table.name": "Nom",
   "jobtask.table.status": "Statut",
   "jobtask.update.success": "Modification réussie",

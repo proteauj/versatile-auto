@@ -89,7 +89,7 @@
   "jobtask.status.loading": "Status loading...",
   "jobtask.status.error": "Status required",
   "jobtask.submit": "Create",
-  "jobtask.table.priority": "Priority",
+  "jobtask.table.cararea": "Car area",
   "jobtask.table.name": "Name",
   "jobtask.table.status": "Status",
   "jobtask.update.success": "Update succeeded",

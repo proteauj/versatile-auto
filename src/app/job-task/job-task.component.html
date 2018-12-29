@@ -66,22 +66,22 @@
     </div>
 
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table-striped">
-        <ng-container matColumnDef="priority">
-          <th mat-header-cell *matHeaderCellDef>{{ 'jobtask.table.priority' | translate }}</th>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>{{ 'jobtask.table.name' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            <div fxLayout="row" fxLayoutAlign="center center">
+            <div fxLayout="row" fxLayoutAlign="left center">
               <button mat-icon-button (click)="toUpdate(element.id)">
                 <mat-icon aria-label="Edit">edit</mat-icon>
               </button>
-              {{element.priority}}
+              {{element.name}}
             </div>
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>{{ 'jobtask.table.name' | translate }}</th>
+        <ng-container matColumnDef="cararea">
+          <th mat-header-cell *matHeaderCellDef>{{ 'jobtask.table.cararea' | translate }}</th>
           <td mat-cell *matCellDef="let element">
-            {{element.name}}
+            <span *ngIf="element.carArea">{{element.carArea.code}}</span>
           </td>
         </ng-container>
 
@@ -98,6 +98,7 @@
             <button mat-icon-button (click)="onDelete(element.id)">
               <mat-icon aria-label="Delete">delete_forever</mat-icon>
             </button>
+            <!--<mat-checkbox [(ngModel)]="element.checked"></mat-checkbox>-->
           </td>
         </ng-container>
 
