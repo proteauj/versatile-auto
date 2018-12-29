@@ -121,10 +121,10 @@ export class JobTaskComponent implements OnInit {
     }
 
     this.name = new FormControl(name, [Validators.required]);
-    this.priority = new FormControl(priority, [Validators.required, Validators.min(1)]);
+    this.priority = new FormControl(priority, [Validators.required, Validators.min(1), Validators.pattern("[0-9]*")]);
     this.category = new FormControl(category, [Validators.required]);
     this.assignation = new FormControl(assignation, []);
-    this.time = new FormControl(time, [Validators.min(1)]);
+    this.time = new FormControl(time, [Validators.required, Validators.min(1), Validators.pattern("[0-9]*")]);
     this.status = new FormControl(status, [Validators.required]);
 
     this.taskForm = this.formBuilder.group({

@@ -10,7 +10,8 @@
       <mat-form-field>
         <input matInput placeholder="{{ 'jobnew.vin.label' | translate  }}" [formControl]="vin" required minlength=17
                (change)="getCarFromVin()">
-        <mat-error *ngIf="vin.invalid">{{ 'jobnew.vin.required.error' | translate  }}</mat-error>
+        <mat-error *ngIf="vin.hasError('required')">{{ 'jobnew.vin.required.error' | translate }}</mat-error>
+        <mat-error *ngIf="vin.hasError('pattern')">{{ 'jobnew.vin.length.error' | translate }}</mat-error>
       </mat-form-field>
 
       <mat-card *ngIf="car && car.model">

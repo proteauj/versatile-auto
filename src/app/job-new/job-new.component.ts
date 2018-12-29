@@ -104,7 +104,7 @@ export class JobNewComponent implements OnInit {
     }
 
     this.description = new FormControl(description, [Validators.required]);
-    this.vin = new FormControl(vin, [Validators.required, Validators.pattern("[0-9A-Z]{17}")]);
+    this.vin = new FormControl(vin, [Validators.required, Validators.pattern("[0-9A-Za-z]{17}")]);
     this.status = new FormControl(status, [Validators.required]);
     if (status != null) {
       this.statusSel = status;

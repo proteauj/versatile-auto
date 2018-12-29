@@ -9,7 +9,9 @@
 
       <mat-form-field>
         <input matInput placeholder="{{ 'jobtask.priority.placeholder' | translate }}" [formControl]="priority" required>
-        <mat-error *ngIf="priority.invalid">{{ 'jobtask.priority.error' | translate }}</mat-error>
+        <mat-error *ngIf="priority.hasError('required')">{{ 'jobtask.priority.error' | translate }}</mat-error>
+        <mat-error *ngIf="priority.hasError('min')">{{ 'jobtask.priority.error.min' | translate }}</mat-error>
+        <mat-error *ngIf="priority.hasError('pattern')">{{ 'jobtask.priority.error.pattern' | translate }}</mat-error>
       </mat-form-field>
 
       <mat-form-field *ngIf="categories | async; let categories; else loadingCategory">
@@ -35,7 +37,9 @@
 
       <mat-form-field>
         <input matInput placeholder="{{ 'jobtask.time.placeholder' | translate }}" [formControl]="time" required>
-        <mat-error *ngIf="time.invalid">{{ 'jobtask.time.error' | translate }}</mat-error>
+        <mat-error *ngIf="time.hasError('required')">{{ 'jobtask.time.error' | translate }}</mat-error>
+        <mat-error *ngIf="time.hasError('min')">{{ 'jobtask.time.error.min' | translate }}</mat-error>
+        <mat-error *ngIf="time.hasError('pattern')">{{ 'jobtask.time.error.pattern' | translate }}</mat-error>
       </mat-form-field>
 
       <mat-form-field *ngIf="statusArr | async; let statusArr; else loadingStatus">
