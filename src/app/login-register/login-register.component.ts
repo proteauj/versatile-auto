@@ -73,7 +73,7 @@ export class LoginRegisterComponent implements OnInit {
       checked: false
     }
 
-    var categories: Role[];
+    var categories: Role[] = [];
     categories.push(category);
 
     var firstname = this.registerForm.controls.firstname.value;
