@@ -5,16 +5,17 @@
       <mat-list-item *ngFor="let task of data.tasks | async">
 
         <span *ngIf="jobTasksCarAreaSelByTaskId.get(task.idTask); let jobTask; else templateTask">
-          <mat-checkbox style="width:45%" [(ngModel)]="jobTask.task.checked" [labelPosition]="after">{{ jobTask.task.name }}</mat-checkbox>
-          <mat-slider style="width:45%" [max]="300" [min]="15" [step]="15" [thumbLabel]="true"
-                      [displayWith]="formatLabel" [tickInterval]="30" [(ngModel)]="jobTask.estimatedTime"></mat-slider>
+          <mat-checkbox [(ngModel)]="jobTask.task.checked" [labelPosition]="after">{{ jobTask.task.name }}</mat-checkbox>
+          <mat-slider [max]="300" [min]="15" [step]="15" [thumbLabel]="true"
+                      [displayWith]="formatLabel" [tickInterval]="30" [(ngModel)]="jobTask.estimatedTime">
+          </mat-slider>
         </span>
         <ng-template #templateTask>
-          <mat-checkbox style="width:45%" [(ngModel)]="task.checked" [labelPosition]="after">{{ task.name }}</mat-checkbox>
-          <mat-slider style="width:45%" [max]="300" [min]="15" [step]="15" [thumbLabel]="true"
-                      [displayWith]="formatLabel" [tickInterval]="30" [(ngModel)]="task.avgTime"></mat-slider>
+          <mat-checkbox [(ngModel)]="task.checked" [labelPosition]="after">{{ task.name }}</mat-checkbox>
+          <mat-slider [max]="300" [min]="15" [step]="15" [thumbLabel]="true"
+                      [displayWith]="formatLabel" [tickInterval]="30" [(ngModel)]="task.avgTime">
+          </mat-slider>
         </ng-template>
-        <mat-icon style="width:10%" aria-label="Time">access_time</mat-icon>
       </mat-list-item>
     </mat-list>
 

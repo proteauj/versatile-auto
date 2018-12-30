@@ -1,6 +1,7 @@
 <div class="content">
   <mat-app-background fxLayout="column" fxLayoutAlign="center center">
-    <h2 mat-dialog-title>{{ 'jobnew.title' | translate }}</h2>
+    <h2 *ngIf="!isModify" mat-dialog-title>{{ 'jobnew.title' | translate }}</h2>
+    <h2 *ngIf="isModify && jobToModify" mat-dialog-title>{{ 'jobnew.modify.title' | translate }} #{{ jobToModify.idJob }}</h2>
     <form [formGroup]="carForm" class="form">
       <mat-form-field>
         <input matInput placeholder="{{ 'jobnew.description.label' | translate  }}" [formControl]="description" required>

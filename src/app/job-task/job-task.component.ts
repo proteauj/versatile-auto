@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Job, JobTask, Status } from '../models/job';
+import { CarArea, Task } from '../models/jobInspect';
 import { Employee, Role } from '../models/user';
 import { JobTaskRessource } from '../ressources/jobRessource';
 import { JobService } from '../job.service';
 import { TaskService } from '../task.service';
 import { UserService } from '../user.service';
+import { JobInspectService } from '../job-inspect.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -31,6 +33,9 @@ export class JobTaskComponent implements OnInit {
   public isModify: boolean = false;
   public isCategorySelected: boolean = false;
   private idJob: number;
+  private carAreas: Promise<CarArea[]>;
+  private carAreasMap: Map<string, CarArea> = new Map<string, CarArea>();
+  private tasksTemplate: Promise<Task[]>;
 
   public name;
   public priority;
@@ -38,6 +43,8 @@ export class JobTaskComponent implements OnInit {
   public assignation;
   public time;
   public status;
+  public carArea;
+  public taskTemplate;
   public taskForm: FormGroup;
 
   displayedColumns = ['name', 'cararea', 'status', 'id'];
@@ -46,12 +53,21 @@ export class JobTaskComponent implements OnInit {
   constructor(private messageService: MessageService, private translate: TranslateService,
               private jobService: JobService, private userService: UserService, private router: Router,
               private formBuilder: FormBuilder, private route: ActivatedRoute,
-              private taskService: TaskService) { }
+              private taskService: TaskService, private jobInspectService: JobInspectService) { }
 
   // convenience getter for easy access to form fields
   get f() { return this.taskForm.controls; }
 
   ngOnInit() {
+    this.carAreas = this.jobInspectService.getCarAreas();
+    this.tasksTemplate = this.taskService.getTasks();
+
+    this.carAreas.then(data => {
+      for (let carArea of data) {
+        this.carAreasMap.set(carArea.code, carArea);
+      }
+    });
+
     this.categories = this.userService.getRoles();
     this.statusArr = this.jobService.getStatus();
 
@@ -101,6 +117,8 @@ export class JobTaskComponent implements OnInit {
     var assignation: Employee = null;
     var time: number = null;
     var status: Status = null;
+    var carArea: CarArea = null;
+    var taskTemplate: Task = null;
 
     if (task != null) {
       name = task.name;
@@ -110,6 +128,8 @@ export class JobTaskComponent implements OnInit {
       assignation = task.user;
       time = task.estimatedTime;
       status = task.status;
+      carArea = task.carArea;
+      taskTemplate = task.task;
 
       //modify state
       this.setButtonState(true);
@@ -126,6 +146,8 @@ export class JobTaskComponent implements OnInit {
     this.assignation = new FormControl(assignation, []);
     this.time = new FormControl(time, [Validators.required, Validators.min(1), Validators.pattern("[0-9]*")]);
     this.status = new FormControl(status, [Validators.required]);
+    this.carArea = new FormControl(carArea, []);
+    this.taskTemplate = new FormControl(taskTemplate, []);
 
     this.taskForm = this.formBuilder.group({
       name: this.name,
@@ -133,7 +155,9 @@ export class JobTaskComponent implements OnInit {
       category: this.category,
       assignation: this.assignation,
       time: this.time,
-      status: this.status
+      status: this.status,
+      carArea: this.carArea,
+      taskTemplate: this.taskTemplate
     });
   }
 
@@ -146,8 +170,16 @@ export class JobTaskComponent implements OnInit {
   }
 
   compareEmployee(e1: Employee, e2: Employee): boolean {
-      return e1 && e2 ? e1.user.idUser === e2.user.idUser : e1 === e2;
-    }
+    return e1 && e2 ? e1.user.idUser === e2.user.idUser : e1 === e2;
+  }
+
+  compareCarArea(c1: CarArea, c2: CarArea): boolean {
+    return c1 && c2 ? c1.idCarArea === c2.idCarArea : c1 === c2;
+  }
+
+  compareTaskTemplate(t1: Task, t2: Task): boolean {
+    return t1 && t2 ? t1.idTask === t2.idTask : t1 === t2;
+  }
 
   getTasksValues(): Array<JobTask> {
       return Array.from(this.tasks.values());
@@ -164,6 +196,12 @@ export class JobTaskComponent implements OnInit {
     this.taskForm.controls['assignation'].setValue(null);
     var category: Role = this.taskForm.controls.category.value;
     this.selectCategory(category);
+  }
+
+  onTaskSelect() {
+    var taskTemplate: Task = this.taskForm.controls.taskTemplate.value;
+    this.taskForm.controls['name'].setValue(taskTemplate.name);
+    this.taskForm.controls['time'].setValue(taskTemplate.avgTime);
   }
 
   getTaskFromTaskForm(): JobTask {
@@ -200,9 +238,9 @@ export class JobTaskComponent implements OnInit {
       priority: this.taskForm.controls.priority.value,
       role: category,
       user: assignation,
-      task: jobTaskOriginal.task,
+      task: this.taskForm.controls.taskTemplate.value,
       elapsedTime: 0,
-      carArea: jobTaskOriginal.carArea
+      carArea: this.taskForm.controls.carArea.value,
     }
 
     return task;

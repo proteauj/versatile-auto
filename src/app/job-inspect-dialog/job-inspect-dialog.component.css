@@ -1,0 +1,9 @@
+.mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content {
+    display: unset !important;
+}
+
+.mat-dialog-content {
+    display: unset !important;
+}
+
+

@@ -34,6 +34,7 @@
   "login.register.error": "Registration failed",
 
   "jobnew.title": "New job",
+  "jobnew.modify.title": "Modify job",
   "jobnew.description.label": "Description",
   "jobnew.description.placeholder": "Description",
   "jobnew.description.error": "Description required",
@@ -88,6 +89,8 @@
   "jobtask.status.placeholder": "Select status",
   "jobtask.status.loading": "Status loading...",
   "jobtask.status.error": "Status required",
+  "jobtask.carArea.placeholder": "Select car area",
+  "jobtask.taskTemplate.placeholder": "Select task",
   "jobtask.submit": "Create",
   "jobtask.table.cararea": "Car area",
   "jobtask.table.name": "Name",
