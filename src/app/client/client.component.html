@@ -1,0 +1,61 @@
+<div class="content">
+  <mat-app-background fxLayout="column" fxLayoutAlign="center center">
+    <h2 mat-dialog-title>{{ 'client.title' | translate }}</h2>
+    <form [formGroup]="clientForm" class="form">
+      <mat-form-field>
+        <input matInput placeholder="{{ 'client.name.placeholder' | translate }}" [formControl]="name" required>
+        <mat-error *ngIf="name.invalid">{{ 'client.name.error' | translate }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'client.address.placeholder' | translate }}" [formControl]="address">
+        <!--<mat-error *ngIf="address.hasError('required')">{{ 'client.address.error' | translate }}</mat-error>-->
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'client.telephone.placeholder' | translate }}" [formControl]="telephone">
+        <!--<mat-error *ngIf="telephone.hasError('required')">{{ 'client.telephone.error' | translate }}</mat-error>-->
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{ 'client.email.placeholder' | translate }}" [formControl]="email">
+        <!--<mat-error *ngIf="email.hasError('required')">{{ 'client.email.error' | translate }}</mat-error>-->
+      </mat-form-field>
+    </form>
+
+    <div fxLayout="row">
+      <button mat-icon-button (click)="onSubmit()">
+        <mat-icon *ngIf="isCreate" aria-label="Create">add_box</mat-icon>
+        <mat-icon *ngIf="isModify" aria-label="Update">save</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="onErase()">
+        <mat-icon aria-label="Reset">undo</mat-icon>
+      </button>
+    </div>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 table-striped">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>{{ 'client.table.name' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          <div fxLayout="row" fxLayoutAlign="left center">
+            <button mat-icon-button (click)="toUpdate(element.id)">
+              <mat-icon aria-label="Edit">edit</mat-icon>
+            </button>
+            {{element.name}}
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>{{ 'client.table.telephone' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          {{element.telephone}}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-app-background>
+</div>

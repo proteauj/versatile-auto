@@ -55,6 +55,7 @@ import { GlobalService } from './global.service';
 
 import * as moment from 'moment';
 import { FromNowPipe } from './fromnow.pipe';
+import { ClientComponent } from './client/client.component';
 
 @NgModule({
     declarations: [
@@ -72,7 +73,8 @@ import { FromNowPipe } from './fromnow.pipe';
         LoginRegisterComponent,
         UserComponent,
         UserTaskComponent,
-        FromNowPipe
+        FromNowPipe,
+        ClientComponent
     ],
     entryComponents: [
         JobDialogComponent,

@@ -23,6 +23,10 @@ export class AppConstants {
   public static CAR_URL : string = AppConstants.API_BASE_URL + '/cars';
   public static VIN_URL : string = '/vin';
 
+  //CLIENT service
+  public static CLIENTS_URL : string = '/clients';
+  public static CLIENTS_BASE_URL : string = AppConstants.API_BASE_URL + AppConstants.CLIENTS_URL;
+
   //USER service
   public static USERS_URL : string = AppConstants.API_BASE_URL + '/users';
   public static EMAIL_PARAM : string = '?email=';

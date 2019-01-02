@@ -183,5 +183,17 @@
   "menu.job.new": "Nouvelle",
   "menu.user": "Utilisateur",
   "menu.user.login": "Connexion",
-  "menu.user.task": "Tâches"
+  "menu.user.task": "Tâches",
+
+  "client.title":"Client",
+  "client.name.placeholder":"Nom",
+  "client.name.error":"Nom obligatoire",
+  "client.address.placeholder":"Adresse",
+  "client.address.error":"Adresse obligatoire",
+  "client.telephone.placeholder":"Téléphone",
+  "client.telephone.error":"Téléphone obligatoire",
+  "client.email.placeholder":"Courriel",
+  "client.email.error":"Courriel obligatoire",
+  "client.table.name":"Nom",
+  "client.table.telephone":"Téléphone"
 }
