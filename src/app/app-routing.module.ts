@@ -10,6 +10,7 @@ import { JobComponent } from './job/job.component';
 import { JobInspectComponent } from './job-inspect/job-inspect.component';
 import { UserComponent } from './user/user.component';
 import { UserTaskComponent } from './user-task/user-task.component';
+import { ClientComponent } from './client/client.component';
 
 import { Job } from './models/job';
 
@@ -26,7 +27,8 @@ const routes: Routes = [
   { path: 'job-details/:idJob', component: JobDetailsComponent, canActivate: [CanActivateRouteGuard] },
   { path: 'job-inspect/:idJob', component: JobInspectComponent, canActivate: [CanActivateRouteGuard] },
   { path: 'user', component: UserComponent, canActivate: [CanActivateRouteGuard] },
-  { path: 'user-task', component: UserTaskComponent, canActivate: [CanActivateRouteGuard] }
+  { path: 'user-task', component: UserTaskComponent, canActivate: [CanActivateRouteGuard] },
+  { path: 'client', component: ClientComponent, canActivate: [CanActivateRouteGuard] }
 ];
 
 @NgModule({

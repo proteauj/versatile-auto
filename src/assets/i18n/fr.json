@@ -61,8 +61,12 @@
   "jobnew.arrivalDate.placeholder": "Date d'arrivée",
   "jobnew.toDeliverDate.placeholder": "Date livraison prévue",
   "jobnew.submit": "Enregistrer",
-  "jobnew.success": "Nouvelle job réussie",
-  "jobnew.error": "Nouvelle job échouée",
+  "jobnew.modify.success": "Mise à jour job réussie",
+  "jobnew.modify.error": "Mise à jour job échouée",
+  "jobnew.create.success": "Nouvelle job réussie",
+  "jobnew.create.error": "Nouvelle job échouée",
+  "jobnew.client.placeholder":"Client",
+  "jobnew.client.not.found":"Aucun client",
 
   "jobtask.title": "Nouvelle tâche",
   "jobtask.name.label": "Nom",
@@ -184,6 +188,7 @@
   "menu.user": "Utilisateur",
   "menu.user.login": "Connexion",
   "menu.user.task": "Tâches",
+  "menu.client": "Client",
 
   "client.title":"Client",
   "client.name.placeholder":"Nom",
@@ -191,9 +196,15 @@
   "client.address.placeholder":"Adresse",
   "client.address.error":"Adresse obligatoire",
   "client.telephone.placeholder":"Téléphone",
-  "client.telephone.error":"Téléphone obligatoire",
+  "client.telephone.error":"Téléphone 10 chiffres",
   "client.email.placeholder":"Courriel",
-  "client.email.error":"Courriel obligatoire",
+  "client.email.error":"Courriel format xyz@xyz.com",
   "client.table.name":"Nom",
-  "client.table.telephone":"Téléphone"
+  "client.table.telephone":"Téléphone",
+  "client.update.success": "Modification réussie",
+  "client.create.success": "Création réussie",
+  "client.delete.success": "Suppression réussie",
+  "client.update.error": "Modification échouée",
+  "client.create.error": "Création échouée",
+  "client.delete.error": "Suppression échouée"
 }

@@ -1,6 +1,7 @@
 import { Car } from './car';
 import { Role, Employee } from './user';
 import { Task, CarArea } from './jobInspect';
+import { Client } from './client';
 import { SafeResourceUrl } from '@angular/platform-browser';
 
 export class Job {
@@ -8,6 +9,7 @@ export class Job {
   description: string;
   car: Car;
   status: Status;
+  client: Client;
   arrivalDate: Date;
   toDeliverDate: Date;
   carUrl: SafeResourceUrl;
@@ -30,6 +32,7 @@ export class JobTask {
   task: Task;
   elapsedTime: number;
   carArea: CarArea;
+  //checked: false;
 }
 
 export class FileModel {

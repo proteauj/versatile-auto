@@ -23,6 +23,16 @@
         <img class="img-job" [src]="car.imageUrl"/>
       </mat-card>
 
+      <mat-form-field *ngIf="clients; let clients; else noClient">
+        <mat-select placeholder="{{ 'jobnew.client.placeholder' | translate }}" [compareWith]="compareClient"
+                    [formControl]="client">
+          <mat-option *ngFor="let client of clients" [value]="client">
+            {{client.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <ng-template #noClient>{{ 'jobnew.client.not.found' | translate }}</ng-template>
+
       <mat-form-field *ngIf="statusArr | async; let statusArr; else loadingStatus">
         <!--[formControl]="status"-->
         <mat-select placeholder="{{ 'jobnew.status.placeholder' | translate }}" [compareWith]="compareStatus"

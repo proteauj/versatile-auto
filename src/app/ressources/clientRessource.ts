@@ -2,6 +2,6 @@ export class ClientRessource {
   idClient: number;
   name: string;
   address: string;
-  telephone: number;
+  telephone: string;
   email: string;
 }

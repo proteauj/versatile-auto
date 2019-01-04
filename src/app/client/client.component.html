@@ -8,18 +8,18 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="{{ 'client.address.placeholder' | translate }}" [formControl]="address">
+        <textarea matInput placeholder="{{ 'client.address.placeholder' | translate }}" [formControl]="address"></textarea>
         <!--<mat-error *ngIf="address.hasError('required')">{{ 'client.address.error' | translate }}</mat-error>-->
       </mat-form-field>
 
       <mat-form-field>
         <input matInput placeholder="{{ 'client.telephone.placeholder' | translate }}" [formControl]="telephone">
-        <!--<mat-error *ngIf="telephone.hasError('required')">{{ 'client.telephone.error' | translate }}</mat-error>-->
+        <mat-error *ngIf="telephone.invalid">{{ 'client.telephone.error' | translate }}</mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <input matInput placeholder="{{ 'client.email.placeholder' | translate }}" [formControl]="email">
-        <!--<mat-error *ngIf="email.hasError('required')">{{ 'client.email.error' | translate }}</mat-error>-->
+        <mat-error *ngIf="email.invalid">{{ 'client.email.error' | translate }}</mat-error>
       </mat-form-field>
     </form>
 
@@ -39,7 +39,7 @@
         <th mat-header-cell *matHeaderCellDef>{{ 'client.table.name' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <div fxLayout="row" fxLayoutAlign="left center">
-            <button mat-icon-button (click)="toUpdate(element.id)">
+            <button mat-icon-button (click)="toUpdate(element.idClient)">
               <mat-icon aria-label="Edit">edit</mat-icon>
             </button>
             {{element.name}}
@@ -47,7 +47,7 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="status">
+      <ng-container matColumnDef="telephone">
         <th mat-header-cell *matHeaderCellDef>{{ 'client.table.telephone' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           {{element.telephone}}

@@ -1,12 +1,14 @@
 import { CarRessource } from './carRessource';
 import { RoleRessource, UserRessource } from './userRessource';
 import { TaskRessource, CarAreaRessource } from './jobInspectRessource';
+import { ClientRessource } from './clientRessource';
 
 export class JobRessource {
   idJob: number;
   description: string;
   car: CarRessource;
   status: StatusRessource;
+  client: ClientRessource;
   arrivalDate: Date;
   toDeliverDate: Date;
 }

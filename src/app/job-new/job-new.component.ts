@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Car, Make, Model, VinDecoded } from '../models/car';
 import { Job, Status } from '../models/job';
+import { Client } from '../models/client';
 import { CarService } from '../car.service';
 import { JobService } from '../job.service';
+import { ClientService } from '../client.service';
 import { MessageService } from '../message.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -22,11 +24,14 @@ export class JobNewComponent implements OnInit {
     private idJob: number;
     private jobToModify: Job;
     private isModify: boolean = false;
+    private clients: Client[];
 
     public description;
     public vin;
     public status;
     public statusSel;
+    public client;
+    public clientSel;
     public arrivalDate;
     public toDeliverDate;
     public carForm: FormGroup;
@@ -36,6 +41,7 @@ export class JobNewComponent implements OnInit {
       description: '',
       car: null,
       status: null,
+      client: null,
       arrivalDate: null,
       toDeliverDate: null,
       carUrl: ''
@@ -54,7 +60,7 @@ export class JobNewComponent implements OnInit {
   constructor(private carService: CarService, private messageService: MessageService,
               private translate: TranslateService, private jobService: JobService,
               private router: Router, private route: ActivatedRoute,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder, private clientService: ClientService) { }
 
   ngOnInit() {
     this.setForm(null);
@@ -73,6 +79,10 @@ export class JobNewComponent implements OnInit {
     }
 
     this.statusArr = this.jobService.getStatus();
+
+    this.clientService.getClients().then(data => {
+      this.clients = data;
+    });
   }
 
   setForm(job: Job) {
@@ -81,6 +91,7 @@ export class JobNewComponent implements OnInit {
     var make: Make = null;
     var model: Model = null;
     var vin: string = '';
+    var client: Client = null;
     var status: Status = null;
     var arrivalDate = new Date();
     var toDeliverDate = null;
@@ -89,6 +100,7 @@ export class JobNewComponent implements OnInit {
       description = job.description;
       vin = job.car.vin;
       this.car = job.car;
+      client = job.client;
       status = job.status;
 
       if (job.arrivalDate != null) {
@@ -105,6 +117,10 @@ export class JobNewComponent implements OnInit {
 
     this.description = new FormControl(description, [Validators.required]);
     this.vin = new FormControl(vin, [Validators.required, Validators.pattern("[0-9A-Za-z]{17}")]);
+    this.client = new FormControl(client, []);
+    if (client != null) {
+      this.clientSel = client;
+    }
     this.status = new FormControl(status, [Validators.required]);
     if (status != null) {
       this.statusSel = status;
@@ -116,6 +132,7 @@ export class JobNewComponent implements OnInit {
       description: this.description,
       vin: this.vin,
       status: this.status,
+      client: this.client,
       arrivalDate: this.arrivalDate,
       toDeliverDate: this.toDeliverDate
     });
@@ -123,6 +140,10 @@ export class JobNewComponent implements OnInit {
 
   compareStatus(s1: Status, s2: Status): boolean {
       return s1 && s2 ? s1.idStatus === s2.idStatus : s1 === s2;
+  }
+
+  compareClient(c1: Client, c2: Client): boolean {
+    return c1 && c2 ? c1.idClient === c2.idClient : c1 === c2;
   }
 
   onSubmit(): void {
@@ -138,10 +159,19 @@ export class JobNewComponent implements OnInit {
       status: this.carForm.controls.status.value.status
     };
 
+    var client: Client = {
+      idClient: this.carForm.controls.client.value.idClient,
+      name: this.carForm.controls.client.value.name,
+      address: this.carForm.controls.client.value.address,
+      telephone: this.carForm.controls.client.value.telephone,
+      email: this.carForm.controls.client.value.email
+    };
+
     this.job = {
       idJob: null,
       description: this.carForm.controls.description.value,
       car: this.carService.getCarRessourceFromModel(this.car),
+      client: this.clientService.getClientRessourceFromModel(client),
       status: status,
       arrivalDate: this.carForm.controls.arrivalDate.value,
       toDeliverDate: this.carForm.controls.toDeliverDate.value,
@@ -157,23 +187,24 @@ export class JobNewComponent implements OnInit {
       this.jobToModify.car.model = this.job.car.model;
       this.jobToModify.car.vin = this.job.car.vin;
       this.jobToModify.status = this.job.status;
+      this.jobToModify.client = this.job.client;
       this.jobToModify.arrivalDate = this.job.arrivalDate;
       this.jobToModify.toDeliverDate = this.job.toDeliverDate;
 
       this.jobService.updateJob(this.jobToModify).subscribe(data => {
         console.log("PUT Job is successful ", data);
-        this.messageService.showSuccess(this.translate.instant('jobnew.success' + '#' + data.body.idJob));
+        this.messageService.showSuccess(this.translate.instant('jobnew.modify.success') + ' #' + data.body.idJob);
         this.router.navigate(['/job']);
       }, error => {
-        this.messageService.showError(this.translate.instant('jobnew.error'));
+        this.messageService.showError(this.translate.instant('jobnew.modify.error'));
       });
     } else {
       this.jobService.createJob(this.job).subscribe(data => {
         console.log("POST Job is successful ", data);
-        this.messageService.showSuccess(this.translate.instant('jobnew.success' + '#' + data.body.idJob));
+        this.messageService.showSuccess(this.translate.instant('jobnew.create.success') + ' #' + data.body.idJob);
         this.router.navigate(['/job-inspect', data.body.idJob]);
       }, error => {
-        this.messageService.showError(this.translate.instant('jobnew.error'));
+        this.messageService.showError(this.translate.instant('jobnew.create.error'));
       });
     }
   }

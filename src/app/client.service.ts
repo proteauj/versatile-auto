@@ -6,14 +6,13 @@ import { ClientRessource } from './ressources/clientRessource';
 import { JobRessource } from './ressources/jobRessource';
 import { Observable } from "rxjs";
 import { AppConstants} from './app.constants';
-import { JobService } from './job.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClientService implements OnInit {
 
-  constructor(private http: HttpClient, private jobService: JobService) { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit() { }
 
@@ -59,26 +58,6 @@ export class ClientService implements OnInit {
     };
 
     return client;
-  }
-
-  getClientJobsRessource(idClient: number): Observable<HttpResponse<JobRessource[]>> {
-    var url:string = `${AppConstants.JOB_BASE_URL}${AppConstants.CLIENTS_URL}/${idClient}`;
-    return this.http.get<JobRessource[]>(url, { observe: 'response' });
-  }
-
-  async getClientJobs(idClient: number): Promise<Job[]> {
-    var jobs: Job[] = [];
-
-    await new Promise(resolve => {
-      this.getClientJobsRessource(idClient).subscribe(resp => {
-        for (let jobRess of resp.body) {
-          jobs.push(this.jobService.getJobFromRessource(jobRess));
-        }
-        resolve();
-      });
-    });
-
-    return jobs;
   }
 
   createClient(client: Client): Observable<HttpResponse<ClientRessource>> {

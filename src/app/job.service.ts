@@ -6,6 +6,7 @@ import { JobRessource, StatusRessource, FileRessource } from './ressources/jobRe
 import { Observable } from "rxjs";
 import { CarService } from './car.service';
 import { UserService } from './user.service';
+import { ClientService } from './client.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AppConstants} from './app.constants';
 
@@ -15,7 +16,7 @@ import { AppConstants} from './app.constants';
 export class JobService implements OnInit {
 
   constructor(private http: HttpClient, private carService: CarService, private userService: UserService,
-              private sanitizer: DomSanitizer) { }
+              private sanitizer: DomSanitizer, private clientService: ClientService) { }
 
   ngOnInit() { }
 
@@ -43,6 +44,7 @@ export class JobService implements OnInit {
       description: jobRess.description,
       car: this.carService.getCarFromRessource(jobRess.car),
       status: this.getStatusFromRessource(jobRess.status),
+      client: this.clientService.getClientFromRessource(jobRess.client),
       arrivalDate: new Date(jobRess.arrivalDate),
       toDeliverDate: new Date(jobRess.toDeliverDate),
       carUrl: null
@@ -61,6 +63,7 @@ export class JobService implements OnInit {
       description: job.description,
       car: this.carService.getCarRessourceFromModel(job.car),
       status: this.getStatusRessourceFromModel(job.status),
+      client: this.clientService.getClientRessourceFromModel(job.client),
       arrivalDate: new Date(job.arrivalDate),
       toDeliverDate: new Date(job.toDeliverDate)
     };
@@ -280,5 +283,25 @@ export class JobService implements OnInit {
   getSafeUrl(url): SafeResourceUrl {
     var fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     return fileUrl;
+  }
+
+  getClientJobsRessource(idClient: number): Observable<HttpResponse<JobRessource[]>> {
+    var url:string = `${AppConstants.JOB_BASE_URL}${AppConstants.CLIENTS_URL}/${idClient}`;
+    return this.http.get<JobRessource[]>(url, { observe: 'response' });
+  }
+
+  async getClientJobs(idClient: number): Promise<Job[]> {
+    var jobs: Job[] = [];
+
+    await new Promise(resolve => {
+      this.getClientJobsRessource(idClient).subscribe(resp => {
+        for (let jobRess of resp.body) {
+          jobs.push(this.getJobFromRessource(jobRess));
+        }
+        resolve();
+      });
+    });
+
+    return jobs;
   }
 }
