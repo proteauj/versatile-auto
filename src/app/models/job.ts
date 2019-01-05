@@ -10,6 +10,7 @@ export class Job {
   car: Car;
   status: Status;
   client: Client;
+  numJobClient: string;
   arrivalDate: Date;
   toDeliverDate: Date;
   carUrl: SafeResourceUrl;

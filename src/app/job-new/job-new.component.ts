@@ -32,6 +32,7 @@ export class JobNewComponent implements OnInit {
     public statusSel;
     public client;
     public clientSel;
+    public numJobClient;
     public arrivalDate;
     public toDeliverDate;
     public carForm: FormGroup;
@@ -42,6 +43,7 @@ export class JobNewComponent implements OnInit {
       car: null,
       status: null,
       client: null,
+      numJobClient: '',
       arrivalDate: null,
       toDeliverDate: null,
       carUrl: ''
@@ -92,6 +94,7 @@ export class JobNewComponent implements OnInit {
     var model: Model = null;
     var vin: string = '';
     var client: Client = null;
+    var numJobClient: string = '';
     var status: Status = null;
     var arrivalDate = new Date();
     var toDeliverDate = null;
@@ -101,6 +104,7 @@ export class JobNewComponent implements OnInit {
       vin = job.car.vin;
       this.car = job.car;
       client = job.client;
+      numJobClient = job.numJobClient;
       status = job.status;
 
       if (job.arrivalDate != null) {
@@ -121,6 +125,7 @@ export class JobNewComponent implements OnInit {
     if (client != null) {
       this.clientSel = client;
     }
+    this.numJobClient = new FormControl(numJobClient, []);
     this.status = new FormControl(status, [Validators.required]);
     if (status != null) {
       this.statusSel = status;
@@ -133,6 +138,7 @@ export class JobNewComponent implements OnInit {
       vin: this.vin,
       status: this.status,
       client: this.client,
+      numJobClient: this.numJobClient,
       arrivalDate: this.arrivalDate,
       toDeliverDate: this.toDeliverDate
     });
@@ -172,6 +178,7 @@ export class JobNewComponent implements OnInit {
       description: this.carForm.controls.description.value,
       car: this.carService.getCarRessourceFromModel(this.car),
       client: this.clientService.getClientRessourceFromModel(client),
+      numJobClient : this.carForm.controls.numJobClient.value,
       status: status,
       arrivalDate: this.carForm.controls.arrivalDate.value,
       toDeliverDate: this.carForm.controls.toDeliverDate.value,
@@ -188,6 +195,7 @@ export class JobNewComponent implements OnInit {
       this.jobToModify.car.vin = this.job.car.vin;
       this.jobToModify.status = this.job.status;
       this.jobToModify.client = this.job.client;
+      this.jobToModify.numJobClient = this.job.numJobClient;
       this.jobToModify.arrivalDate = this.job.arrivalDate;
       this.jobToModify.toDeliverDate = this.job.toDeliverDate;
 

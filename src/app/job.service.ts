@@ -45,6 +45,7 @@ export class JobService implements OnInit {
       car: this.carService.getCarFromRessource(jobRess.car),
       status: this.getStatusFromRessource(jobRess.status),
       client: this.clientService.getClientFromRessource(jobRess.client),
+      numJobClient: jobRess.numJobClient,
       arrivalDate: new Date(jobRess.arrivalDate),
       toDeliverDate: new Date(jobRess.toDeliverDate),
       carUrl: null
@@ -64,6 +65,7 @@ export class JobService implements OnInit {
       car: this.carService.getCarRessourceFromModel(job.car),
       status: this.getStatusRessourceFromModel(job.status),
       client: this.clientService.getClientRessourceFromModel(job.client),
+      numJobClient: job.numJobClient,
       arrivalDate: new Date(job.arrivalDate),
       toDeliverDate: new Date(job.toDeliverDate)
     };

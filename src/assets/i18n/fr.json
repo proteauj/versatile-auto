@@ -67,6 +67,7 @@
   "jobnew.create.error": "Nouvelle job échouée",
   "jobnew.client.placeholder":"Client",
   "jobnew.client.not.found":"Aucun client",
+  "jobnew.client.no.label": "Numéro job client",
 
   "jobtask.title": "Nouvelle tâche",
   "jobtask.name.label": "Nom",

@@ -33,6 +33,10 @@
       </mat-form-field>
       <ng-template #noClient>{{ 'jobnew.client.not.found' | translate }}</ng-template>
 
+      <mat-form-field>
+        <input matInput placeholder="{{ 'jobnew.client.no.label' | translate  }}" [formControl]="numJobClient">
+      </mat-form-field>
+
       <mat-form-field *ngIf="statusArr | async; let statusArr; else loadingStatus">
         <!--[formControl]="status"-->
         <mat-select placeholder="{{ 'jobnew.status.placeholder' | translate }}" [compareWith]="compareStatus"

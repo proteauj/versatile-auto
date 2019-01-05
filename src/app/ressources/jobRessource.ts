@@ -9,6 +9,7 @@ export class JobRessource {
   car: CarRessource;
   status: StatusRessource;
   client: ClientRessource;
+  numJobClient: string;
   arrivalDate: Date;
   toDeliverDate: Date;
 }
