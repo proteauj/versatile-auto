@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, ErrorHandler } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -52,6 +52,7 @@ import { AvatarModule } from 'ngx-avatar';
 import { CanActivateRouteGuard } from './can-activate-route.guard';
 import { AuthService } from './auth.service';
 import { GlobalService } from './global.service';
+import { ErrorHandlerService } from './error-handler.service';
 
 import * as moment from 'moment';
 import { FromNowPipe } from './fromnow.pipe';
@@ -110,7 +111,13 @@ import { ClientComponent } from './client/client.component';
         AvatarModule
     ],
     schemas: [ NO_ERRORS_SCHEMA ],
-    providers: [ AuthService, CanActivateRouteGuard, GlobalService ],
+    providers:
+      [
+        AuthService, CanActivateRouteGuard, GlobalService,
+        { provide: ErrorHandler,
+          useClass: ErrorHandlerService
+        }
+      ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
