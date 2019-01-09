@@ -207,5 +207,10 @@
   "client.delete.success": "Suppression réussie",
   "client.update.error": "Modification échouée",
   "client.create.error": "Création échouée",
-  "client.delete.error": "Suppression échouée"
+  "client.delete.error": "Suppression échouée",
+
+  "error.api.down": "Le service ne répond pas",
+  "error.api.notfound": "La donnée demandée est inexistante",
+  "error.api.general": "Une erreur s'est produite côté service",
+  "error.general": "Une erreur s'est produite"
 }
