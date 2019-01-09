@@ -208,4 +208,9 @@
   "client.update.error": "Update failed",
   "client.create.error": "Create failed",
   "client.delete.error": "Delete failed",
+
+  "error.api.down": "Service is down",
+  "error.api.notfound": "Data not found",
+  "error.api.general": "An error occured in service",
+  "error.general": "An error occured"
 }
