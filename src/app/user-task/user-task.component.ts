@@ -81,7 +81,6 @@ export class UserTaskComponent implements OnInit {
           for (let job of this.userJobs) {
             var jobTasks = this.jobTasksMap.get(job.idJob);
 
-
             var promises = [];
             for (let jobTask of jobTasks) {
               var promise = this.taskActivityService.getJobTaskActivities(jobTask);
@@ -102,10 +101,6 @@ export class UserTaskComponent implements OnInit {
                 jobTasksModel: jobTasksModel
               }
               this.jobModels.push(jobModel);
-
-              /*var jobTasksModel = this.jobModels.map(value =>
-                value.jobTasksModel.map(jobTaskModel => Object.assign({ parentId: value.job }, jobTasksModel))
-              ).reduce((l, n) => l.concat(n), []);*/
 
               this.jobTaskStarted = jobTasksModel.filter(jobTaskModel => jobTaskModel.isStarted)[0].jobTask;
               this.setTimerJobTaskStarted();
@@ -199,35 +194,26 @@ export class UserTaskComponent implements OnInit {
       endTime: null
     };
 
-    this.taskActivityService.createJobTaskActivity(newJobTaskActivity).subscribe(data => {
-      var jobTaskActivityCreated = this.taskActivityService.getJobTaskActivityFromRessource(data.body);
-      jobTaskModel.activities.push(jobTaskActivityCreated);
-      jobTaskModel.isStarted = true;
-      this.jobTaskStarted = jobTaskModel.jobTask;
-      this.messageService.showSuccess(this.translate.instant('usertask.create.success'));
-    }, error => {
-      this.messageService.showError(this.translate.instant('usertask.create.error'));
+    this.jobService.getStatusStr('IN_PROGRESS').then(data => {
+      jobTaskModel.jobTask.status = data;
+
+      var observables = [];
+      observables.push(this.taskActivityService.createJobTaskActivity(newJobTaskActivity));
+      observables.push(this.taskService.updateTask(jobTaskModel.jobTask));
+
+      forkJoin(observables).subscribe(responseList => {
+        var jobTaskActivityCreated = this.taskActivityService.getJobTaskActivityFromRessource(responseList[0].body);
+        jobTaskModel.activities.push(jobTaskActivityCreated);
+        jobTaskModel.isStarted = true;
+        this.jobTaskStarted = jobTaskModel.jobTask;
+        this.setTimerJobTaskStarted();
+
+        this.messageService.showSuccess(this.translate.instant('usertask.create.success'));
+      }, error => {
+        this.messageService.showError(this.translate.instant('usertask.create.error'));
+      });
     });
   }
-
-  /*export class JobModel {
-      job: Job;
-      jobTasksModel: JobTaskModel[];
-    }
-  export class JobTaskModel {
-      jobTask: JobTask;
-      activities: JobTaskActivity[];
-      isStarted: boolean;
-      isCompleted: boolean;
-      elapsedTime: number;
-    }
-  export class JobTaskActivity {
-      id: number;
-      jobTask: JobTask;
-      user: Employee;
-      startTime: Date;
-      endTime: Date;
-  }*/
 
   onPause(jobTaskModel: JobTaskModel) {
     var jobTask = jobTaskModel.jobTask;

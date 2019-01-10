@@ -54,16 +54,16 @@ export class JobDetailsComponent implements OnInit {
       this.idJob = params['idJob'];
       this.jobService.getJob(this.idJob).then(data => {
         this.job = data;
-      });
 
-      this.jobService.getFiles(this.idJob).then(data => {
-        var files = data;
+        this.jobService.getFiles(this.idJob).then(data => {
+          var files = data;
 
-        for (let file of files) {
-          this.filesSaved.set(file.id, file);
-        }
+          for (let file of files) {
+            this.filesSaved.set(file.id, file);
+          }
 
-        this.dataSource = this.getFilesValues();
+          this.dataSource = this.getFilesValues();
+        });
       });
     });
   }

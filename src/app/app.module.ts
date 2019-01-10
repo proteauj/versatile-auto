@@ -85,6 +85,7 @@ import { ClientComponent } from './client/client.component';
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
+        ToastrModule.forRoot(),
         FontAwesomeModule,
         NgSelectModule,
         FormsModule,
@@ -102,8 +103,6 @@ import { ClientComponent } from './client/client.component';
         NgbModule,
         MDBBootstrapModule.forRoot(),
         CommonModule,
-        BrowserAnimationsModule, // required animations module
-        ToastrModule.forRoot(), // ToastrModule added
         AppMaterialModule,
         MaphilightModule,
         MatSliderModule,

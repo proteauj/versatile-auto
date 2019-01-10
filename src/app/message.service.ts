@@ -9,14 +9,10 @@ export class MessageService {
   constructor(private toastr: ToastrService) { }
 
   showSuccess(message: string) {
-    this.toastr.success(message, '', {
-      timeOut: 3000
-    });
+    this.toastr.success(message, '', { onActivateTick: true });
   }
 
   showError(message: string) {
-    this.toastr.error(message, '', {
-      timeOut: 3000
-    });
+    this.toastr.error(message, '', { onActivateTick: true });
   }
 }

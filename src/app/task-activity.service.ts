@@ -15,23 +15,6 @@ import * as moment from 'moment';
 })
 export class TaskActivityService {
 
-  //JOB_TASK_ACTIVITY_URL
-  //@GetMapping("/jobs/tasks/activities")
-  //@PostMapping("/jobs/tasks/activities")
-
-  //JOB_TASK_ACTIVITY_URL + id
-  //@PutMapping("/jobs/tasks/activities/{id}")
-  //@DeleteMapping("/jobs/tasks/activities/{id}")
-
-  //JOB_TASK_URL + id + ACTIVITY_URL
-  //@GetMapping("/jobs/tasks/{id}/activities")
-
-  //JOB_TASK_ACTIVITY_URL + id
-  //@GetMapping("/jobs/tasks/activities/{id}")
-
-  //USERS_URL + id + TASK_ACTIVITY_URL
-  //@GetMapping("/users/{id}/tasks/activities")
-
   constructor(private http: HttpClient, private taskService: TaskService, private userService: UserService,
               private timerService: TimerService) { }
 
