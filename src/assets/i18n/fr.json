@@ -212,5 +212,11 @@
   "error.api.down": "Le service ne répond pas",
   "error.api.notfound": "La donnée demandée est inexistante",
   "error.api.general": "Une erreur s'est produite côté service",
-  "error.general": "Une erreur s'est produite"
+  "error.general": "Une erreur s'est produite",
+
+  "status.NEW": "Nouveau",
+  "status.IN_PROGRESS": "En cours",
+  "status.PAUSED": "En pause",
+  "status.FINISHED": "Terminé",
+  "status.DELIVERED": "Livré"
 }

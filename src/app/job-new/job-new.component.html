@@ -42,7 +42,7 @@
         <mat-select placeholder="{{ 'jobnew.status.placeholder' | translate }}" [compareWith]="compareStatus"
                     [formControl]="status" required>
           <mat-option *ngFor="let statusObj of statusArr" [value]="statusObj">
-            {{statusObj.status}}
+            {{ ('status.' + statusObj.status) | translate }}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="status.invalid">{{ 'jobnew.status.error' | translate }}</mat-error>

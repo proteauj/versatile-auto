@@ -212,5 +212,11 @@
   "error.api.down": "Service is down",
   "error.api.notfound": "Data not found",
   "error.api.general": "An error occured in service",
-  "error.general": "An error occured"
+  "error.general": "An error occured",
+
+  "status.NEW": "New",
+  "status.IN_PROGRESS": "In progress",
+  "status.PAUSED": "Paused",
+  "status.FINISHED": "Finished",
+  "status.DELIVERED": "Delivered"
 }

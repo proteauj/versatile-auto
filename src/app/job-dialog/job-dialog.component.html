@@ -13,7 +13,7 @@
           <mat-select [(ngModel)]="data.selectedJob.status.idStatus"
                       (change)="setSelectedStatusJob(data.selectedJob, $event)">
             <mat-option *ngFor="let status of data.statusArr | async" [value]="status.idStatus">
-              {{ status.status }}
+              {{ ('status.' + status.status) | translate }}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -28,7 +28,7 @@
           <mat-select [(ngModel)]="task.status.idStatus"
                       (change)="setSelectedStatusTask(task, $event)">
             <mat-option *ngFor="let status of data.statusArr | async" [value]="status.idStatus">
-              {{ status.status }}
+              {{ ('status.' + status.status) | translate }}
             </mat-option>
           </mat-select>
         </mat-form-field>
